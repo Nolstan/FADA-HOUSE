@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manage Admin Users</title>
-  <link rel="stylesheet" href="../assets/css/admin-user-page.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-  <h2>Manage Administrators <span id="userCount" style="font-weight: normal; font-size: 0.8em; color: #555;"></span></h2>
-  <p style="margin-top: -10px; margin-bottom: 20px; color: #666;">Only superadmins can view this page and perform actions.</p>
 
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by name, email, phone, or location" onkeyup="searchAdmins()" />
-  </div>
+<body class="admin-page">
+  <header class="admin-header">
+    <h1>Oto-Nest-House Admin Panel</h1>
+  </header>
 
-  <div class="user-list" id="userList">
-    <!-- Admin user data will be dynamically loaded here -->
+  <div class="admin-list-container">
+    <div class="management-header">
+      <h2 class="management-title">Manage Administrators <span id="userCount"
+          style="font-weight: normal; font-size: 0.8em; color: #555;"></span></h2>
+      <p class="management-subtitle">Only superadmins can view this page and perform actions.</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="admin-search-container">
+      <i class="fas fa-search admin-search-icon"></i>
+      <input type="text" id="searchInput" class="admin-search-input"
+        placeholder="Search by name, email, phone, or location" onkeyup="searchAdmins()" />
+    </div>
+
+    <div class="management-list" id="userList">
+      <!-- Loading state will be here -->
+    </div>
   </div>
 
   <script src="../configs/apiConfigs.js"></script>
@@ -61,25 +74,27 @@
 
         users.forEach(user => {
           const userDiv = document.createElement('div');
-          userDiv.className = 'user';
+          userDiv.className = 'management-item';
           userDiv.dataset.id = user._id;
 
           const isSuperAdmin = user.role === 'superadmin';
-          const banButtonClass = user.isBanned ? 'unban-btn' : 'ban-btn';
+          const banButtonClass = user.isBanned ? 'btn-unban' : 'btn-ban';
           const banButtonText = user.isBanned ? 'Unban' : 'Ban';
           // Disable buttons for superadmins
           const actionsDisabled = isSuperAdmin ? 'disabled' : '';
 
           userDiv.innerHTML = `
-            <div class="user-info">
-              <p><strong>Name:</strong> ${user.username} <span style="color: ${isSuperAdmin ? 'gold' : '#007bff'}; font-weight: bold;">(${user.role})</span></p>
-              <p><strong>Email:</strong> ${user.email}</p>
-              <p><strong>Phone:</strong> ${user.phone || 'N/A'}</p>
-              <p><strong>Location:</strong> ${user.location || 'N/A'}</p>
+            <div class="item-info">
+              <div class="item-title">${user.username} <span style="color: ${isSuperAdmin ? 'var(--accent)' : 'var(--primary)'}; font-size: 0.9rem;">(${user.role})</span></div>
+              <div class="item-details">
+                <span><i class="fas fa-envelope"></i> ${user.email}</span>
+                <span><i class="fas fa-phone"></i> ${user.phone || 'N/A'}</span>
+                <span><i class="fas fa-map-marker-alt"></i> ${user.location || 'N/A'}</span>
+              </div>
             </div>
-            <div class="actions">
-              <button class="btn delete-btn" onclick="deleteAdmin(this)" ${actionsDisabled}>Delete</button>
-              <button class="btn ${banButtonClass}" onclick="toggleAdminBan(this)" ${actionsDisabled}>${banButtonText}</button>
+            <div class="item-actions">
+              <button class="action-btn btn-delete" onclick="deleteAdmin(this)" ${actionsDisabled}>Delete</button>
+              <button class="action-btn ${banButtonClass}" onclick="toggleAdminBan(this)" ${actionsDisabled}>${banButtonText}</button>
             </div>
           `;
           userList.appendChild(userDiv);
@@ -102,7 +117,7 @@
           });
           const data = await response.json();
           if (!response.ok) throw new Error(data.error || 'Failed to delete admin.');
-          
+
           userDiv.remove();
           alert(data.message);
         } catch (error) {
@@ -129,10 +144,10 @@
 
           if (isBanning) {
             btn.textContent = 'Unban';
-            btn.classList.replace('ban-btn', 'unban-btn');
+            btn.classList.replace('btn-ban', 'btn-unban');
           } else {
             btn.textContent = 'Ban';
-            btn.classList.replace('unban-btn', 'ban-btn');
+            btn.classList.replace('btn-unban', 'btn-ban');
           }
           alert(data.message);
         } catch (error) {
@@ -148,4 +163,5 @@
     }
   </script>
 </body>
+
 </html>

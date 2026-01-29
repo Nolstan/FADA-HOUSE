@@ -1,155 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>General House Approvals</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<style>
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
-      box-sizing: border-box;
-    }
-    .page-header {
-      width: 100%;
-      max-width: 900px; /* Match the hostel page's container width */
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    .page-header h1 { font-size: 1.8rem; color: #333; margin: 0; }
-    .back-link { text-decoration: none; color: #007bff; font-weight: 600; }
-    .container { max-width: 900px; width: 100%; }
-    .filters {
-      margin-bottom: 1.5rem;
-      display: flex;
-      gap: 1rem;
-    }
-    .filters input, .filters select {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    .listings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .listing-card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .listing-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.12); }
-    .card-thumbnail { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
-    .card-content { padding: 1rem; flex-grow: 1; }
-    .card-content h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
-    .card-content p { margin: 0.25rem 0; color: #666; }
-    .actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
-    .actions button {
-      flex: 1;
-      padding: 0.6rem;
-      border: none;
-      border-radius: 5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    .approve-btn { background-color: #28a745; color: white; }
-    .approve-btn:hover { background-color: #218838; }
-    .delete-btn { background-color: #dc3545; color: white; }
-    .delete-btn:hover { background-color: #c82333; }
-    .details-btn { background-color: #007bff; color: white; }
-    .details-btn:hover { background-color: #0056b3; }
-    .spinner {
-      border: 5px solid #f3f3f3; border-top: 5px solid #007bff;
-      border-radius: 50%; width: 40px; height: 40px;
-      animation: spin 1s linear infinite; margin: 50px auto;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    
-    /* Modal Styles */
-    .modal {
-      display: none; position: fixed; z-index: 1001;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center;
-    }
-    .modal-content {
-      background: #fff; border-radius: 8px;
-      width: 90%; max-width: 700px; max-height: 90vh;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      display: flex; flex-direction: column;
-    }
-    .modal-header { padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h2 { margin: 0; }
-    .modal-close { font-size: 1.5rem; cursor: pointer; background: none; border: none; }
-    .modal-body { padding: 1rem; overflow-y: auto; }
-    .modal-body p { margin: 0.5rem 0; }
-    .modal-gallery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
-    .modal-gallery img { width: 100px; height: 75px; object-fit: cover; border-radius: 5px; }
-    /* Styles for form elements inside the modal */
-    .modal-body .form-group { margin-bottom: 1rem; }
-    .modal-body label { display: block; font-weight: 600; margin-bottom: 0.25rem; color: #555; }
-    .modal-body input, .modal-body textarea, .modal-body select {
-        width: 100%;
-        padding: 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
-        box-sizing: border-box;
-    }
-    .modal-body textarea { resize: vertical; }
-    .modal-footer { padding: 1rem; border-top: 1px solid #eee; text-align: right; background-color: #f9f9f9; }
-    .modal-footer .approve-btn { flex: none; width: auto; padding: 0.7rem 1.5rem; }
 
-    /* Image Viewer Modal Styles */
-    .image-viewer-modal {
-        display: none;
-        position: fixed;
-        z-index: 1002; /* Higher than the details modal */
-        left: 0; top: 0; width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.85);
-        justify-content: center; align-items: center;
-    }
-    .image-viewer-content {
-        max-width: 90%;
-        max-height: 90%;
-        object-fit: contain;
-    }
-    .image-viewer-close {
-        position: absolute;
-        top: 20px; right: 35px;
-        color: #fff; font-size: 40px; font-weight: bold;
-        cursor: pointer; transition: 0.3s;
-    }
-    .image-viewer-close:hover { color: #bbb; }
-</style>
-<body>
-  <div class="page-header">
-    <h1>General House Approvals</h1>
-    <a href="admin-nav-page.html" class="back-link">← Back to Dashboard</a>
-  </div>
+<body class="admin-page">
+  <header class="admin-header">
+    <h1>Oto-Nest-House Admin Panel</h1>
+  </header>
 
-  <div class="container">
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="Search by area..." style="flex: 2;" />
-      <select id="districtFilter" style="flex: 1;">
+  <div class="admin-container">
+    <div class="management-header">
+      <h1 class="management-title">General House Approvals</h1>
+      <a href="admin-nav-page.html" class="btn btn-outline"
+        style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+
+    <div class="admin-search-container" style="display: flex; gap: 1rem; align-items: center; max-width: 800px;">
+      <div style="position: relative; flex: 2;">
+        <i class="fas fa-search admin-search-icon"></i>
+        <input type="text" id="searchInput" class="admin-search-input" placeholder="Search by area..." />
+      </div>
+      <select id="districtFilter" class="admin-select" style="flex: 1; border-radius: 30px; padding: 12px 20px;">
         <option value="">All Districts</option>
         <option value="Mzuzu">Mzuzu</option>
         <option value="Rumphi">Rumphi</option>
@@ -161,56 +39,61 @@
       </select>
     </div>
 
-    <div id="listingsContainer" class="listings-grid">
+    <div id="listingsContainer" class="management-grid">
       <!-- Listings will be injected here by JavaScript -->
     </div>
   </div>
 
   <!-- Details Modal -->
-  <div id="detailsModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="detailsModal" class="admin-modal">
+    <div class="admin-modal-content">
+      <div class="admin-modal-header">
         <h2 id="modalTitle">Listing Details</h2>
-        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <button class="modal-close" onclick="closeModal()"
+          style="background: none; border: none; font-size: 2rem; cursor: pointer;">&times;</button>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
+      <div class="admin-modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div class="admin-form-group">
             <label for="modalDistrict">District</label>
-            <select id="modalDistrict" name="district" required>
-                <option value="Mzuzu">Mzuzu</option>
-                <option value="Rumphi">Rumphi</option>
-                <option value="Ekwendeni">Ekwendeni</option>
-                <option value="Lilongwe">Lilongwe</option>
-                <option value="Blantyre">Blantyre</option>
-                <option value="Zomba">Zomba</option>
-                <option value="Thyolo">Thyolo</option>
+            <select id="modalDistrict" class="admin-select">
+              <option value="Mzuzu">Mzuzu</option>
+              <option value="Rumphi">Rumphi</option>
+              <option value="Ekwendeni">Ekwendeni</option>
+              <option value="Lilongwe">Lilongwe</option>
+              <option value="Blantyre">Blantyre</option>
+              <option value="Zomba">Zomba</option>
+              <option value="Thyolo">Thyolo</option>
             </select>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="admin-form-group">
             <label for="modalArea">Area</label>
-            <input type="text" id="modalArea">
+            <input type="text" id="modalArea" class="admin-input">
+          </div>
         </div>
-        <div class="form-group">
-            <label for="modalCost">Cost (MWK)</label>
-            <input type="number" id="modalCost">
+        <div class="admin-form-group">
+          <label for="modalCost">Cost (MWK)</label>
+          <input type="number" id="modalCost" class="admin-input">
         </div>
-        <div class="form-group">
-            <label for="modalDescription">Description</label>
-            <textarea id="modalDescription" rows="4"></textarea>
+        <div class="admin-form-group">
+          <label for="modalDescription">Description</label>
+          <textarea id="modalDescription" rows="4" class="admin-textarea"></textarea>
         </div>
-        <hr style="margin: 1.5rem 0;">
-        <div class="form-group">
+        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #eee;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div class="admin-form-group">
             <label for="modalLandlordPhone">Landlord Phone</label>
-            <input type="tel" id="modalLandlordPhone">
-        </div>
-        <div class="form-group">
+            <input type="tel" id="modalLandlordPhone" class="admin-input">
+          </div>
+          <div class="admin-form-group">
             <label for="modalUploaderPhone">Uploader Phone</label>
-            <input type="tel" id="modalUploaderPhone">
+            <input type="tel" id="modalUploaderPhone" class="admin-input">
+          </div>
         </div>
-        <div class="modal-gallery" id="modalGallery"></div>
+        <div class="admin-gallery" id="modalGallery"></div>
       </div>
-      <div class="modal-footer">
-        <button class="approve-btn" id="modalApproveBtn">Approve & Save Changes</button>
+      <div class="admin-modal-footer">
+        <button class="btn btn-primary" id="modalApproveBtn">Approve & Save Changes</button>
       </div>
     </div>
   </div>
@@ -227,25 +110,24 @@
     const searchInput = document.getElementById('searchInput');
     const districtFilter = document.getElementById('districtFilter');
     const modal = document.getElementById('detailsModal');
-    let allHouses = []; // Store all fetched houses
     const imageViewerModal = document.getElementById('imageViewerModal');
+    let allHouses = [];
     const API_ENDPOINT = `${API_BASE_URL}/api/general-approvals`;
+    const token = localStorage.getItem('token');
 
     async function fetchAndRenderHouses() {
       listingsContainer.innerHTML = '<div class="spinner"></div>';
       try {
         const params = new URLSearchParams({ search: searchInput.value, district: districtFilter.value });
         const response = await fetch(`${API_ENDPOINT}/pending?${params.toString()}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                window.location.href = '/public/login-reg/login.html';
-            }
-            throw new Error('Network response was not ok');
+          if (response.status === 401 || response.status === 403) window.location.href = '/public/login-reg/login.html';
+          throw new Error('Network response was not ok');
         }
-        
+
         allHouses = await response.json();
         renderHouses(allHouses);
       } catch (error) {
@@ -261,28 +143,26 @@
       listingsContainer.innerHTML = houses.map(house => {
         const thumbnailUrl = house.photos && house.photos.length > 0 ? house.photos[0] : 'https://via.placeholder.com/300x180.png?text=No+Image';
         return `
-        <div class="listing-card" data-id="${house._id}">
-          <img src="${thumbnailUrl}" alt="House thumbnail" class="card-thumbnail">
-          <div class="card-content">
-            <h3>${house.area}, ${house.district}</h3>
-            <p><strong>Cost:</strong> K${house.cost.toLocaleString()}</p>
-            <p><strong>Uploader:</strong> ${house.uploaderPhone}</p>
-          </div>
-          <div class="actions">
-            <button class="details-btn">Details</button>
-            <button class="approve-btn">Approve</button>
-            <button class="delete-btn">Delete</button>
-          </div>
-        </div>
-      `}).join('');
+                <div class="management-card" data-id="${house._id}">
+                  <img src="${thumbnailUrl}" alt="House thumbnail" class="management-thumb">
+                  <div class="management-content">
+                    <h3>${house.area}, ${house.district}</h3>
+                    <p><strong>Cost:</strong> K${house.cost.toLocaleString()}</p>
+                    <p><strong>Uploader:</strong> ${house.uploaderPhone}</p>
+                    <div class="item-actions" style="margin-top: 1rem;">
+                        <button class="action-btn btn-approve details-btn">Details</button>
+                        <button class="action-btn btn-ban approve-btn">Approve</button>
+                        <button class="action-btn btn-delete delete-btn">Delete</button>
+                    </div>
+                  </div>
+                </div>
+            `}).join('');
     }
 
     listingsContainer.addEventListener('click', async (e) => {
-      const card = e.target.closest('.listing-card');
+      const card = e.target.closest('.management-card');
       if (!card) return;
-
       const id = card.dataset.id;
-      const token = localStorage.getItem('token');
 
       if (e.target.classList.contains('details-btn')) {
         openModal(id);
@@ -292,70 +172,56 @@
       if (e.target.classList.contains('approve-btn')) {
         if (confirm('Are you sure you want to approve this house?')) {
           try {
-            const res = await fetch(`${API_ENDPOINT}/${id}/approve`, { 
-                method: 'PUT',
-                headers: { 'Authorization': `Bearer ${token}` }
+            const res = await fetch(`${API_ENDPOINT}/${id}/approve`, {
+              method: 'PUT',
+              headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) throw new Error('Approval failed');
             card.remove();
-          } catch (err) {
-            alert(`Error: ${err.message}`);
-          }
+          } catch (err) { alert(`Error: ${err.message}`); }
         }
       }
 
       if (e.target.classList.contains('delete-btn')) {
         if (confirm('Are you sure you want to delete this house?')) {
           try {
-            const res = await fetch(`${API_ENDPOINT}/${id}`, { 
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+            const res = await fetch(`${API_ENDPOINT}/${id}`, {
+              method: 'DELETE',
+              headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) throw new Error('Deletion failed');
             card.remove();
-          } catch (err) {
-            alert(`Error: ${err.message}`);
-          }
+          } catch (err) { alert(`Error: ${err.message}`); }
         }
       }
     });
 
-    // Handle the "Approve & Save" button inside the modal
-    document.getElementById('modalApproveBtn').addEventListener('click', async function() {
-        const houseId = this.dataset.id;
-        if (!houseId) return;
-
-        const updatedData = {
-            district: document.getElementById('modalDistrict').value,
-            area: document.getElementById('modalArea').value,
-            cost: document.getElementById('modalCost').value,
-            description: document.getElementById('modalDescription').value,
-            landlordPhone: document.getElementById('modalLandlordPhone').value,
-            uploaderPhone: document.getElementById('modalUploaderPhone').value,
-        };
-
-        try {
-            const res = await fetch(`${API_ENDPOINT}/${houseId}/approve`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(updatedData)
-            });
-            if (!res.ok) throw new Error('Approval failed');
-            
-            closeModal();
-            document.querySelector(`.listing-card[data-id="${houseId}"]`).remove(); // Remove card from UI
-        } catch (err) {
-            alert(`Error: ${err.message}`);
-        }
+    document.getElementById('modalApproveBtn').addEventListener('click', async function () {
+      const id = this.dataset.id;
+      const updatedData = {
+        district: document.getElementById('modalDistrict').value,
+        area: document.getElementById('modalArea').value,
+        cost: document.getElementById('modalCost').value,
+        description: document.getElementById('modalDescription').value,
+        landlordPhone: document.getElementById('modalLandlordPhone').value,
+        uploaderPhone: document.getElementById('modalUploaderPhone').value,
+      };
+      try {
+        const res = await fetch(`${API_ENDPOINT}/${id}/approve`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(updatedData)
+        });
+        if (!res.ok) throw new Error('Approval failed');
+        closeModal();
+        const card = document.querySelector(`.management-card[data-id="${id}"]`);
+        if (card) card.remove();
+      } catch (err) { alert(`Error: ${err.message}`); }
     });
 
     function openModal(houseId) {
       const house = allHouses.find(h => h._id === houseId);
       if (!house) return;
-
       document.getElementById('modalTitle').textContent = `Details for House in ${house.area}`;
       document.getElementById('modalDistrict').value = house.district;
       document.getElementById('modalArea').value = house.area;
@@ -363,50 +229,27 @@
       document.getElementById('modalDescription').value = house.description;
       document.getElementById('modalLandlordPhone').value = house.landlordPhone;
       document.getElementById('modalUploaderPhone').value = house.uploaderPhone;
-
-      // Store the house ID on the modal's approve button
       document.getElementById('modalApproveBtn').dataset.id = houseId;
       const gallery = document.getElementById('modalGallery');
-      gallery.innerHTML = '';
-      if (house.photos && house.photos.length > 0) {
-        house.photos.forEach(photoUrl => {
-          gallery.innerHTML += `<img src="${photoUrl}" alt="House photo" onclick="openImageViewer('${photoUrl}')" style="cursor: pointer;">`;
-        });
-      } else {
-        gallery.innerHTML = '<p>No photos uploaded.</p>';
-      }
-
-      modal.style.display = 'flex';
+      gallery.innerHTML = house.photos && house.photos.length > 0
+        ? house.photos.map(url => `<img src="${url}" alt="House photo" onclick="openImageViewer('${url}')">`).join('')
+        : '<p>No photos uploaded.</p>';
+      modal.classList.add('visible');
     }
 
-    function closeModal() {
-      modal.style.display = 'none';
-    }
+    function closeModal() { modal.classList.remove('visible'); }
+    function openImageViewer(src) { document.getElementById('fullImageView').src = src; imageViewerModal.style.display = 'flex'; }
+    function closeImageViewer() { imageViewerModal.style.display = 'none'; }
 
-    // Close modal if user clicks outside of the content
     window.onclick = (event) => {
-        if (event.target == modal) {
-            closeModal();
-        }
-        if (event.target == imageViewerModal) {
-            closeImageViewer();
-        }
+      if (event.target == modal) closeModal();
+      if (event.target == imageViewerModal) closeImageViewer();
     };
 
-    function openImageViewer(src) {
-        document.getElementById('fullImageView').src = src;
-        imageViewerModal.style.display = 'flex';
-    }
-
-    function closeImageViewer() {
-        imageViewerModal.style.display = 'none';
-    }
-
-    searchInput.addEventListener('input', () => setTimeout(fetchAndRenderHouses, 300)); // Debounce search
+    searchInput.addEventListener('input', () => setTimeout(fetchAndRenderHouses, 300));
     districtFilter.addEventListener('change', fetchAndRenderHouses);
-
-    // Initial load
     fetchAndRenderHouses();
   </script>
 </body>
+
 </html>

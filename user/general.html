@@ -1,254 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>General Houses</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-    --dark-blue: #002147;
-    --light-blue: #005BAA;
-    --accent: #0077CC;
-    --border-radius: 12px;
-    --card-shadow: 0 10px 20px rgba(0, 33, 71, 0.1);
-    --card-hover-shadow: 0 15px 30px rgba(0, 91, 170, 0.2);
-    --transition: all 0.3s ease;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Segoe UI', system-ui,sans-serif; background:#f8fafc; color:#333; line-height:1.6; }
-.header-container {
-    position: sticky; top:0; width:100%; z-index:1000;
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--light-blue) 100%);
-    box-shadow: 0 4px 20px rgba(0,33,71,0.15); padding:0.5rem 1.5rem; /* Reduced padding */
-}
-.heading-container { display:flex; justify-content:space-between; align-items:center; max-width:1200px; margin:0 auto; gap:1.5rem; }
-.logo-text { font-size:1.5rem; font-weight:700; color:white; letter-spacing:1px; }
-.search-container { position:relative; width:100%; max-width:400px; }
-#searchInput { width:100%; padding:0.85rem 1rem 0.85rem 3rem; border:none; border-radius:50px; background:rgba(255,255,255,0.9); font-size:1rem; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:var(--transition); }
-#searchInput:focus { outline:none; background:white; }
-.search-icon { position:absolute; left:1rem; top:50%; transform:translateY(-50%); color:var(--dark-blue); }
-.main-content { flex:1; padding:2rem 1.5rem; max-width:1200px; margin:0 auto; margin-top:100px; }
-.content { background:white; border-radius:var(--border-radius); padding:2rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
-.filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: #f0f7ff;
-    border-radius: var(--border-radius);
-    margin-bottom: 1.5rem;
-    border: 1px solid #e2e8f0;
-}
-.filter-group {
-    flex: 1;
-    min-width: 150px;
-}
-.filter-group select {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-.filter-group select:focus {
-    border-color: var(--light-blue);
-    outline: none;
-}
-
-.page-title { font-size:1.75rem; color:var(--dark-blue); margin-bottom:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.75rem; }
-.available-rooms { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; margin-top:1.5rem; }
-.house-card { display:flex; flex-direction:column; background:white; border-radius:var(--border-radius); overflow:hidden; box-shadow:var(--card-shadow); transition:var(--transition); cursor:pointer; text-decoration:none; color:inherit; }
-.house-card:hover { transform:translateY(-5px); box-shadow:var(--card-hover-shadow); }
-.house-image { width:100%; height:200px; object-fit:cover; }
-.house-info { padding:1.5rem; }
-.house-location { font-weight:600; font-size:1.1rem; margin-bottom:0.5rem; color:var(--dark-blue); display:flex; align-items:center; gap:0.5rem; }
-.house-details { display:flex; flex-wrap:wrap; gap:1rem; margin:1rem 0; }
-.detail-item { display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; }
-.detail-item i { color:var(--light-blue); width:16px; }
-.house-price { font-weight:700; font-size:1.25rem; color:var(--dark-blue); margin-top:0.5rem; }
-#noResults { text-align:center; padding:3rem; color:#666; display:none; }
-.no-results-icon { font-size:3rem; color:#ccc; margin-bottom:1rem; }
-
-/* Footer styles to match mubas.html */
-.footer { background: var(--dark-blue); color: white; padding: 2rem 1.5rem; text-align: center; margin-top: 3rem; }
-.footer-content { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
-.footer-content a { color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; }
-.footer-content a:hover { color: white; }
-.footer-content .separator { display: none; }
-@media (min-width: 768px) {
-    .footer-content .separator { display: inline; opacity: 0.5; }
-}
-
-    /* Responsive styles for mobile */
-    @media (max-width: 768px) {
-        .heading-container {
-            flex-direction: row;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .header-container {
-            padding: 0.5rem 1rem; /* Further reduce padding on mobile */
-        }
-        .logo-text {
-            font-size: 1.2rem; /* Smaller logo text */
-        }
-        .search-container {
-            flex: 1; /* Allow search to fill space */
-            max-width: none;
-        }
-        #searchInput {
-            padding: 0.65rem 1rem 0.65rem 2.5rem; /* Adjust padding */
-        }
-        .main-content {
-            margin-top: 70px; /* Adjust for new header height */
-        }
-        .available-rooms { grid-template-columns: 1fr; }
-    }
-</style>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>General Houses</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-<div class="header-container">
-  <div class="heading-container">
-      <div class="logo-text">🏠 Houses</div>
-      <div class="search-container">
-          <i class="fas fa-search search-icon"></i>
-          <input id="searchInput" type="search" placeholder="Search for location..." />
-      </div>
-  </div>
-</div>
 
-<div class="main-content">
-  <div class="content">
-      <h1 class="page-title"><i class="fas fa-home"></i> Available Houses</h1>
-      <div class="filter-bar">
-        <div class="filter-group">
-            <select id="priceFilter">
-                <option value="">Max Price (Any)</option>
-                <option value="50000">Under K50,000</option>
-                <option value="100000">Under K100,000</option>
-                <option value="200000">Under K200,000</option>
-                <option value="500000">Under K500,000</option>
-            </select>
+<body class="university-page theme-general">
+    <header class="uni-header">
+        <div class="uni-header-content">
+            <div class="logo-text" style="font-size: 1.5rem; font-weight: 700; color: white;">🏠 Houses</div>
+            <div class="search-container"
+                style="margin: 0; max-width: 400px; background: rgba(255,255,255,0.9); border: none;">
+                <i class="fas fa-search" style="margin-left: 10px; color: var(--theme-dark);"></i>
+                <input id="searchInput" type="search" placeholder="Search for location..." class="search-input"
+                    style="padding: 10px; border: none;">
+            </div>
         </div>
-        <div class="filter-group">
-            <select id="districtFilter">
-                <option value="">District (Any)</option>
-                <option value="Mzuzu">Mzuzu</option>
-                <option value="Rumphi">Rumphi</option>
-                <option value="Ekwendeni">Ekwendeni</option>
-                <option value="Lilongwe">Lilongwe</option>
-                <option value="Blantyre">Blantyre</option>
-                <option value="Zomba">Zomba</option>
-                <option value="Thyolo">Thyolo</option>
-            </select>
+    </header>
+    </head>
+
+    <body>
+        <div class="header-container">
+            <div class="heading-container">
+                <div class="logo-text">🏠 Houses</div>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input id="searchInput" type="search" placeholder="Search for location..." />
+                </div>
+            </div>
         </div>
-      </div>
-      <div id="housesContainer" class="available-rooms"></div>
-      <p id="noResults"><i class="fas fa-search no-results-icon"></i><br>No houses found for this location.</p>
-  </div>
-</div>
 
-<footer class="footer">
-  <div class="footer-content">
-      <span>© 2025 General Houses</span>
-      <span class="separator">|</span>
-      <span>Nolstan Logic</span>
-      <span class="separator">|</span>
-      <a href="mailto:nolstankumwenda@gmail.com"><i class="fas fa-envelope"></i> Email Us</a>
-      <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
-  </div>
-</footer>
+        <div class="main-content">
+            <div class="content">
+                <h1 class="page-title"><i class="fas fa-home"></i> Available Houses</h1>
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <select id="priceFilter">
+                            <option value="">Max Price (Any)</option>
+                            <option value="50000">Under K50,000</option>
+                            <option value="100000">Under K100,000</option>
+                            <option value="200000">Under K200,000</option>
+                            <option value="500000">Under K500,000</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="districtFilter">
+                            <option value="">District (Any)</option>
+                            <option value="Mzuzu">Mzuzu</option>
+                            <option value="Rumphi">Rumphi</option>
+                            <option value="Ekwendeni">Ekwendeni</option>
+                            <option value="Lilongwe">Lilongwe</option>
+                            <option value="Blantyre">Blantyre</option>
+                            <option value="Zomba">Zomba</option>
+                            <option value="Thyolo">Thyolo</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="housesContainer" class="available-rooms"></div>
+                <p id="noResults"><i class="fas fa-search no-results-icon"></i><br>No houses found for this location.
+                </p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <span>© 2025 General Houses</span>
+                <span class="separator">|</span>
+                <span>Nolstan Logic</span>
+                <span class="separator">|</span>
+                <a href="mailto:nolstankumwenda@gmail.com"><i class="fas fa-envelope"></i> Email Us</a>
+                <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
+            </div>
+        </footer>
 
 
-<script src="../configs/apiConfigs.js"></script>
-<script>
-let housesData = [];
+        <script src="../configs/apiConfigs.js"></script>
+        <script>
+            let housesData = [];
 
-const searchInput = document.getElementById('searchInput');
-const priceFilter = document.getElementById('priceFilter');
-const districtFilter = document.getElementById('districtFilter');
+            const searchInput = document.getElementById('searchInput');
+            const priceFilter = document.getElementById('priceFilter');
+            const districtFilter = document.getElementById('districtFilter');
 
-async function fetchHouses() {
-    try {
-        const params = new URLSearchParams({
-            search: searchInput.value.trim(),
-            maxPrice: priceFilter.value,
-            district: districtFilter.value
-        });
-        const res = await fetch(`${API_BASE_URL}/api/general-houses?${params.toString()}`);
-        if (!res.ok) throw new Error('Failed to fetch houses');
-        housesData = await res.json();
-        renderHouses(housesData);
-    } catch (error) {
-        document.getElementById('housesContainer').innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
-    }
-}
+            async function fetchHouses() {
+                try {
+                    const params = new URLSearchParams({
+                        search: searchInput.value.trim(),
+                        maxPrice: priceFilter.value,
+                        district: districtFilter.value
+                    });
+                    const res = await fetch(`${API_BASE_URL}/api/general-houses?${params.toString()}`);
+                    if (!res.ok) throw new Error('Failed to fetch houses');
+                    housesData = await res.json();
+                    renderHouses(housesData);
+                } catch (error) {
+                    document.getElementById('housesContainer').innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+                }
+            }
 
-function renderHouses(houses) {
-    const container = document.getElementById('housesContainer');
-    const noResults = document.getElementById('noResults');
+            function renderHouses(houses) {
+                const container = document.getElementById('housesContainer');
+                const noResults = document.getElementById('noResults');
 
-    if (!houses || houses.length === 0) {
-        container.innerHTML = '';
-        noResults.style.display = 'block';
-        return;
-    }
-    noResults.style.display = 'none';
+                if (!houses || houses.length === 0) {
+                    container.innerHTML = '';
+                    noResults.style.display = 'block';
+                    return;
+                }
+                noResults.style.display = 'none';
 
-    container.innerHTML = '';
-    houses.forEach(h => {
-        const card = document.createElement('div');
-        card.className = 'house-card';
-        card.dataset.id = h.id;
+                container.innerHTML = '';
+                houses.forEach(h => {
+                    const card = document.createElement('div');
+                    card.className = 'house-card';
+                    card.dataset.id = h.id;
 
-        const img = document.createElement('img');
-        img.src = h.photo || './image/placeholder.jpg';
-        img.alt = 'House Image';
-        img.className = 'house-image';
-        card.appendChild(img);
+                    const img = document.createElement('img');
+                    img.src = h.photo || './image/placeholder.jpg';
+                    img.alt = 'House Image';
+                    img.className = 'house-image';
+                    card.appendChild(img);
 
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'house-info';
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'house-info';
 
-        const locationH3 = document.createElement('h3');
-        locationH3.className = 'house-location';
-        locationH3.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
-        locationH3.appendChild(document.createTextNode(`${h.area}, ${h.district}`));
-        infoDiv.appendChild(locationH3);
+                    const locationH3 = document.createElement('h3');
+                    locationH3.className = 'house-location';
+                    locationH3.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
+                    locationH3.appendChild(document.createTextNode(`${h.area}, ${h.district}`));
+                    infoDiv.appendChild(locationH3);
 
-        const detailsDiv = document.createElement('div');
-        detailsDiv.className = 'house-details';
-        const costItem = document.createElement('div');
-        costItem.className = 'detail-item';
-        costItem.innerHTML = `<i class="fas fa-coins"></i><span>K${h.cost.toLocaleString()}/month</span>`;
-        detailsDiv.appendChild(costItem);
-        infoDiv.appendChild(detailsDiv);
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'house-details';
+                    const costItem = document.createElement('div');
+                    costItem.className = 'detail-item';
+                    costItem.innerHTML = `<i class="fas fa-coins"></i><span>K${h.cost.toLocaleString()}/month</span>`;
+                    detailsDiv.appendChild(costItem);
+                    infoDiv.appendChild(detailsDiv);
 
-        card.appendChild(infoDiv);
+                    card.appendChild(infoDiv);
 
-        card.addEventListener('click', () => {
-            const houseId = card.getAttribute('data-id');
-            localStorage.setItem('selectedHouseId', houseId);
-            window.location.href = 'all-general-details.html';
-        });
+                    card.addEventListener('click', () => {
+                        const houseId = card.getAttribute('data-id');
+                        localStorage.setItem('selectedHouseId', houseId);
+                        window.location.href = 'all-general-details.html';
+                    });
 
-        container.appendChild(card);
-    });
-}
+                    container.appendChild(card);
+                });
+            }
 
-// Search/filter houses
-let searchTimeout;
-function handleFilterChange() {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(fetchHouses, 300);
-}
+            // Search/filter houses
+            let searchTimeout;
+            function handleFilterChange() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(fetchHouses, 300);
+            }
 
-[searchInput, priceFilter, districtFilter].forEach(el => el.addEventListener('input', handleFilterChange));
+            [searchInput, priceFilter, districtFilter].forEach(el => el.addEventListener('input', handleFilterChange));
 
-// Initial fetch
-fetchHouses();
-</script>
-</body>
+            // Initial fetch
+            fetchHouses();
+        </script>
+    </body>
+
 </html>

@@ -1,368 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MUBAS Hostels</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --mubas-dark-blue: #002147;
-            --mubas-light-blue: #005BAA;
-            --mubas-accent: #0077CC;
-            --mubas-light-bg: #f0f7ff;
-            --text-dark: #333333;
-            --text-light: #ffffff;
-            --card-shadow: 0 10px 20px rgba(0, 33, 71, 0.1);
-            --card-hover-shadow: 0 15px 30px rgba(0, 91, 170, 0.2);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #f8fafc;
-            color: var(--text-dark);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .header-container {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: linear-gradient(135deg, var(--mubas-dark-blue) 0%, var(--mubas-light-blue) 100%);
-            box-shadow: 0 4px 20px rgba(0, 33, 71, 0.15);
-            padding: 0.75rem 1.5rem;
-        }
-
-        .heading-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 1.5rem; /* Added gap for spacing */
-        }
-
-        .mubas-logo {
-            height: 50px;
-            width: auto;
-            filter: brightness(0) invert(1);
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 0.85rem 1rem 0.85rem 3rem;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-        }
-
-        #searchInput:focus {
-            outline: none;
-            background: white;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--mubas-dark-blue);
-        }
-
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: var(--mubas-light-bg);
-            border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
-            border: 1px solid #e0e7ff;
-        }
-
-        .filter-group {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .filter-group select, .filter-group input {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        }
-
-        .filter-group button {
-            width: 100%;
-            padding: 0.75rem;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            margin-top: 100px; /* Adjusted margin to account for fixed header */
-        }
-
-        .content {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .page-title {
-            font-size: 1.75rem;
-            color: var(--mubas-dark-blue);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .page-title i {
-            color: var(--mubas-light-blue);
-        }
-
-        .available-rooms {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .hostel-card {
-            display: flex;
-            flex-direction: column;
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
-            position: relative;
-        }
-
-        .hostel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
-        }
-
-        .hostel-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-        }
-
-        .hostel-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--mubas-light-blue);
-            color: white;
-            padding: 0.35rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .hostel-info {
-            padding: 1.5rem;
-        }
-
-        .hostel-location {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--mubas-dark-blue);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .hostel-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .detail-item i {
-            color: var(--mubas-light-blue);
-            width: 16px;
-        }
-
-        .hostel-price {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--mubas-dark-blue);
-            margin-top: 0.5rem;
-        }
-
-        #noResults {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-            display: none;
-        }
-
-        .no-results-icon {
-            font-size: 3rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        .footer {
-            background: var(--mubas-dark-blue);
-            color: white;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem 1.5rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1rem 0;
-        }
-        
-        .footer-content a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-content .separator {
-            display: none;
-        }
-
-        @media (min-width: 768px) {
-            .footer-content .separator {
-                display: inline;
-                opacity: 0.5;
-            }
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 33, 71, 0.1);
-            border-left-color: var(--mubas-light-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* --- MOBILE OPTIMIZATIONS --- */
-        @media (max-width: 768px) {
-            .heading-container {
-                flex-direction: row; /* KEEP as a row, don't stack */
-                align-items: center;
-                justify-content: space-between; /* Space out the logo and search bar */
-                gap: 1rem;
-            }
-
-            .header-container {
-                padding: 0.5rem 1rem; /* Reduce padding for a more compact header */
-            }
-
-            .mubas-logo {
-                height: 40px; /* Make the logo smaller */
-            }
-
-            .search-container {
-                flex: 1; /* Allow the search bar to fill the available space */
-                max-width: none;
-            }
-
-            #searchInput {
-                padding: 0.65rem 1rem 0.65rem 3rem; /* Adjust padding for the smaller size */
-            }
-            
-            .main-content {
-                margin-top: 70px; /* Adjust margin to account for new header height */
-            }
-
-            .available-rooms {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-    <div class="header-container">
-        <div class="heading-container">
+
+<body class="university-page theme-mubas">
+    <header class="uni-header">
+        <div class="uni-header-content">
             <div class="logo-container">
-                <img src="../assets/image/mubas-logo.jpg" alt="MUBAS Logo" class="mubas-logo" />
+                <img src="../assets/image/mubas-logo.jpg" alt="MUBAS Logo" class="mubas-logo"
+                    style="height: 40px; border-radius: 5px;" />
             </div>
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input id="searchInput" type="search" placeholder="Search for location..." />
+            <div class="search-container"
+                style="margin: 0; max-width: 400px; background: rgba(255,255,255,0.9); border: none;">
+                <i class="fas fa-search" style="margin-left: 10px; color: var(--theme-dark);"></i>
+                <input id="searchInput" type="search" placeholder="Search for location..." class="search-input"
+                    style="padding: 10px; border: none;">
             </div>
         </div>
-    </div>
+    </header>
 
     <div class="main-content">
         <div class="content">
@@ -435,7 +95,7 @@
                 });
 
                 const backendURL = `${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`;
-                
+
 
                 document.getElementById('hostelsContainer').innerHTML = `
                 <div class="loading"><div class="spinner"></div></div>`;
@@ -456,7 +116,7 @@
         function renderHostels(hostels) {
             const container = document.getElementById('hostelsContainer');
             const noResults = document.getElementById('noResults');
-            
+
             container.innerHTML = ''; // Clear previous results
 
             if (hostels.length === 0) {
@@ -548,7 +208,7 @@
                 card.appendChild(infoDiv);
 
                 // Add event listener directly
-                card.addEventListener('click', function(e) {
+                card.addEventListener('click', function (e) {
                     e.preventDefault();
                     const hostelId = this.getAttribute('data-id');
                     localStorage.setItem('selectedHostelId', hostelId);
@@ -573,4 +233,5 @@
         fetchHostels();
     </script>
 </body>
+
 </html>

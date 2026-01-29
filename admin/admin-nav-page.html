@@ -1,125 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/admin-nav.css">
-</head>
-<body>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    /* Admin specific additions that might not be in main.css yet */
+    .admin-page {
+      background-color: var(--light);
+    }
 
-  <header>
-    <h2>Admin Dashboard</h2>
+    .admin-header {
+      background: var(--dark);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .admin-welcome {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .admin-welcome span {
+      color: var(--primary);
+    }
+
+    /* Reusing the cards logic but with specific admin colors if needed */
+    .admin-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      text-decoration: none;
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      border: 2px solid transparent;
+    }
+
+    .admin-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
+    }
+
+    .admin-card i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .admin-card p {
+      color: #666;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+
+<body class="admin-page">
+
+  <header class="admin-header">
+    <h1>Oto-Nest-House Admin Panel</h1>
   </header>
 
-  <div class="container">
-    <h1>Welcome, <span id="adminUsername">Admin</span>!</h1>
+  <div class="admin-container">
+    <h2 class="admin-welcome">Welcome back, <span id="adminUsername">Admin</span>!</h2>
 
-    <div class="nav-grid">
+    <div class="admin-nav-grid">
       <!-- Approve/Reject Listings -->
-      <a href="./upproval-page.html">
-        <div class="nav-card">
-          <h3>Approve Hostels</h3>
-          <p>View and manage pending hostel uploads.</p>
-        </div>
+      <a href="./upproval-page.html" class="admin-card">
+        <i class="fas fa-check-circle"></i>
+        <h3>Approve Hostels</h3>
+        <p>View and manage pending hostel uploads.</p>
       </a>
 
       <!-- Approve General Houses -->
-      <a href="./general-approval-page.html">
-        <div class="nav-card">
-          <h3>Approve  Houses</h3>
-          <p>manage pending general house uploads.</p>
-        </div>
+      <a href="./general-approval-page.html" class="admin-card">
+        <i class="fas fa-home"></i>
+        <h3>Approve Houses</h3>
+        <p>Manage pending general house uploads.</p>
       </a>
 
       <!-- Delete Houses/Hostels -->
-      <a href="./delete-house-hostel.html">
-        <div class="nav-card">
-          <h3>Delete Listings</h3>
-          <p>Remove booked outdated houses and hostels.</p>
-        </div>
+      <a href="./delete-house-hostel.html" class="admin-card">
+        <i class="fas fa-trash-alt"></i>
+        <h3>Delete Listings</h3>
+        <p>Remove booked outdated listings.</p>
       </a>
 
       <!-- List All Users -->
-      <a href="./users.html">
-        <div class="nav-card">
-          <h3>View All Users</h3>
-          <p>See a list of all registered users and their details.</p>
-        </div>
+      <a href="./users.html" class="admin-card">
+        <i class="fas fa-users"></i>
+        <h3>View All Users</h3>
+        <p>Manage registered user details.</p>
       </a>
-
 
       <!-- Manage Payments -->
-      <a href="./payments.html">
-        <div class="nav-card">
-          <h3>Manage Payments</h3>
-          <!-- <p>Track and manage payments from uploads.</p> -->
-          <p>feature Coming Soon!</p>
-        </div>
+      <a href="./payments.html" class="admin-card">
+        <i class="fas fa-credit-card"></i>
+        <h3>Manage Payments</h3>
+        <p>Feature Coming Soon!</p>
       </a>
 
-
-
       <!-- Add Admin -->
-      <a href="./add-admin.html">
-        <div class="nav-card">
-          <h3>Add Admin User</h3>
-          <p>Add more admin users</p>
-        </div>
+      <a href="./add-admin.html" class="admin-card">
+        <i class="fas fa-user-plus"></i>
+        <h3>Add Admin User</h3>
+        <p>Expand the administration team.</p>
       </a>
 
       <!-- Add Superadmin -->
-      <a href="./add-superadmin.html">
-        <div class="nav-card" style="border-color: #dc3545;">
-          <h3>Superadmin User</h3>
-          <p>Create superadmin user.</p>
-        </div>
+      <a href="./add-superadmin.html" class="admin-card" style="border-color: rgba(220, 53, 69, 0.2);">
+        <i class="fas fa-user-shield" style="color: #dc3545;"></i>
+        <h3 style="color: #dc3545;">Superadmin User</h3>
+        <p>Create high-level admin accounts.</p>
       </a>
 
       <!-- List of Admins -->
-      <a href="./admin-users.html">
-        <div class="nav-card">
-          <h3>Admin Users</h3>
-          <p>Get a full list of admins </p>
-        </div>
+      <a href="./admin-users.html" class="admin-card">
+        <i class="fas fa-user-cog"></i>
+        <h3>Admin Users</h3>
+        <p>View the list of all admins.</p>
       </a>
 
       <!-- upload new listing -->
-      <a href="../user/upload-nav.html">
-        <div class="nav-card">
-          <h3>Upload page</h3>
-          <p>Upload new house/hostel</p>
-        </div>
+      <a href="../user/upload-nav.html" class="admin-card">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <h3>Upload Page</h3>
+        <p>Post new houses or hostels.</p>
       </a>
 
       <!-- A person on duty contact-->
-      <a href="./update-contact.html">
-        <div class="nav-card">
-          <h3>Hostel Agent </h3>
-          <p>Customer Helper receiver</p>
-        </div>
+      <a href="./update-contact.html" class="admin-card">
+        <i class="fas fa-headset"></i>
+        <h3>Hostel Agent</h3>
+        <p>Update customer help receiver.</p>
       </a>
 
       <!-- General House Agent Contact-->
-      <a href="./update-general-contact.html">
-        <div class="nav-card">
-          <h3>General House Agent</h3>
-          <p>Customer Helper receiver</p>
-        </div>
+      <a href="./update-general-contact.html" class="admin-card">
+        <i class="fas fa-user-tie"></i>
+        <h3>General Agent</h3>
+        <p>Update general house help contacts.</p>
       </a>
-            <!-- user front page -->
-      <a href="../user/front-page.html">
-        <div class="nav-card">
-          <h3>User page</h3>
-          <p>visit user page</p>
-        </div>
+
+      <!-- user front page -->
+      <a href="../user/front-page.html" class="admin-card">
+        <i class="fas fa-external-link-alt"></i>
+        <h3>User Page</h3>
+        <p>Visit the main user portal.</p>
       </a>
     </div>
   </div>
 
-  
-  <footer>
-    &copy; 2025 Oto-Nest-House Admin Panel
+  <footer class="footer">
+    <div class="footer-content">
+      <span>&copy; 2025 Oto-Nest-House Admin Panel</span>
+      <span class="separator">|</span>
+      <span>Nolstan Logic</span>
+    </div>
   </footer>
 
   <script>
@@ -143,4 +210,5 @@
     });
   </script>
 </body>
+
 </html>

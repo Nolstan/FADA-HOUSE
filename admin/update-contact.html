@@ -1,189 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Contact Information</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../assets/css/admin-user-page.css"> <!-- Reusing styles for consistency -->
-    <style>
-        body {
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 2rem;
-        }
-        .main-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .input-wrapper .icon {
-            position: absolute;
-            left: 1px;
-            top: 1px;
-            bottom: 1px;
-            width: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-            color: #495057;
-            font-size: 1.1rem;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-        }
-        .input-wrapper input {
-            padding-left: 60px; /* Space for the icon */
-            width: 100%;
-            padding-top: 12px;
-            padding-bottom: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        }
-        .input-wrapper input:focus {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        .form-text {
-            font-size: 0.85em;
-            color: #6c757d;
-            margin-top: 5px;
-            display: block;
-        }
-        .form-group label {
-            font-weight: 600;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-        }
-        #output {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-            display: none;
-        }
-        #output.success {
-            display: block;
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        #output.failure {
-            display: block;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .current-info-container {
-            background: #e9ecef;
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-        .current-info-container h3 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #343a40;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-        .current-info-container .info-item {
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-        .current-info-container .info-label {
-            font-weight: bold;
-            color: #495057;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .current-info-container .info-label i {
-            margin-right: 8px;
-            color: #007bff;
-            width: 20px;
-            text-align: center;
-        }
-        .current-info-container a, .current-info-container .info-value {
-            color: #212529;
-            word-break: break-all;
-            text-decoration: none;
-        }
-        .current-info-container a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Update Agent Contact Information</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-    <div class="main-wrapper">
-        <div class="container">
-            <h2>Update Agent Contact Information</h2>
-            <p style="margin-bottom: 20px; color: #666;">Only superadmins can change this information. These details will be shown to all users.</p>
+
+<body class="admin-page">
+    <header class="admin-header">
+        <h1>Oto-Nest-House Admin Panel</h1>
+    </header>
+
+    <div class="admin-container" style="max-width: 800px;">
+        <div class="management-header">
+            <h1 class="management-title">Update Agent Contacts</h1>
+            <p class="management-subtitle">These details are shown to all hostel seekers.</p>
+        </div>
+
+        <div class="admin-list-container" style="margin-top: 0;">
             <form id="update-contact-form">
-                <div class="form-group">
+                <div class="admin-form-group">
                     <label for="whatsappNumber">WhatsApp Number</label>
-                    <div class="input-wrapper">
-                        <span class="icon"><i class="fab fa-whatsapp"></i></span>
-                        <input type="tel" id="whatsappNumber" placeholder="265991234567" required>
+                    <div style="position: relative;">
+                        <i class="fab fa-whatsapp"
+                            style="position: absolute; left: 15px; top: 15px; color: #25d366;"></i>
+                        <input type="tel" id="whatsappNumber" class="admin-input" style="padding-left: 45px;"
+                            placeholder="265991234567" required>
                     </div>
-                    <small class="form-text">Enter number with country code, no '+' or spaces.</small>
+                    <small class="form-text">Numbers only, including country code (e.g. 265...)</small>
                 </div>
-                <div class="form-group">
+
+                <div class="admin-form-group">
                     <label for="facebookLink">Facebook Profile Link</label>
-                    <div class="input-wrapper">
-                        <span class="icon"><i class="fab fa-facebook"></i></span>
-                        <input type="url" id="facebookLink" placeholder="https://facebook.com/your-page" required>
+                    <div style="position: relative;">
+                        <i class="fab fa-facebook"
+                            style="position: absolute; left: 15px; top: 15px; color: #1877f2;"></i>
+                        <input type="url" id="facebookLink" class="admin-input" style="padding-left: 45px;"
+                            placeholder="https://facebook.com/your-profile" required>
                     </div>
                 </div>
-                <div class="form-group">
+
+                <div class="admin-form-group">
                     <label for="phoneNumber">Display Phone Number</label>
-                    <div class="input-wrapper">
-                        <span class="icon"><i class="fas fa-phone"></i></span>
-                        <input type="tel" id="phoneNumber" placeholder="099... / 088..." required>
+                    <div style="position: relative;">
+                        <i class="fas fa-phone"
+                            style="position: absolute; left: 15px; top: 15px; color: var(--theme-primary);"></i>
+                        <input type="tel" id="phoneNumber" class="admin-input" style="padding-left: 45px;"
+                            placeholder="099... / 088..." required>
                     </div>
-                    <small class="form-text">This is the text that will be displayed to users (e.g., for calls).</small>
                 </div>
-                <button type="submit" class="btn">Update Contacts</button>
-                <div id="output"></div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Contacts</button>
+                <div id="output"
+                    style="margin-top: 1rem; text-align: center; border-radius: 8px; padding: 10px; display: none;">
+                </div>
             </form>
         </div>
 
-        <div class="current-info-container">
-            <h3>Current Live Information</h3>
-            <div class="info-item">
-                <span class="info-label"><i class="fab fa-whatsapp"></i> WhatsApp Link</span>
-                <a id="currentWhatsapp" href="#" target="_blank" class="info-value">Loading...</a>
+        <div class="admin-list-container" style="margin-top: 2rem; background: var(--light-bg);">
+            <h3 style="margin-top: 0; margin-bottom: 1.5rem; color: var(--theme-dark);"><i class="fas fa-eye"></i>
+                Current Live Info</h3>
+            <div class="management-list">
+                <div class="management-item">
+                    <div class="item-info">
+                        <div class="item-title">WhatsApp</div>
+                        <div class="item-details"><a id="currentWhatsapp" href="#" target="_blank">Loading...</a></div>
+                    </div>
+                </div>
+                <div class="management-item">
+                    <div class="item-info">
+                        <div class="item-title">Facebook</div>
+                        <div class="item-details"><a id="currentFacebook" href="#" target="_blank">Loading...</a></div>
+                    </div>
+                </div>
+                <div class="management-item">
+                    <div class="item-info">
+                        <div class="item-title">Phone</div>
+                        <div class="item-details"><span id="currentPhone">Loading...</span></div>
+                    </div>
+                </div>
             </div>
-            <div class="info-item">
-                <span class="info-label"><i class="fab fa-facebook"></i> Facebook Link</span>
-                <a id="currentFacebook" href="#" target="_blank" class="info-value">Loading...</a>
-            </div>
-            <div class="info-item">
-                <span class="info-label"><i class="fas fa-phone"></i> Phone Number</span>
-                <span id="currentPhone" class="info-value">Loading...</span>
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="admin-nav-page.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to
+                    Dashboard</a>
             </div>
         </div>
     </div>
@@ -193,21 +94,18 @@
         const API_ENDPOINT = `${API_BASE_URL}/api/contact-info`;
         const token = localStorage.getItem('token');
 
-        // Fetch current contacts on page load
         document.addEventListener('DOMContentLoaded', async () => {
             const output = document.getElementById('output');
             try {
                 const response = await fetch(API_ENDPOINT);
                 if (!response.ok) throw new Error('Failed to load contact information.');
-                
+
                 const data = await response.json();
-                // Extract just the number from the full WhatsApp URL to populate the input
                 const whatsappNumber = data.whatsappLink.split('/').pop() || '';
                 document.getElementById('whatsappNumber').value = whatsappNumber;
                 document.getElementById('facebookLink').value = data.facebookLink;
                 document.getElementById('phoneNumber').value = data.phoneNumber;
 
-                // Populate the current info display
                 document.getElementById('currentWhatsapp').href = data.whatsappLink;
                 document.getElementById('currentWhatsapp').textContent = data.whatsappLink;
                 document.getElementById('currentFacebook').href = data.facebookLink;
@@ -215,20 +113,21 @@
                 document.getElementById('currentPhone').textContent = data.phoneNumber;
             } catch (error) {
                 output.textContent = error.message;
-                output.className = 'failure';
+                output.style.display = 'block';
+                output.style.backgroundColor = '#ffeeee';
+                output.style.color = '#dc3545';
             }
         });
 
-        // Handle form submission
-        document.getElementById('update-contact-form').addEventListener('submit', async function(event) {
+        document.getElementById('update-contact-form').addEventListener('submit', async function (event) {
             event.preventDefault();
-
             const output = document.getElementById('output');
+            output.style.display = 'block';
             output.textContent = 'Updating...';
-            output.className = 'success';
+            output.style.backgroundColor = '#e3f2fd';
+            output.style.color = '#1976d2';
 
-            const whatsappNumber = document.getElementById('whatsappNumber').value.trim().replace(/\D/g, ''); // Remove non-digits
-            // Re-construct the full link before sending to the backend
+            const whatsappNumber = document.getElementById('whatsappNumber').value.trim().replace(/\D/g, '');
             const whatsappLink = `https://wa.me/${whatsappNumber}`;
             const facebookLink = document.getElementById('facebookLink').value.trim();
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -236,10 +135,7 @@
             try {
                 const response = await fetch(API_ENDPOINT, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({ whatsappLink, facebookLink, phoneNumber })
                 });
 
@@ -247,9 +143,9 @@
                 if (!response.ok) throw new Error(data.error || 'Failed to update contacts.');
 
                 output.textContent = data.message;
-                output.className = 'success';
+                output.style.backgroundColor = '#e8f5e9';
+                output.style.color = '#2e7d32';
 
-                // Update the current info display with the new data
                 const updatedData = data.data;
                 document.getElementById('currentWhatsapp').href = updatedData.whatsappLink;
                 document.getElementById('currentWhatsapp').textContent = updatedData.whatsappLink;
@@ -258,10 +154,11 @@
                 document.getElementById('currentPhone').textContent = updatedData.phoneNumber;
             } catch (error) {
                 output.textContent = error.message;
-                output.className = 'failure';
-                console.error('Error:', error);
+                output.style.backgroundColor = '#ffeeee';
+                output.style.color = '#dc3545';
             }
         });
     </script>
 </body>
+
 </html>

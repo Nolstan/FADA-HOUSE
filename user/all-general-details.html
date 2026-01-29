@@ -1,167 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>House Details | General Houses</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-            --dark-blue: #002147;
-            --light-blue: #005BAA;
-            --accent: #0077CC;
-            --light-bg: #f0f7ff;
-            --text-dark: #333;
-            --text-light: #fff;
-            --card-shadow: 0 10px 20px rgba(0, 33, 71, 0.1);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-        }
-        * {margin:0; padding:0; box-sizing:border-box;}
-        body {font-family:'Segoe UI',sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height:1.6;}
-        .header {background: linear-gradient(135deg, var(--dark-blue), var(--light-blue)); color: var(--text-light); padding:1rem 2rem; display:flex; justify-content: space-between; align-items:center; position: sticky; top:0; z-index:100;}
-        .back-button {background: rgba(255,255,255,0.2); color:white; border:none; padding:0.5rem 1rem; border-radius:50px; cursor:pointer;}
-        .back-button:hover {background: rgba(255,255,255,0.3);}
-        .main-content {max-width:1200px; margin:2rem auto; padding:0 1rem;}
-        .gallery-container {display:grid; gap:1rem;}
-        .main-image {width:100%; height:400px; object-fit:contain; border-radius: var(--border-radius); box-shadow: var(--card-shadow); background-color: #e9ecef; cursor: pointer;}
-        .thumbnails {display:flex; gap:0.5rem; overflow-x:auto;}
-        .thumbnail {width:100px; height:75px; object-fit:cover; border-radius:8px; cursor:pointer; border:2px solid transparent; flex-shrink:0;}
-        .thumbnail.active, .thumbnail:hover {transform: scale(1.05); border-color: var(--light-blue);}
-        .details-container {display:grid; grid-template-columns:1fr; gap:2rem; margin-top:2rem;}
-        @media(min-width:992px){.details-container{grid-template-columns:2fr 1fr;}}
-        .hostel-info, .contact-info {background:white; border-radius: var(--border-radius); padding:2rem; box-shadow: var(--card-shadow);}
-        .hostel-info h1 {color: var(--dark-blue); margin-bottom:1rem;}
-        .info-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin:1rem 0;}
-        .info-label {font-size:0.85rem; color:#666; text-transform:uppercase;}
-        .info-value {font-size:1.1rem; font-weight:600; color: var(--dark-blue);}
-        .price-tag {color: var(--light-blue); font-size:1.5rem;}
-        .description {margin:1rem 0; line-height:1.6; color:#555;}
-        .contact-info h2 {color: var(--dark-blue); margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;}
-        .contact-info h2 i {color: var(--light-blue);}
-        .social-icons {display:flex; gap:1rem; margin-top:1rem;}
-        .social-link {display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:50%; background:#f0f4f8; color:var(--dark-blue); font-size:1.25rem; transition: var(--transition); text-decoration:none;}
-        .social-link:hover {transform: translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-        .social-link.whatsapp:hover {background:#25D366;color:white;}
-        .social-link.facebook:hover {background:#1877F2;color:white;}
-        .social-link.phone:hover {background:#4CAF50;color:white;}
-        /* New styles for action buttons to match hostel page */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .btn {
-            padding: 0.875rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            text-decoration: none;
-        }
-        .btn-primary { background: var(--light-blue); color: white; }
-        .btn-primary:hover { background: var(--dark-blue); }
-        .btn-outline { background: transparent; color: var(--light-blue); border: 2px solid var(--light-blue); }
-        .btn-outline:hover { background: var(--light-blue); color: white; }
-        .loading {display:flex; justify-content:center; padding:3rem;}
-        .spinner {width:50px; height:50px; border:5px solid rgba(0,33,71,0.1); border-left-color: var(--light-blue); border-radius:50%; animation: spin 1s linear infinite;}
-        @keyframes spin {to{transform:rotate(360deg);}}
-        .error-state {text-align:center; padding:3rem; color:#666;}
-        .error-state i {font-size:3rem; margin-bottom:1rem; color:#ccc;}
-    </style>
-    <style>
-        /* --- Lightbox Modal Styles --- */
-        .lightbox {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 2000; /* Higher than header */
-            padding-top: 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox.visible { display: flex; }
-        .lightbox-content {
-            margin: auto; display: block; width: auto;
-            max-width: 90vw; max-height: 85vh;
-            object-fit: contain;
-            animation-name: zoom; animation-duration: 0.4s;
-        }
-        @keyframes zoom { from {transform:scale(0)} to {transform:scale(1)} }
-        .lightbox-close {
-            position: absolute; top: 15px; right: 35px;
-            color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer;
-        }
-        .lightbox-close:hover, .lightbox-close:focus { color: #bbb; text-decoration: none; }
-        .lightbox-prev, .lightbox-next {
-            cursor: pointer; position: absolute; top: 50%;
-            width: auto; padding: 16px; margin-top: -50px;
-            color: white; font-weight: bold; font-size: 20px;
-            transition: 0.6s ease; border-radius: 0 3px 3px 0;
-            user-select: none; -webkit-user-select: none;
-        }
-        .lightbox-next { right: 0; border-radius: 3px 0 0 3px; }
-        .lightbox-prev { left: 0; border-radius: 0 3px 3px 0; }
-        .lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(0, 0, 0, 0.8); }
-    </style>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-    <header class="header">
-        <h1>House Details</h1>
-        <button class="back-button" onclick="window.history.back()"><i class="fas fa-arrow-left"></i> Back</button>
+
+<body class="university-page">
+    <header class="uni-header">
+        <div class="uni-header-content">
+            <div class="logo-container">
+                <h1 style="font-size: 1.2rem;">House Details</h1>
+            </div>
+            <button class="nav-btn login" onclick="window.history.back()"
+                style="background: transparent; color: white; border: 2px solid white; padding: 5px 15px; border-radius: 20px; cursor: pointer;">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
     </header>
 
-    <main class="main-content">
+
+    <main class="details-page-content">
         <div id="loading" class="loading">
             <div class="spinner"></div>
         </div>
 
         <div id="content" style="display:none;">
             <div class="gallery-container">
-                <img id="mainImage" class="main-image" alt="House Image"/>
-                <div class="thumbnails" id="imageGallery"></div>
+                <div class="main-image-wrapper">
+                    <img id="mainImage" class="main-image" alt="House Image" />
+                </div>
+                <div class="thumbnails-grid" id="imageGallery"></div>
             </div>
 
-            <div class="details-container">
-                <div class="hostel-info">
-                    <h1 id="houseName">House Details</h1>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-map-marker-alt"></i> Location</span>
-                            <span class="info-value" id="houseLocation"></span>
+            <div class="details-grid">
+                <div class="details-card">
+                    <div class="details-header">
+                        <div class="details-title-row">
+                            <h1 id="houseName" class="details-title">House Details</h1>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-tag"></i> Price</span>
-                            <span class="info-value price-tag" id="housePrice"></span>
+                        <div class="details-subtitle">
+                            <i class="fas fa-map-marker-alt"></i> <span id="houseLocation">Loading...</span>
                         </div>
                     </div>
-                    <h2>Description</h2>
-                    <p class="description" id="houseDescription"></p>
+
+                    <div class="features-section">
+                        <h3 class="features-title"><i class="fas fa-info-circle"></i> House Details</h3>
+                        <div class="info-stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <div class="stat-content">
+                                    <span class="stat-label">Rent</span>
+                                    <span class="stat-value" id="housePriceValue">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon"><i class="fas fa-th-large"></i></div>
+                                <div class="stat-content">
+                                    <span class="stat-label">Category</span>
+                                    <span class="stat-value">General House</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-content-section">
+                        <h2><i class="fas fa-align-left"></i> Description</h2>
+                        <p class="description-text" id="houseDescription">No description available.</p>
+                    </div>
                 </div>
 
-                <div class="contact-info">
-                    <h2><i class="fas fa-phone-alt"></i> Contact Agent</h2>
-                    <p>Get in touch with our agent for more information or to schedule a viewing.</p>
-                    <div class="action-buttons">
-                        <a href="#" id="callBtn" class="btn btn-primary"><i class="fas fa-phone"></i> Call Agent</a>
-                        <a href="#" id="whatsappBtn" target="_blank" class="btn btn-outline"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                        <a href="#" id="facebookBtn" target="_blank" class="btn btn-outline"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
-                    </div>
-                    <div class="info-item" style="margin-top: 1.5rem;">
-                        <span class="info-label">Managed by</span>
-                        <span class="info-value">Nolstan Logic</span>
+                <div class="contact-sidebar">
+                    <div class="contact-card">
+                        <h2 class="contact-title"><i class="fas fa-phone-alt"></i> Contact Agent</h2>
+                        <div class="contact-price-box">
+                            <div class="price-tag" id="housePrice">K0</div>
+                            <div class="price-period">per month</div>
+                        </div>
+                        <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Interested in this property?
+                            Professional agents are ready to assist you.</p>
+                        <div class="action-buttons">
+                            <a href="#" id="callBtn" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> Call
+                                Agent</a>
+                            <a href="#" id="whatsappBtn" target="_blank" class="btn btn-whatsapp btn-large"><i
+                                    class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                            <a href="#" id="facebookBtn" target="_blank" class="btn btn-facebook btn-large"><i
+                                    class="fa-brands fa-facebook-f"></i> Facebook</a>
+                        </div>
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div
+                                    style="width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #888;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.8rem; color: #888; font-weight: 700; text-transform: uppercase;">
+                                        Primary Agent</div>
+                                    <div style="font-weight: 700; color: var(--theme-dark);">Nolstan Logic</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,15 +112,17 @@
             <i class="fas fa-exclamation-triangle"></i>
             <h2>Error Loading House Details</h2>
             <p>Unable to load house details. Please try again.</p>
-            <button class="back-button" onclick="window.location.reload()">Retry</button>
+            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="window.location.reload()">Retry</button>
         </div>
 
         <!-- Lightbox Modal -->
-        <div id="lightbox-modal" class="lightbox">
+        <div id="lightbox-modal" class="lightbox-modal">
             <span class="lightbox-close">&times;</span>
-            <img class="lightbox-content" id="lightbox-image">
-            <a class="lightbox-prev">&#10094;</a>
-            <a class="lightbox-next">&#10095;</a>
+            <img class="lightbox-img" id="lightbox-image">
+            <div class="lightbox-nav">
+                <div class="nav-arrow lightbox-prev"><i class="fas fa-chevron-left"></i></div>
+                <div class="nav-arrow lightbox-next"><i class="fas fa-chevron-right"></i></div>
+            </div>
         </div>
     </main>
 
@@ -187,7 +130,7 @@
     <script src="../configs/apiConfigs.js"></script>
     <script>
         // The API_BASE_URL variable is now available from the script loaded above. No require() needed.
-        
+
         const loading = document.getElementById('loading');
         const content = document.getElementById('content');
         const errorState = document.getElementById('errorState');
@@ -209,11 +152,11 @@
                         'Authorization': `Bearer ${token}`
                     }
                 });
-              
+
                 if (!res.ok) throw new Error('Failed to fetch house');
                 const house = await res.json();
                 displayHouse(house);
-                
+
             } catch (err) {
                 console.error(err);
                 showError();
@@ -224,9 +167,10 @@
             loading.style.display = 'none';
             content.style.display = 'block';
 
-            document.getElementById('houseName').textContent = `House in ${house.area}, ${house.district}`;
+            document.getElementById('houseName').textContent = `Property in ${house.area}`;
             document.getElementById('houseLocation').textContent = `${house.area}, ${house.district}`;
-            document.getElementById('housePrice').textContent = `K${house.cost.toLocaleString()}/month`;
+            document.getElementById('housePrice').textContent = `K${house.cost.toLocaleString()}`;
+            document.getElementById('housePriceValue').textContent = `K${house.cost.toLocaleString()}`;
             document.getElementById('houseDescription').textContent = house.description || 'No description available.';
 
             // Setup the image gallery and lightbox
@@ -236,7 +180,7 @@
         async function fetchAgentContacts() {
             try {
                 const res = await fetch(`${API_BASE_URL}/api/general-contact-info`);
-                
+
                 if (!res.ok) throw new Error('Failed to fetch agent contacts');
                 const contacts = await res.json();
 
@@ -279,21 +223,21 @@
             const thumbUrls = photos.map(url => getOptimizedUrl(url, 'w_200,h_150,c_fill,f_auto,q_auto'));
 
             mainImg.src = photoUrls[0];
-            mainImg.onerror = function() { this.src = defaultImage; };
+            mainImg.onerror = function () { this.src = defaultImage; };
             gallery.innerHTML = '';
 
             thumbUrls.forEach((thumbUrl, index) => {
                 const img = document.createElement('img');
                 img.src = thumbUrl;
                 img.alt = `House photo ${index + 1}`;
-                img.className = 'thumbnail';
+                img.className = 'thumbnail-item';
                 if (index === 0) img.classList.add('active');
                 img.addEventListener('click', () => {
                     mainImg.src = photoUrls[index];
                     document.querySelector('.thumbnail.active')?.classList.remove('active');
                     img.classList.add('active');
                 });
-                img.onerror = function() { this.style.display = 'none'; };
+                img.onerror = function () { this.style.display = 'none'; };
                 gallery.appendChild(img);
             });
 
@@ -329,7 +273,7 @@
                     updateNavButtons();
                 }
             }
-            
+
             function updateNavButtons() {
                 prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
                 nextBtn.style.display = currentIndex === photoUrls.length - 1 ? 'none' : 'block';
@@ -355,4 +299,5 @@
         }
     </script>
 </body>
+
 </html>

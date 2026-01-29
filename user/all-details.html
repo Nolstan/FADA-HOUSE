@@ -1,480 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hostel Details | MUBAS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Modern CSS Variables */
-        :root {
-            --mubas-dark-blue: #002147;
-            --mubas-light-blue: #005BAA;
-            --mubas-accent: #0077CC;
-            --background-light: #f8fafc;
-            --card-bg: #ffffff;
-            --text-dark: #333333;
-            --text-light: #ffffff;
-            --border-radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 33, 71, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 0;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--mubas-dark-blue) 0%, var(--mubas-light-blue) 100%);
-            color: var(--text-light);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 12px rgba(0, 33, 71, 0.15);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .mubas-logo {
-            height: 40px;
-            width: auto;
-            filter: brightness(0) invert(1);
-        }
-
-        .back-button {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Details Section */
-        .details-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 992px) {
-            .details-container {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-
-        .hostel-info {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .hostel-info h1 {
-            color: var(--mubas-dark-blue);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .info-label {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--mubas-dark-blue);
-        }
-
-        .info-value .fas {
-            color: var(--mubas-light-blue);
-            margin-right: 0.5rem;
-        }
-
-        .price-tag {
-            color: var(--mubas-light-blue);
-            font-size: 1.5rem;
-        }
-
-        .description {
-            margin: 1.5rem 0;
-            line-height: 1.7;
-            color: #555;
-        }
-
-        .description.collapsed {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 7; /* Limit to 7 lines */
-        }
-
-        .see-more-btn {
-            display: none; /* Hidden by default, shown by JS */
-            margin-top: 0.5rem;
-            color: var(--mubas-light-blue);
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            font-size: inherit;
-            font-family: inherit;
-        }
-        .see-more-btn:hover { text-decoration: underline; }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.875rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--mubas-light-blue);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--mubas-dark-blue);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--mubas-light-blue);
-            border: 2px solid var(--mubas-light-blue);
-        }
-
-        .btn-outline:hover {
-            background: var(--mubas-light-blue);
-            color: white;
-        }
-
-        .btn-facebook {
-            border-color: #1877F2;
-            color: #1877F2;
-        }
-
-        .btn-facebook:hover {
-            background: #1877F2;
-            color: white;
-        }
-
-        /* Booking Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s;
-        }
-        .modal-overlay.visible .modal-content {
-            transform: scale(1);
-        }
-        .modal-content h3 {
-            color: var(--mubas-dark-blue);
-            margin-bottom: 1rem;
-        }
-        .modal-content p { margin-bottom: 0.5rem; }
-        .modal-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 2rem;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        /* Loading and Error States */
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(0, 33, 71, 0.1);
-            border-left-color: var(--mubas-light-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .error-state {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-        }
-
-        .error-state i {
-            font-size: 3rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        /* --- Gallery and Lightbox Styles (from general-details) --- */
-        .gallery-container {display:grid; gap:1rem;}
-        .main-image {width:100%; height:400px; object-fit:contain; border-radius: var(--border-radius); box-shadow: var(--shadow); background-color: #e9ecef; cursor: pointer;}
-        .thumbnails {display:flex; gap:0.5rem; overflow-x:auto;}
-        .thumbnail {width:100px; height:75px; object-fit:cover; border-radius:8px; cursor:pointer; border:2px solid transparent; flex-shrink:0;}
-        .thumbnail.active, .thumbnail:hover {transform: scale(1.05); border-color: var(--mubas-light-blue);}
-
-        .lightbox {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 2000; /* Higher than header */
-            padding-top: 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox.visible { display: flex; }
-        .lightbox-content {
-            margin: auto; display: block; width: auto;
-            max-width: 90vw; max-height: 85vh;
-            object-fit: contain;
-            animation-name: zoom; animation-duration: 0.4s;
-        }
-        @keyframes zoom { from {transform:scale(0)} to {transform:scale(1)} }
-        .lightbox-close {
-            position: absolute; top: 15px; right: 35px;
-            color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer;
-        }
-        .lightbox-close:hover, .lightbox-close:focus { color: #bbb; text-decoration: none; }
-        .lightbox-prev, .lightbox-next {
-            cursor: pointer; position: absolute; top: 50%;
-            width: auto; padding: 16px; margin-top: -50px;
-            color: white; font-weight: bold; font-size: 20px;
-            transition: 0.6s ease; border-radius: 0 3px 3px 0;
-            user-select: none; -webkit-user-select: none;
-        }
-        .lightbox-next { right: 0; border-radius: 3px 0 0 3px; }
-        .lightbox-prev { left: 0; border-radius: 0 3px 3px 0; }
-        .lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(0, 0, 0, 0.8); }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            .main-image {
-                height: 300px; /* Adjust main image height on mobile */
-            }
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 1rem;
-            }
-
-            .main-content {
-                padding: 0 1rem;
-            }
-
-            .hostel-info,
-            .contact-info {
-                padding: 1.5rem;
-            }
-
-            .social-icons {
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-    <header class="header">
-        <div class="header-content">
+
+<body class="university-page">
+    <header class="uni-header">
+        <div class="uni-header-content">
             <div class="logo-container">
-                <img src="./image/mubas-logo.jpg" alt="MUBAS Logo" class="mubas-logo" />
-                <h1>Hostel Details</h1>
+                <img src="../assets/image/mubas logo.png" alt="MUBAS Logo"
+                    style="height: 40px; border-radius: 5px; background: white; padding: 2px;" />
+                <h1 style="font-size: 1.2rem; margin-left:10px;">Hostel Details</h1>
             </div>
-            <button class="back-button" onclick="window.history.back()">
-                <i class="fas fa-arrow-left"></i> Back to Listings
+            <button class="nav-btn login" onclick="window.history.back()"
+                style="background: transparent; color: white; border: 2px solid white; padding: 5px 15px; border-radius: 20px; cursor: pointer;">
+                <i class="fas fa-arrow-left"></i> Back
             </button>
         </div>
     </header>
 
-    <main class="main-content">
+
+    <main class="details-page-content">
         <div id="loading" class="loading">
             <div class="spinner"></div>
         </div>
 
         <div id="content" style="display: none;">
             <div class="gallery-container">
-                <img id="mainImage" class="main-image" alt="Hostel Image"/>
-                <div class="thumbnails" id="imageGallery"></div>
+                <div class="main-image-wrapper">
+                    <img id="mainImage" class="main-image" alt="Hostel Image" />
+                </div>
+                <div class="thumbnails-grid" id="imageGallery"></div>
             </div>
-            
-            <div class="details-container">
-                <div class="hostel-info" id="detailsSection">
-                    <h1 id="hostelName">Hostel Details</h1>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-map-marker-alt"></i> Location</span>
-                            <span class="info-value" id="hostelLocation">Loading...</span>
+
+            <div class="details-grid">
+                <div class="details-header">
+                    <div class="details-title-row">
+                        <h1 id="hostelName" class="details-title">Hostel Details</h1>
+                    </div>
+                    <div class="details-subtitle" id="hostelLocationRow">
+                        <i class="fas fa-map-marker-alt"></i> <span id="hostelLocation">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h3 class="features-title"><i class="fas fa-info-circle"></i> Key Information</h3>
+                    <div class="info-stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-users"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Occupancy</span>
+                                <span class="stat-value" id="hostelOccupancy">Loading...</span>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-tag"></i> Price</span>
-                            <span class="info-value price-tag" id="hostelPrice">K0/month</span>
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-venus-mars"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Gender</span>
+                                <span class="stat-value" id="hostelGender">Loading...</span>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-users"></i> Occupancy</span>
-                            <span class="info-value" id="hostelOccupancy">Loading...</span>
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-road"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Distance</span>
+                                <span class="stat-value" id="hostelDistance">Loading...</span>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-venus-mars"></i> Gender</span>
-                            <span class="info-value" id="hostelGender">Loading...</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-road"></i> Distance to Campus</span>
-                            <span class="info-value" id="hostelDistance">Loading...</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label"><i class="fas fa-bolt"></i> Utilities</span>
-                            <span class="info-value" id="hostelUtilities">Loading...</span>
+                        <div class="stat-item">
+                            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-label">Utilities</span>
+                                <span class="stat-value" id="hostelUtilities">Loading...</span>
+                            </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="details-content-section">
                     <h2><i class="fas fa-align-left"></i> Description</h2>
-                    <p class="description" id="hostelDescription">
-                        No description available.
-                    </p>
-
-                    <h2><i class="fas fa-gavel"></i> Rules</h2>
-                    <p class="description" id="hostelRules">
-                        No rules specified.
-                    </p>
+                    <p class="description-text" id="hostelDescription">No description available.</p>
                 </div>
 
-                <div class="contact-info">
-                    <h2><i class="fas fa-phone-alt"></i> Contact</h2>
-                    <p>Get in touch with the hostel management for more information or to schedule a viewing.</p>
+                <div class="details-content-section">
+                    <h2><i class="fas fa-gavel"></i> Rules</h2>
+                    <p class="description-text" id="hostelRules">No rules specified.</p>
+                </div>
+            </div>
+
+            <div class="contact-sidebar">
+                <div class="contact-card">
+                    <h2 class="contact-title"><i class="fas fa-phone-alt"></i> Contact</h2>
+                    <div class="contact-price-box">
+                        <div class="price-tag" id="hostelPrice">K0</div>
+                        <div class="price-period">per month</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Interested in this hostel?
+                        Contact the management directly to book a viewing.</p>
                     <div class="action-buttons">
-                        <a href="#" id="callBtn" class="btn btn-primary"><i class="fas fa-phone"></i> Call Agent</a>
-                        <a href="#" id="whatsappBtn" target="_blank" class="btn btn-outline"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                        <a href="https://www.facebook.com/nolstan.logic" id="facebookBtn" target="_blank" class="btn btn-outline btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+                        <a href="#" id="callBtn" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> Call
+                            Agent</a>
+                        <a href="#" id="whatsappBtn" target="_blank" class="btn btn-whatsapp btn-large"><i
+                                class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                        <a href="#" id="facebookBtn" target="_blank" class="btn btn-facebook btn-large"><i
+                                class="fa-brands fa-facebook-f"></i> Facebook</a>
                     </div>
 
-
-                    <div class="info-item" style="margin-top: 1.5rem;">
-                        <span class="info-label">Managed by</span>
-                        <span class="info-value">Nolstan Logic</span>
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div
+                                style="width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #888;">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <div
+                                    style="font-size: 0.8rem; color: #888; font-weight: 700; text-transform: uppercase;">
+                                    Verified Agent</div>
+                                <div style="font-weight: 700; color: var(--theme-dark);">Nolstan Logic</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
         <div id="errorState" class="error-state" style="display: none;">
@@ -520,7 +172,7 @@
         async function fetchHostelDetails() {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/universities/hostel/${hostelId}`);
-                
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch hostel details');
                 }
@@ -540,9 +192,9 @@
             contentElement.style.display = 'block';
 
             // Set main details
-            document.getElementById('hostelName').textContent = hostel.name || 'Hostel Details'; // Set hostel name
+            document.getElementById('hostelName').textContent = hostel.name || 'Hostel Details';
             document.getElementById('hostelLocation').textContent = hostel.location || 'Not specified';
-            document.getElementById('hostelPrice').textContent = `K${(hostel.rent || 0).toLocaleString()}/month`;
+            document.getElementById('hostelPrice').textContent = `K${(hostel.rent || 0).toLocaleString()}`;
             document.getElementById('hostelOccupancy').textContent = `${hostel.occupancy || 'N/A'} student${hostel.occupancy > 1 ? 's' : ''}`;
             document.getElementById('hostelGender').textContent = hostel.hostelType || 'Not specified';
             document.getElementById('hostelDescription').textContent = hostel.description || 'No description available.';
@@ -583,18 +235,18 @@
             // set a custom error message if needed
             // document.getElementById('errorMessage').textContent = message;
         }
-        
+
         function setupImageGalleryAndLightbox(photos) {
             const mainImg = document.getElementById('mainImage');
             const gallery = document.getElementById('imageGallery');
             const defaultImage = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
- 
+
             if (!photos || !Array.isArray(photos) || photos.length === 0) {
                 mainImg.src = defaultImage;
                 mainImg.alt = 'No image available';
                 return;
             }
- 
+
             // --- Image Optimization ---
             const getOptimizedUrl = (url, transformations) => {
                 if (!url || !url.includes('res.cloudinary.com')) {
@@ -607,29 +259,29 @@
                 // Inserts transformations like "w_800,f_auto,q_auto"
                 return `${parts[0]}/upload/${transformations}/${parts[1]}`;
             };
- 
+
             const photoUrls = photos.map(url => getOptimizedUrl(url, 'w_1200,h_800,c_limit,f_auto,q_auto'));
             const thumbUrls = photos.map(url => getOptimizedUrl(url, 'w_200,h_150,c_fill,f_auto,q_auto'));
- 
+
             mainImg.src = photoUrls[0];
-            mainImg.onerror = function() { this.src = defaultImage; };
+            mainImg.onerror = function () { this.src = defaultImage; };
             gallery.innerHTML = '';
- 
+
             thumbUrls.forEach((thumbUrl, index) => {
                 const img = document.createElement('img');
                 img.src = thumbUrl;
                 img.alt = `Hostel photo ${index + 1}`;
-                img.className = 'thumbnail';
+                img.className = 'thumbnail-item';
                 if (index === 0) img.classList.add('active');
                 img.addEventListener('click', () => {
                     mainImg.src = photoUrls[index];
                     document.querySelector('.thumbnail.active')?.classList.remove('active');
                     img.classList.add('active');
                 });
-                img.onerror = function() { this.style.display = 'none'; };
+                img.onerror = function () { this.style.display = 'none'; };
                 gallery.appendChild(img);
             });
- 
+
             // --- Lightbox Logic ---
             const modal = document.getElementById('lightbox-modal');
             const modalImg = document.getElementById('lightbox-image');
@@ -662,7 +314,7 @@
                     updateNavButtons();
                 }
             }
-            
+
             function updateNavButtons() {
                 prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
                 nextBtn.style.display = currentIndex === photoUrls.length - 1 ? 'none' : 'block';
@@ -673,7 +325,7 @@
                 const index = photoUrls.findIndex(p => p === currentSrc);
                 openModal(index !== -1 ? index : 0);
             });
- 
+
             closeBtn.addEventListener('click', closeModal);
             nextBtn.addEventListener('click', showNext);
             prevBtn.addEventListener('click', showPrev);
@@ -711,7 +363,7 @@
                 seeMoreBtn.className = 'see-more-btn';
                 seeMoreBtn.textContent = 'See More';
                 seeMoreBtn.style.display = 'inline-block';
-                
+
                 element.parentNode.insertBefore(seeMoreBtn, element.nextSibling);
 
                 seeMoreBtn.addEventListener('click', (e) => {
@@ -724,4 +376,5 @@
         }
     </script>
 </body>
+
 </html>

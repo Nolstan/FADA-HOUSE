@@ -1,373 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CU Hostels</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --cu-burgundy: #722F37;
-      --cu-gold: #C0A062;
-      --cu-cream: #F8F1E5;
-      --text-dark: #2C0703;
-      --text-light: #ffffff;
-      --card-shadow: 0 10px 20px rgba(114, 47, 55, 0.1);
-      --card-hover-shadow: 0 15px 30px rgba(114, 47, 55, 0.2);
-      --border-radius: 12px;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--cu-cream) url("../image/cu-bg.jpg") no-repeat center center fixed;
-      background-size: cover;
-      color: var(--text-dark);
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(114, 47, 55, 0.1);
-      z-index: -1;
-    }
-
-    /* HEADER */
-    .header-container {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      background: linear-gradient(135deg, var(--cu-burgundy) 0%, var(--cu-gold) 100%);
-      box-shadow: 0 4px 20px rgba(114, 47, 55, 0.25);
-      padding: 0.75rem 1.5rem;
-    }
-
-    .heading-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 1rem;
-    }
-
-    .cu-logo {
-      height: 50px;
-      width: auto;
-      border-radius: 5px;
-    }
-
-    .search-container {
-      position: relative;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    #searchInput {
-      width: 100%;
-      padding: 0.85rem 1rem 0.85rem 3rem;
-      border: none;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.9);
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: var(--transition);
-    }
-
-    #searchInput:focus {
-      outline: none;
-      background: white;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--cu-burgundy);
-    }
-
-    /* MAIN CONTENT */
-    .main-content {
-      flex: 1;
-      padding: 2rem 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      margin-top: 100px;
-    }
-
-    .content {
-      background: rgba(255,255,255,0.9);
-      border-radius: var(--border-radius);
-      padding: 2rem;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-
-    .page-title {
-      font-size: 1.75rem;
-      color: var(--cu-burgundy);
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .page-title i {
-      color: var(--cu-gold);
-    }
-
-    .filter-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        padding: 1rem;
-        background-color: var(--cu-cream);
-        border-radius: var(--border-radius);
-        margin-bottom: 1.5rem;
-        border: 1px solid #e0e7ff;
-    }
-    .filter-group {
-        flex: 1;
-        min-width: 150px;
-    }
-    .filter-group select {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-    }
-    .filter-group select:focus {
-        border-color: var(--cu-gold);
-        outline: none;
-    }
-
-    .available-rooms {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .hostel-card {
-      display: flex;
-      flex-direction: column;
-      background: white;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-    }
-
-    .hostel-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--card-hover-shadow);
-    }
-
-    .hostel-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .hostel-badge {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: var(--cu-burgundy);
-      color: white;
-      padding: 0.35rem 0.75rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .hostel-info {
-      padding: 1.5rem;
-    }
-
-    .hostel-location {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: var(--cu-burgundy);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .hostel-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin: 1rem 0;
-    }
-
-    .detail-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-    }
-
-    .detail-item i {
-      color: var(--cu-gold);
-      width: 16px;
-    }
-
-    .hostel-price {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--cu-burgundy);
-      margin-top: 0.5rem;
-    }
-
-    #noResults {
-      text-align: center;
-      padding: 3rem;
-      color: #666;
-      display: none;
-    }
-
-    .no-results-icon {
-      font-size: 3rem;
-      color: #ccc;
-      margin-bottom: 1rem;
-    }
-
-    /* FOOTER */
-    .footer {
-      background: var(--cu-burgundy);
-      color: white;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      margin-top: 3rem;
-      border-top: 3px solid var(--cu-gold);
-    }
-    .footer-content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem 1.5rem;
-    }
-    .footer-content a {
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: none;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .footer-content a:hover {
-        color: white;
-    }
-    .footer-content .separator {
-        display: none;
-    }
-    @media (min-width: 768px) {
-        .footer-content .separator {
-            display: inline;
-            opacity: 0.5;
-        }
-    }
-
-    .footer-links a:hover {
-      color: white;
-    }
-
-    .footer-links a:hover {
-      color: white;
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .heading-container {
-        flex-direction: row;
-        gap: 1rem;
-      }
-
-      .cu-logo {
-        height: 40px;
-      }
-
-      .search-container {
-        flex: 1;
-        max-width: none;
-      }
-
-      .main-content {
-        margin-top: 70px;
-      }
-
-      .available-rooms {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/css/main.css">
 </head>
-<body>
-  <div class="header-container">
-    <div class="heading-container">
-      <img src="../assets/image/cu.png" alt="CU Logo" class="cu-logo" />
-      <div class="search-container">
-        <i class="fas fa-search search-icon"></i>
-        <input id="searchInput" type="search" placeholder="Search hostels..." />
+
+<body class="university-page theme-cu">
+  <header class="uni-header">
+    <div class="uni-header-content">
+      <div class="logo-container">
+        <img src="../assets/image/cu.png" alt="CU Logo" class="cu-logo" style="height: 40px; border-radius: 5px;" />
+      </div>
+      <div class="search-container"
+        style="margin: 0; max-width: 400px; background: rgba(255,255,255,0.9); border: none;">
+        <i class="fas fa-search" style="margin-left: 10px; color: var(--theme-dark);"></i>
+        <input id="searchInput" type="search" placeholder="Search hostels..." class="search-input"
+          style="padding: 10px; border: none;">
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="main-content">
     <div class="content">
       <h1 class="page-title"><i class="fas fa-building"></i> Available Hostels</h1>
       <div class="filter-bar">
         <div class="filter-group">
-            <select id="priceFilter">
-                <option value="">Max Price (Any)</option>
-                <option value="30000">Under K30,000</option>
-                <option value="50000">Under K50,000</option>
-                <option value="75000">Under K75,000</option>
-                <option value="100000">Under K100,000</option>
-            </select>
+          <select id="priceFilter">
+            <option value="">Max Price (Any)</option>
+            <option value="30000">Under K30,000</option>
+            <option value="50000">Under K50,000</option>
+            <option value="75000">Under K75,000</option>
+            <option value="100000">Under K100,000</option>
+          </select>
         </div>
         <div class="filter-group">
-            <select id="occupancyFilter">
-                <option value="">Occupancy (Any)</option>
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-            </select>
+          <select id="occupancyFilter">
+            <option value="">Occupancy (Any)</option>
+            <option value="1">1 Person</option>
+            <option value="2">2 People</option>
+          </select>
         </div>
         <div class="filter-group">
-            <select id="genderFilter">
-                <option value="any">Gender (Any)</option>
-                <option value="male">Male Only</option>
-                <option value="female">Female Only</option>
-                <option value="both">Both Genders</option>
-            </select>
+          <select id="genderFilter">
+            <option value="any">Gender (Any)</option>
+            <option value="male">Male Only</option>
+            <option value="female">Female Only</option>
+            <option value="both">Both Genders</option>
+          </select>
         </div>
       </div>
       <div id="hostelsContainer" class="available-rooms">
-        <div class="loading"><div class="spinner"></div></div>
+        <div class="loading">
+          <div class="spinner"></div>
+        </div>
       </div>
       <p id="noResults"><i class="fas fa-search no-results-icon"></i><br>No hostels found for this location.</p>
     </div>
@@ -375,15 +63,15 @@
 
   <footer class="footer">
     <div class="footer-content">
-        <span>© 2025 CU</span>
-        <span class="separator">|</span>
-        <span>Nolstan Logic</span>
-        <span class="separator">|</span>
-        <a href="mailto:nolstankumwenda@gamil.com"><i class="fas fa-envelope"></i> Email Us</a>
-        <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
+      <span>© 2025 CU</span>
+      <span class="separator">|</span>
+      <span>Nolstan Logic</span>
+      <span class="separator">|</span>
+      <a href="mailto:nolstankumwenda@gamil.com"><i class="fas fa-envelope"></i> Email Us</a>
+      <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
     </div>
   </footer>
- 
+
   <script src="../configs/apiConfigs.js"></script>
   <script>
     const city = 'thyolo';
@@ -397,10 +85,10 @@
     async function fetchHostels() {
       try {
         const params = new URLSearchParams({
-            search: searchInput.value.trim(),
-            maxPrice: priceFilter.value,
-            occupancy: occupancyFilter.value,
-            genderType: genderFilter.value
+          search: searchInput.value.trim(),
+          maxPrice: priceFilter.value,
+          occupancy: occupancyFilter.value,
+          genderType: genderFilter.value
         });
         const backendURL = `${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`;
 
@@ -453,10 +141,10 @@
         else badgeText = h.hostelType;
 
         if (badgeText) {
-            const badge = document.createElement('span');
-            badge.className = 'hostel-badge';
-            badge.textContent = badgeText;
-            card.appendChild(badge);
+          const badge = document.createElement('span');
+          badge.className = 'hostel-badge';
+          badge.textContent = badgeText;
+          card.appendChild(badge);
         }
 
         const infoDiv = document.createElement('div');
@@ -487,7 +175,7 @@
 
         card.appendChild(infoDiv);
 
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function (e) {
           e.preventDefault();
           const hostelId = this.getAttribute('data-id');
           localStorage.setItem('selectedHostelId', hostelId);
@@ -510,4 +198,5 @@
     fetchHostels();
   </script>
 </body>
+
 </html>
