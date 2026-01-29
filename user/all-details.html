@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 
+
+</head>
+
 <body class="university-page">
     <header class="uni-header">
         <div class="uni-header-content">
@@ -30,103 +33,105 @@
         </div>
 
         <div id="content" style="display: none;">
-            <div class="gallery-container">
-                <div class="main-image-wrapper">
-                    <img id="mainImage" class="main-image" alt="Hostel Image" />
-                </div>
-                <div class="thumbnails-grid" id="imageGallery"></div>
-            </div>
-
-            <div class="details-grid">
-                <div class="details-header">
-                    <div class="details-title-row">
-                        <h1 id="hostelName" class="details-title">Hostel Details</h1>
-                    </div>
-                    <div class="details-subtitle" id="hostelLocationRow">
-                        <i class="fas fa-map-marker-alt"></i> <span id="hostelLocation">Loading...</span>
-                    </div>
-                </div>
-
-                <div class="features-section">
-                    <h3 class="features-title"><i class="fas fa-info-circle"></i> Key Information</h3>
-                    <div class="info-stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-icon"><i class="fas fa-users"></i></div>
-                            <div class="stat-content">
-                                <span class="stat-label">Occupancy</span>
-                                <span class="stat-value" id="hostelOccupancy">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon"><i class="fas fa-venus-mars"></i></div>
-                            <div class="stat-content">
-                                <span class="stat-label">Gender</span>
-                                <span class="stat-value" id="hostelGender">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon"><i class="fas fa-road"></i></div>
-                            <div class="stat-content">
-                                <span class="stat-label">Distance</span>
-                                <span class="stat-value" id="hostelDistance">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
-                            <div class="stat-content">
-                                <span class="stat-label">Utilities</span>
-                                <span class="stat-value" id="hostelUtilities">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="details-content-section">
-                    <h2><i class="fas fa-align-left"></i> Description</h2>
-                    <p class="description-text" id="hostelDescription">No description available.</p>
-                </div>
-
-                <div class="details-content-section">
-                    <h2><i class="fas fa-gavel"></i> Rules</h2>
-                    <p class="description-text" id="hostelRules">No rules specified.</p>
+            <div class="details-header">
+                <h1 id="hostelName" class="details-title">Hostel Details</h1>
+                <div class="details-subtitle" id="hostelLocationRow">
+                    <i class="fas fa-map-marker-alt"></i> <span id="hostelLocation">Loading...</span>
                 </div>
             </div>
 
-            <div class="contact-sidebar">
-                <div class="contact-card">
-                    <h2 class="contact-title"><i class="fas fa-phone-alt"></i> Contact</h2>
-                    <div class="contact-price-box">
-                        <div class="price-tag" id="hostelPrice">K0</div>
-                        <div class="price-period">per month</div>
-                    </div>
-                    <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Interested in this hostel?
-                        Contact the management directly to book a viewing.</p>
-                    <div class="action-buttons">
-                        <a href="#" id="callBtn" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> Call
-                            Agent</a>
-                        <a href="#" id="whatsappBtn" target="_blank" class="btn btn-whatsapp btn-large"><i
-                                class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                        <a href="#" id="facebookBtn" target="_blank" class="btn btn-facebook btn-large"><i
-                                class="fa-brands fa-facebook-f"></i> Facebook</a>
+            <div id="main-content-layout" class="details-main-layout">
+                <div class="left-column">
+                    <div class="gallery-container">
+                        <div class="main-image-wrapper">
+                            <img id="mainImage" class="main-image" alt="Hostel Image" />
+                        </div>
+                        <div class="thumbnails-grid" id="imageGallery"></div>
                     </div>
 
-                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div
-                                style="width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #888;">
-                                <i class="fas fa-user-tie"></i>
+                    <div class="details-grid">
+                        <div class="features-section">
+                            <h3 class="features-title"><i class="fas fa-info-circle"></i> Key Information</h3>
+                            <div class="info-stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Occupancy</span>
+                                        <span class="stat-value" id="hostelOccupancy">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-venus-mars"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Gender</span>
+                                        <span class="stat-value" id="hostelGender">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-road"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Distance</span>
+                                        <span class="stat-value" id="hostelDistance">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Utilities</span>
+                                        <span class="stat-value" id="hostelUtilities">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                        </div>
+
+                        <div class="details-content-section">
+                            <h2><i class="fas fa-align-left"></i> Description</h2>
+                            <p class="description-text" id="hostelDescription">No description available.</p>
+                        </div>
+
+                        <div class="details-content-section">
+                            <h2><i class="fas fa-gavel"></i> Rules</h2>
+                            <p class="description-text" id="hostelRules">No rules specified.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-sidebar">
+                    <div class="contact-card">
+                        <h2 class="contact-title"><i class="fas fa-phone-alt"></i> Book Now</h2>
+                        <div class="contact-price-box">
+                            <div class="price-tag" id="hostelPrice">K0</div>
+                            <div class="price-period">per month</div>
+                        </div>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">Interested
+                            in
+                            this hostel? Contact the management directly to book a viewing.</p>
+                        <div class="action-buttons">
+                            <a href="#" id="callBtn" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> Call
+                                Agent</a>
+                            <a href="#" id="whatsappBtn" target="_blank" class="btn btn-whatsapp btn-large"><i
+                                    class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                            <a href="#" id="facebookBtn" target="_blank" class="btn btn-facebook btn-large"><i
+                                    class="fa-brands fa-facebook-f"></i> Facebook</a>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
                                 <div
-                                    style="font-size: 0.8rem; color: #888; font-weight: 700; text-transform: uppercase;">
-                                    Verified Agent</div>
-                                <div style="font-weight: 700; color: var(--theme-dark);">Nolstan Logic</div>
+                                    style="width: 40px; height: 40px; background: var(--bg-deep); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-muted); border: 1px solid var(--border);">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
+                                        Verified Agent</div>
+                                    <div style="font-weight: 700; color: var(--text-primary);">Nolstan Logic</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <div id="errorState" class="error-state" style="display: none;">
@@ -139,12 +144,15 @@
         </div>
 
         <!-- Lightbox Modal -->
-        <div id="lightbox-modal" class="lightbox">
+        <div id="lightbox-modal" class="lightbox-modal">
             <span class="lightbox-close">&times;</span>
-            <img class="lightbox-content" id="lightbox-image">
-            <a class="lightbox-prev">&#10094;</a>
-            <a class="lightbox-next">&#10095;</a>
+            <img class="lightbox-img" id="lightbox-image">
+            <div class="lightbox-nav">
+                <div class="nav-arrow lightbox-prev"><i class="fas fa-chevron-left"></i></div>
+                <div class="nav-arrow lightbox-next"><i class="fas fa-chevron-right"></i></div>
+            </div>
         </div>
+    </main>
     </main>
 
     <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
@@ -202,12 +210,12 @@
             document.getElementById('hostelUtilities').innerHTML = hostel.utilities ? '<i class="fas fa-check-circle" style="color: green;"></i> Included' : '<i class="fas fa-times-circle" style="color: red;"></i> Not Included';
             document.getElementById('hostelRules').textContent = hostel.rules || 'No rules specified.';
 
-            // Add 'See More' functionality
-            setupCollapsibleText('hostelDescription', 7);
-            setupCollapsibleText('hostelRules', 7);
-
             // Setup the image gallery and lightbox
             setupImageGalleryAndLightbox(hostel.photos);
+
+            // Add 'See More' functionality
+            setupCollapsibleText('hostelDescription', 6);
+            setupCollapsibleText('hostelRules', 6);
         }
 
         async function fetchAgentContacts() {
@@ -361,7 +369,7 @@
             if (isOverflowing) {
                 const seeMoreBtn = document.createElement('button');
                 seeMoreBtn.className = 'see-more-btn';
-                seeMoreBtn.textContent = 'See More';
+                seeMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> See More';
                 seeMoreBtn.style.display = 'inline-block';
 
                 element.parentNode.insertBefore(seeMoreBtn, element.nextSibling);
@@ -370,7 +378,9 @@
                     e.preventDefault();
                     element.classList.toggle('collapsed');
                     const isCollapsed = element.classList.contains('collapsed');
-                    seeMoreBtn.textContent = isCollapsed ? 'See More' : 'See Less';
+                    seeMoreBtn.innerHTML = isCollapsed ?
+                        '<i class="fas fa-chevron-down"></i> See More' :
+                        '<i class="fas fa-chevron-up"></i> See Less';
                 });
             }
         }
