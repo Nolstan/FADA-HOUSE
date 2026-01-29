@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Users</title>
+  <link rel="stylesheet" href="../assets/css/admin-user-page.css">
+</head>
+<body>
+  <h2>All Registered Users <span id="userCount" style="font-weight: normal; font-size: 0.8em; color: #555;"></span></h2>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by name, phone, or email" onkeyup="searchUsers()" />
+  </div>
+
+  <div class="user-list" id="userList"></div>
+
+  <!-- Load global API config -->
+  <script src="../configs/apiConfigs.js"></script>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAndRenderUsers();
+    });
+
+    async function fetchAndRenderUsers(searchTerm = '') {
+      const userList = document.getElementById('userList');
+      userList.innerHTML = '<p>Loading users...</p>';
+
+      try {
+        const params = new URLSearchParams();
+        if (searchTerm) params.append("search", searchTerm);
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/admin/users?${params.toString()}`,
+          { headers: { 'Authorization': `Bearer ${token}` } }
+        );
+
+        if (!response.ok) throw new Error(`Failed to fetch users: ${response.statusText}`);
+
+        const data = await response.json();
+        const users = data.users;
+        userList.innerHTML = '';
+
+        document.getElementById('userCount').textContent = `(${data.totalUserCount || 0} total)`;
+
+        if (users.length === 0) {
+          userList.innerHTML = searchTerm ?
+            '<p>No users found matching your search.</p>' :
+            '<p>No users found.</p>';
+          return;
+        }
+
+        users.forEach(user => {
+          const userDiv = document.createElement('div');
+          userDiv.className = 'user';
+          userDiv.dataset.id = user._id;
+
+          const banButtonClass = user.isBanned ? 'unban-btn' : 'ban-btn';
+          const banButtonText = user.isBanned ? 'Unban' : 'Ban';
+
+          userDiv.innerHTML = `
+            <div class="user-info">
+              <p><strong>Name:</strong> ${user.username}</p>
+              <p><strong>Email:</strong> ${user.email}</p>
+              <p><strong>Phone:</strong> ${user.phone || 'N/A'}</p>
+            </div>
+            <div class="actions">
+              <button class="btn delete-btn" onclick="deleteUser(this)">Delete</button>
+              <button class="btn ${banButtonClass}" onclick="toggleBan(this)">${banButtonText}</button>
+            </div>
+          `;
+          userList.appendChild(userDiv);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        userList.innerHTML = `<p style="color: red;">Error loading users: ${error.message}</p>`;
+      }
+    }
+
+    async function deleteUser(btn) {
+      const userDiv = btn.closest('.user');
+      const userId = userDiv.dataset.id;
+
+      if (confirm('Are you sure you want to permanently DELETE this user?')) {
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/api/admin/users/${userId}`,
+            { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }
+          );
+
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Failed to delete user.');
+          
+          userDiv.remove();
+          alert(data.message);
+        } catch (error) {
+          console.error('Delete error:', error);
+          alert(`Error: ${error.message}`);
+        }
+      }
+    }
+
+    async function toggleBan(btn) {
+      const userDiv = btn.closest('.user');
+      const userId = userDiv.dataset.id;
+      const isBanning = btn.classList.contains('ban-btn');
+
+      const action = isBanning ? 'BAN' : 'UNBAN';
+      if (confirm(`Are you sure you want to ${action} this user?`)) {
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/api/admin/users/${userId}/ban`,
+            { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } }
+          );
+
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Failed to update status.');
+
+          if (isBanning) {
+            btn.textContent = 'Unban';
+            btn.classList.replace('ban-btn', 'unban-btn');
+          } else {
+            btn.textContent = 'Ban';
+            btn.classList.replace('unban-btn', 'ban-btn');
+          }
+          alert(data.message);
+        } catch (error) {
+          console.error('Ban/Unban error:', error);
+          alert(`Error: ${error.message}`);
+        }
+      }
+    }
+
+    function searchUsers() {
+      const searchTerm = document.getElementById('searchInput').value;
+      fetchAndRenderUsers(searchTerm);
+    }
+  </script>
+</body>
+</html>

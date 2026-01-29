@@ -1,0 +1,231 @@
+    /* LUANAR Theme - Dark Green & Light Green */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb url("/public/image/luanar-bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #014421; /* LUANAR dark green */
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 68, 33, 0.15);
+      z-index: -1;
+    }
+
+    /* FIXED HEADER CONTAINER */
+    .header-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* SPLIT HEADER - Dark Green/Light Green */
+    .heading {
+      background: linear-gradient(to right, #014421 50%, #4CAF50 50%);
+      color: #ffffff;
+      padding: 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(1, 68, 33, 0.6);
+    }
+
+    .heading::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #4CAF50 50%, #014421 50%);
+    }
+
+    .heading-container {
+      display: flex;
+      height: 100%;
+    }
+
+    .heading-left {
+      width: 50%;
+      background-color: #014421; /* Dark green */
+      padding: 15px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .heading-right {
+      width: 50%;
+      background-color: #4CAF50; /* Light green */
+      padding: 15px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .heading h1 {
+      margin: 0;
+      font-size: 1.8em;
+      text-align: left;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .heading-right h1 {
+      color: #014421; /* Dark green text on light green */
+    }
+
+    .heading p {
+      margin: 5px 0 0 0;
+      font-size: 1em;
+      text-align: left;
+      color: #c6d8c1; /* Pale green subtext */
+    }
+
+    .heading-right p {
+      color: #014421; /* Dark green text */
+    }
+
+    .heading input[type="search"] {
+      display: block;
+      margin: 10px 0 0 0;
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: 2px solid #014421;
+      width: 100%;
+      max-width: 350px;
+      outline: none;
+      font-size: 0.9em;
+      background: rgba(255, 255, 255, 0.9);
+      color: #014421;
+      transition: all 0.3s ease;
+    }
+
+    /* MAIN CONTENT AREA */
+    .main-content {
+      margin-top: 120px; /* Matches header height */
+      padding: 20px;
+      flex: 1;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+      overflow-y: auto;
+      padding: 25px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      margin: 0 auto;
+      max-width: 1200px;
+      border: 1px solid #c6d8c1; /* Light green border */
+    }
+
+    /* HOSTEL CARDS WITH GREEN BORDERS */
+    .available-rooms {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .available-rooms a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #014421;
+      background: #e6f0e6;
+      border: 2px solid #4CAF50; /* Light green border */
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(1, 68, 33, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .available-rooms a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(1, 68, 33, 0.4);
+      background: #d4e8d4;
+    }
+
+    .available-rooms img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 5px solid #4CAF50; /* Thick light green border (5px) */
+      transition: transform 0.3s ease;
+    }
+
+    .available-rooms a:hover img {
+      transform: scale(1.05);
+    }
+
+    .available-rooms p {
+      text-align: center;
+      margin: 0;
+      font-size: 1.05em;
+      color: #014421;
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+    .footer {
+      background-color: #014421;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      border-top: 3px solid #4CAF50;
+      font-size: 0.9em;
+    }
+
+    .footer a {
+      color: #c6d8c1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 80px) {
+      .heading-container {
+        flex-direction: column;
+      }
+      
+      .heading-left, .heading-right {
+        width: 100%;
+        padding: 15px 20px;
+      }
+      
+      .heading h1 {
+        font-size: 1.5em;
+        text-align: center;
+      }
+      
+      .heading input[type="search"] {
+        margin: 10px auto 0;
+      }
+      
+      .main-content {
+        margin-top: 180px; /* Increased for stacked header */
+      }
+    }
+   .Luanar-logo {
+  width: 80px; 
+  
+  margin-bottom: 10px;
+  border-radius: 5px;
+}

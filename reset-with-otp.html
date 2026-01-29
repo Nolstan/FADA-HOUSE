@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password</title>
+    <link rel="stylesheet" href="assets/css/reg-styles.css">
+    <style>
+        .container { max-width: 450px; }
+        .form-header h1 { font-size: 1.8em; }
+        .form-header p { color: #f0f0f0; margin-top: 10px; line-height: 1.5; }
+        #output {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+            display: none;
+        }
+        #output.success { background-color: #d4edda; color: #155724; }
+        #output.failure { background-color: #f8d7da; color: #721c24; }
+        button:disabled { background-color: #0056b3; cursor: wait; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Enter Reset Code</h1>
+            <p>A 6-digit code was sent to <strong id="user-email-display">your email</strong>. Enter it below to set a new password.</p>
+        </div>
+        
+        <div class="form-body">
+            <form id="reset-password-form">
+                <input type="hidden" id="email" required>
+
+                <div class="form-group">
+                    <label for="otp">Reset Code (OTP)</label>
+                    <input type="text" id="otp" required pattern="\d{6}" maxlength="6" title="Enter the 6-digit code from your email.">
+                </div>
+                <div class="form-group">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" required>
+                </div>
+                
+                <button type="submit" id="submit-btn">Reset Password</button>
+                
+                <div id="output"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="configs/apiConfigs.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resetForm = document.getElementById('reset-password-form');
+            const outputDiv = document.getElementById('output');
+            const submitBtn = document.getElementById('submit-btn');
+            const emailInput = document.getElementById('email');
+            const emailDisplay = document.getElementById('user-email-display');
+
+            // Get email from the URL and populate the form
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailFromUrl = urlParams.get('email');
+
+            if (emailFromUrl) {
+                emailInput.value = emailFromUrl;
+                emailDisplay.textContent = emailFromUrl;
+            } else {
+                outputDiv.textContent = 'Error: No email specified. Please start the process again.';
+                outputDiv.className = 'failure';
+                outputDiv.style.display = 'block';
+                submitBtn.disabled = true;
+            }
+
+            resetForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const email = emailInput.value;
+                const otp = document.getElementById('otp').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    outputDiv.textContent = 'Passwords do not match.';
+                    outputDiv.className = 'failure';
+                    outputDiv.style.display = 'block';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Resetting...';
+
+                let response; // Declare response here to make it accessible in 'finally'
+                try {
+                    // Assign to the outer response variable
+                    response = await fetch(`${API_BASE_URL}/api/password/reset-with-otp`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, otp, password })
+                    });
+                    const data = await response.json();
+
+                    outputDiv.textContent = data.message || data.error || 'An error occurred.';
+                    outputDiv.className = response.ok ? 'success' : 'failure';
+
+                    if (response.ok) {
+                        setTimeout(() => { window.location.href = 'index.html'; }, 2500);
+                    }
+                } catch (error) {
+                    outputDiv.textContent = 'A network error occurred. Please try again.';
+                    outputDiv.className = 'failure';
+                } finally {
+                    outputDiv.style.display = 'block';
+                    // Check if response exists and if it was not successful
+                    if (!response || !response.ok) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Reset Password';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

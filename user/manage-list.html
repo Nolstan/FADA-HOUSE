@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Listings</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: #fafafa;
+      display: flex;
+      gap: 15px;
+    }
+    .card-thumbnail {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .card h3 { margin: 0 0 10px; }
+    .status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .pending { background: #f8d7da; color: #721c24; }
+    .approved { background: #d4edda; color: #155724; }
+    .actions { margin-top: 10px; }
+    button {
+      margin-right: 8px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .edit-btn { background: #3498db; color: #fff; }
+    .delete-btn { background: #e74c3c; color: #fff; }
+    .save-btn { background: #2ecc71; color: #fff; }
+    .cancel-btn { background: #95a5a6; color: #fff; }
+    input, textarea, select {
+      width: 100%;
+      padding: 6px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #searchInput {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    .sticky-header {
+      position: sticky;
+      top: -1px; /* Ensures it sticks right at the top */
+      background: #fff;
+      padding-top: 20px;
+      z-index: 10;
+    }
+    .details-collapsible {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+    .details-collapsible.expanded {
+      display: block;
+    }
+    .see-more-btn {
+      background: none;
+      border: none;
+      color: #3498db;
+      cursor: pointer;
+      padding: 5px 0;
+      font-size: 14px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #3498db;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .nav-links a:hover {
+      background-color: #3498db;
+      color: #fff;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 16px;
+      font-weight: 600;
+      color: #555;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      color: #3498db;
+      border-bottom-color: #3498db;
+    }
+    #status-message {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: none;
+      text-align: center;
+      font-weight: 500;
+    }
+    #status-message.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    #status-message.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    /* --- Responsive Styles for Mobile --- */
+    @media (max-width: 600px) {
+      .card {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center; /* Center the thumbnail */
+        text-align: center; /* Center the text content */
+      }
+    }
+   </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sticky-header">
+      <div class="header-top">
+        <h2>My Listings</h2>
+        <div class="nav-links"> <!-- These links assume front-page.html and upload-nav.html are in the same /user/ directory -->
+          <a href="front-page.html">Go to Home</a>
+          <a href="upload-nav.html">Upload New Listing</a>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('hostels')">My Hostels</button>
+        <button class="tab-btn" onclick="showTab('houses')">My General Houses</button>
+      </div>
+      <input type="search" id="searchInput" placeholder="Search your uploads by location...">
+    </div>
+    <div id="status-message"></div>
+    <div id="hostels-container">Loading hostel uploads...</div>
+    <div id="houses-container" style="display: none;">Loading house uploads...</div>
+  </div>
+
+  <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
+  <script src="../configs/apiConfigs.js"></script>
+ 
+
+  <script>
+    // --- Auth check ---
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId'); // Correct path to root index.html
+    if (!token || !userId) window.location.href = '../index.html';
+
+    const hostelsContainer = document.getElementById('hostels-container');
+    const housesContainer = document.getElementById('houses-container');
+    const statusMessageDiv = document.getElementById('status-message');
+    const searchInput = document.getElementById('searchInput');
+    let hostelUploads = [];
+    let houseUploads = [];
+
+    // --- Fetch user's hostel uploads ---
+    async function fetchHostels() {
+      hostelsContainer.innerHTML = '<p>Loading hostel uploads...</p>';
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/my-uploads/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (res.status === 401) {
+          // Unauthorized → redirect to login
+          localStorage.clear(); // Correct path to root index.html
+          window.location.href = '../index.html';
+        }
+
+        if (!res.ok) throw new Error('Failed to fetch uploads');
+        hostelUploads = await res.json();
+        renderHostels(hostelUploads);
+      } catch (err) {
+        hostelsContainer.innerHTML = `<p style="color:red">${err.message}</p>`;
+      }
+    }
+
+    // --- Fetch user's house uploads ---
+    async function fetchHouses() {
+      housesContainer.innerHTML = '<p>Loading house uploads...</p>';
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/my-uploads/general/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.status === 401) {
+          localStorage.clear(); // Correct path to root index.html
+          window.location.href = '../index.html';
+        }
+        if (!res.ok) throw new Error('Failed to fetch house uploads');
+        houseUploads = await res.json();
+        renderHouses(houseUploads);
+      } catch (err) {
+        housesContainer.innerHTML = `<p style="color:red">${err.message}</p>`;
+      }
+    }
+
+    // --- Render Hostels ---
+    function renderHostels(items) {
+      hostelsContainer.innerHTML = '';
+      if (items.length === 0) {
+        hostelsContainer.innerHTML = searchInput.value ? '<p>No hostels match your search.</p>' : '<p>No hostel uploads yet.</p>';
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.type = 'hostel';
+        card.dataset.id = item._id;
+
+        // --- Securely build the card ---
+        const img = document.createElement('img');
+        img.className = 'card-thumbnail';
+        img.src = item.photos && item.photos.length > 0 ? item.photos[0] : 'https://via.placeholder.com/120x120.png?text=No+Image';
+        img.alt = 'Hostel thumbnail';
+        card.appendChild(img);
+
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+        cardContent.style.flexGrow = '1';
+
+        const viewMode = document.createElement('div');
+        viewMode.className = 'view-mode';
+
+        const locationH3 = document.createElement('h3');
+        locationH3.textContent = item.location;
+        viewMode.appendChild(locationH3);
+
+        const createP = (html) => {
+            const p = document.createElement('p');
+            p.innerHTML = html; // Use innerHTML only for static, trusted HTML
+            return p;
+        };
+
+        viewMode.appendChild(createP(`<b>Rent:</b> K${item.rent}/month`));
+        viewMode.appendChild(createP(`<b>Status:</b> <span class="status ${item.approval ? 'approved' : 'pending'}">${item.approval ? 'Approved' : 'Pending'}</span>`));
+
+        const details = document.createElement('div');
+        details.className = 'details-collapsible';
+        
+        const createDetailP = (label, value) => {
+            const p = document.createElement('p');
+            p.innerHTML = `<b>${label}:</b> `;
+            p.appendChild(document.createTextNode(value)); // Safely append the value as text
+            return p;
+        };
+
+        details.appendChild(createDetailP('Distance', item.distance || 'N/A'));
+        details.appendChild(createDetailP('Occupancy', item.occupancy));
+        details.appendChild(createDetailP('Landlord Phone', item.landlordPhone));
+        details.appendChild(createDetailP('Payment Number', item.paymentNumber));
+        details.appendChild(createDetailP('Type', item.hostelType));
+        details.appendChild(createDetailP('Description', item.description || 'N/A'));
+        details.appendChild(createDetailP('Rules', item.rules || 'N/A'));
+        details.appendChild(createDetailP('Utilities Included', item.utilities ? "Yes" : "No"));
+        viewMode.appendChild(details);
+
+        viewMode.innerHTML += '<button class="see-more-btn">See More</button>';
+        viewMode.innerHTML += '<div class="actions"><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></div>';
+
+        cardContent.appendChild(viewMode);
+        card.appendChild(cardContent);
+
+        hostelsContainer.appendChild(card);
+
+        // --- See More/Less ---
+        const seeMoreBtn = card.querySelector('.see-more-btn');
+        const collapsibleDetails = card.querySelector('.details-collapsible');
+        seeMoreBtn.onclick = () => {
+          collapsibleDetails.classList.toggle('expanded');
+          seeMoreBtn.textContent = collapsibleDetails.classList.contains('expanded') ? 'See Less' : 'See More';
+        };
+
+        // --- Delete ---
+        card.querySelector('.delete-btn').onclick = () => deleteListing(card);
+
+        // --- Edit ---
+        card.querySelector('.edit-btn').onclick = () => enterHostelEditMode(card, item);
+      });
+    }
+
+    // --- Render Houses ---
+    function renderHouses(items) {
+      housesContainer.innerHTML = '';
+      if (items.length === 0) {
+        housesContainer.innerHTML = searchInput.value ? '<p>No houses match your search.</p>' : '<p>No house uploads yet.</p>';
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.type = 'house';
+        card.dataset.id = item._id;
+
+        // --- Securely build the card ---
+        const img = document.createElement('img');
+        img.className = 'card-thumbnail';
+        img.src = item.photos && item.photos.length > 0 ? item.photos[0] : 'https://via.placeholder.com/120x120.png?text=No+Image';
+        img.alt = 'House thumbnail';
+        card.appendChild(img);
+
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+        cardContent.style.flexGrow = '1';
+
+        const viewMode = document.createElement('div');
+        viewMode.className = 'view-mode';
+
+        const locationH3 = document.createElement('h3');
+        locationH3.textContent = `${item.area}, ${item.district}`;
+        viewMode.appendChild(locationH3);
+
+        const createP = (html) => {
+            const p = document.createElement('p');
+            p.innerHTML = html;
+            return p;
+        };
+
+        viewMode.appendChild(createP(`<b>Cost:</b> K${item.cost.toLocaleString()}/month`));
+        viewMode.appendChild(createP(`<b>Status:</b> <span class="status ${item.approval ? 'approved' : 'pending'}">${item.approval ? 'Approved' : 'Pending'}</span>`));
+
+        const details = document.createElement('div');
+        details.className = 'details-collapsible';
+
+        const createDetailP = (label, value) => {
+            const p = document.createElement('p');
+            p.innerHTML = `<b>${label}:</b> `;
+            p.appendChild(document.createTextNode(value));
+            return p;
+        };
+        details.appendChild(createDetailP('Description', item.description || 'N/A'));
+        details.appendChild(createDetailP('Landlord Phone', item.landlordPhone));
+        details.appendChild(createDetailP('Uploader Phone', item.uploaderPhone));
+        viewMode.appendChild(details);
+
+        viewMode.innerHTML += '<button class="see-more-btn">See More</button>';
+        viewMode.innerHTML += '<div class="actions"><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></div>';
+
+        cardContent.appendChild(viewMode);
+        card.appendChild(cardContent);
+        housesContainer.appendChild(card);
+
+        const seeMoreBtn = card.querySelector('.see-more-btn');
+        const collapsibleDetails = card.querySelector('.details-collapsible');
+        seeMoreBtn.onclick = () => {
+          collapsibleDetails.classList.toggle('expanded');
+          seeMoreBtn.textContent = collapsibleDetails.classList.contains('expanded') ? 'See Less' : 'See More';
+        };
+
+        card.querySelector('.delete-btn').onclick = () => deleteListing(card);
+        card.querySelector('.edit-btn').onclick = () => enterHouseEditMode(card, item);
+      });
+    }
+
+    // --- Edit mode for Hostels ---
+    function enterHostelEditMode(card, item) {
+      const cardContent = card.querySelector('.card-content');
+      cardContent.innerHTML = `
+        <div class="edit-mode">
+          <label>Rent</label><input type="number" value="${item.rent}" id="edit-rent" min="0">
+          <label>Location</label><input type="text" value="${item.location}" id="edit-location">
+          <label>Distance</label><input type="text" value="${item.distance}" id="edit-distance">
+          <label>Occupancy</label><input type="number" value="${item.occupancy}" id="edit-occupancy" min="1">
+          <label>Landlord Phone</label><input type="tel" value="${item.landlordPhone}" id="edit-phone" pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+          <label>Payment Number</label><input type="tel" value="${item.paymentNumber}" id="edit-payment" pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+          <label>Hostel Type</label>
+          <select id="edit-type">
+            <option value="male" ${item.hostelType === 'male' ? 'selected' : ''}>Male Only</option>
+            <option value="female" ${item.hostelType === 'female' ? 'selected' : ''}>Female Only</option>
+            <option value="both" ${item.hostelType === 'both' ? 'selected' : ''}>Both Genders</option>
+          </select>
+          <label>Description</label><textarea id="edit-description">${item.description}</textarea>
+          <label>Rules</label><textarea id="edit-rules">${item.rules}</textarea>
+          <label><input type="checkbox" id="edit-utilities" ${item.utilities ? 'checked' : ''}> Utilities Included</label>
+          <div class="actions">
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
+          </div>
+        </div>
+      `;
+
+      cardContent.querySelector('.save-btn').onclick = async () => {
+        const updatedData = {
+          rent: card.querySelector('#edit-rent').value,
+          location: card.querySelector('#edit-location').value,
+          distance: card.querySelector('#edit-distance').value,
+          occupancy: card.querySelector('#edit-occupancy').value,
+          landlordPhone: card.querySelector('#edit-phone').value,
+          paymentNumber: card.querySelector('#edit-payment').value,
+          hostelType: card.querySelector('#edit-type').value,
+          description: card.querySelector('#edit-description').value,
+          rules: card.querySelector('#edit-rules').value,
+          utilities: card.querySelector('#edit-utilities').checked
+        };
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/my-uploads/${item._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedData)
+          });
+
+          if (res.status === 401) {
+            localStorage.clear(); // Correct path to root index.html
+            window.location.href = '../index.html';
+          }
+
+          if (!res.ok) throw new Error('Failed to update hostel');
+          showMessage('Listing updated successfully. It is now pending re-approval.', 'success');
+          const updatedItem = await res.json();
+          const index = hostelUploads.findIndex(u => u._id === updatedItem.hostel._id);
+          if (index !== -1) {
+            hostelUploads[index] = updatedItem.hostel;
+          }
+          searchInput.dispatchEvent(new Event('input'));
+        } catch (err) {
+          showMessage(err.message, 'error');
+        }
+      };
+
+      cardContent.querySelector('.cancel-btn').onclick = () => searchInput.dispatchEvent(new Event('input'));
+    }
+
+    // --- Edit mode for Houses ---
+    function enterHouseEditMode(card, item) {
+      const cardContent = card.querySelector('.card-content');
+      const districts = ["Mzuzu", "Rumphi", "Ekwendeni", "Lilongwe", "Blantyre", "Zomba", "Thyolo"];
+      const districtOptions = districts.map(d => `<option value="${d}" ${item.district === d ? 'selected' : ''}>${d}</option>`).join('');
+
+      cardContent.innerHTML = `
+        <div class="edit-mode">
+          <label>District</label><select id="edit-district">${districtOptions}</select>
+          <label>Area</label><input type="text" value="${item.area}" id="edit-area">
+          <label>Cost</label><input type="number" value="${item.cost}" id="edit-cost" min="0">
+          <label>Description</label><textarea id="edit-description">${item.description}</textarea>
+          <label>Landlord Phone</label><input type="tel" value="${item.landlordPhone}" id="edit-l-phone" pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+          <label>Uploader Phone</label><input type="tel" value="${item.uploaderPhone}" id="edit-u-phone" pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+          <div class="actions">
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
+          </div>
+        </div>
+      `;
+
+      cardContent.querySelector('.save-btn').onclick = async () => {
+        const updatedData = {
+          district: card.querySelector('#edit-district').value,
+          area: card.querySelector('#edit-area').value,
+          cost: card.querySelector('#edit-cost').value,
+          description: card.querySelector('#edit-description').value,
+          landlordPhone: card.querySelector('#edit-l-phone').value,
+          uploaderPhone: card.querySelector('#edit-u-phone').value,
+        };
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/my-uploads/general/${item._id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify(updatedData)
+          });
+          if (!res.ok) throw new Error('Failed to update house');
+          showMessage('Listing updated successfully. It is now pending re-approval.', 'success');
+          const updatedItem = await res.json();
+          const index = houseUploads.findIndex(u => u._id === updatedItem.house._id);
+          if (index !== -1) houseUploads[index] = updatedItem.house;
+          searchInput.dispatchEvent(new Event('input'));
+        } catch (err) {
+          showMessage(err.message, 'error');
+        }
+      };
+
+      cardContent.querySelector('.cancel-btn').onclick = () => searchInput.dispatchEvent(new Event('input'));
+    }
+
+    // --- Generic Delete ---
+    async function deleteListing(card) {
+      const id = card.dataset.id;
+      const type = card.dataset.type;
+      if (!confirm(`Are you sure you want to delete this ${type}?`)) return;
+
+      const url = type === 'hostel' ? `${API_BASE_URL}/api/my-uploads/${id}` : `${API_BASE_URL}/api/my-uploads/general/${id}`;
+
+      try {
+        const res = await fetch(url, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+        if (!res.ok) throw new Error(`Failed to delete ${type}`);
+        showMessage('Listing deleted successfully.', 'success');
+        if (type === 'hostel') {
+          hostelUploads = hostelUploads.filter(u => u._id !== id);
+        } else {
+          houseUploads = houseUploads.filter(u => u._id !== id);
+        }
+        searchInput.dispatchEvent(new Event('input'));
+      } catch (err) {
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // --- Tab Switching ---
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
+
+      if (tabName === 'hostels') {
+        hostelsContainer.style.display = 'block';
+        housesContainer.style.display = 'none';
+        fetchHostels();
+      } else {
+        hostelsContainer.style.display = 'none';
+        housesContainer.style.display = 'block';
+        fetchHouses();
+      }
+      searchInput.value = '';
+    }
+
+    // --- Search functionality ---
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const activeTab = document.querySelector('.tab-btn.active').getAttribute('onclick').includes('hostels') ? 'hostels' : 'houses';
+
+      if (activeTab === 'hostels') {
+        const filtered = hostelUploads.filter(u => u.location.toLowerCase().includes(searchTerm));
+        renderHostels(filtered);
+      } else {
+        const filtered = houseUploads.filter(u => u.area.toLowerCase().includes(searchTerm) || u.district.toLowerCase().includes(searchTerm));
+        renderHouses(filtered);
+      }
+    });
+
+    // --- Show status message ---
+    function showMessage(message, type) {
+      statusMessageDiv.textContent = message;
+      statusMessageDiv.className = type;
+      statusMessageDiv.style.display = 'block';
+      setTimeout(() => {
+        statusMessageDiv.style.display = 'none';
+      }, 4000);
+    }
+
+    // --- Initial Load ---
+    showTab('hostels'); // Start on the hostels tab
+  </script>
+</body>
+</html>

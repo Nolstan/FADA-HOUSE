@@ -1,0 +1,129 @@
+.detailed-page {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Photos on left, details on right */
+  grid-template-rows: auto auto; /* Let rows adapt to content */
+  grid-template-areas: 
+    "pressed-pic details"
+    "all-pics    details";
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 1000px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+/* Main photo */
+.pressed-pic {
+  grid-area: pressed-pic;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+.pressed-pic img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* Thumbnails */
+.all-pics {
+  grid-area: all-pics;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background-color: #E9E4D4;
+}
+.all-pics img {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.all-pics img:hover {
+  transform: scale(1.1);
+}
+
+/* Details section */
+.details-sec {
+  grid-area: details;
+  background-color: #E9E4D4;
+  color: #1A1F71;
+  padding: 20px;
+  overflow-y: auto;
+}
+.details-sec h1 {
+  margin-bottom: 10px;
+}
+.details-sec p {
+  margin-bottom: 8px;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
+}
+.social-icons a {
+  text-decoration: none;
+  font-size: 40px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+.social-icons .whatsapp { color: #25D366; }
+.social-icons .facebook { color: #1877F2; }
+.social-icons .phone { color: #4CAF50; }
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .detailed-page {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "pressed-pic"
+      "all-pics"
+      "details";
+  }
+  .all-pics img {
+    width: 50px;
+    height: 40px;
+  }
+}
+
+/* Fullscreen overlay */
+#image-overlay {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#image-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+}
+#close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+}

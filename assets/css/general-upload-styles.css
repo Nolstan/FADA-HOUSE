@@ -1,0 +1,104 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body and container */
+body {
+  background: #f5f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Heading */
+.container h2 {
+  margin-bottom: 25px;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+/* Form labels */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 20px;
+}
+
+/* Inputs and textarea */
+form input[type="text"],
+form input[type="number"],
+form input[type="tel"],
+form input[type="file"],
+form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.8px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Focus effect */
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="tel"]:focus,
+form input[type="file"]:focus,
+form textarea:focus {
+  border-color: #0077ff;
+  outline: none;
+}
+
+/* Textarea height */
+form textarea {
+  min-height: 100px;
+}
+
+/* Submit button */
+.submit-btn {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #0077ff;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #005bb5;
+}
+
+/* Responsive */
+@media (max-width: 550px) {
+  .container {
+    padding: 20px 25px;
+  }
+  .container h2 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hostel Approvals</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+    .page-header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .page-header h1 { font-size: 1.8rem; color: #333; margin: 0; }
+    .back-link { text-decoration: none; color: #007bff; font-weight: 600; }
+    .container { max-width: 900px; width: 100%; }
+    .filters {
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .filters input, .filters select {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .listing-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .listing-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.12); }
+    .card-thumbnail { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
+    .card-content { padding: 1rem; flex-grow: 1; }
+    .card-content h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+    .card-content p { margin: 0.25rem 0; color: #666; }
+    .actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .actions button {
+      flex: 1;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .approve-btn { background-color: #28a745; color: white; }
+    .approve-btn:hover { background-color: #218838; }
+    .delete-btn { background-color: #dc3545; color: white; }
+    .delete-btn:hover { background-color: #c82333; }
+    .details-btn { background-color: #007bff; color: white; }
+    .details-btn:hover { background-color: #0056b3; }
+    .spinner {
+      border: 5px solid #f3f3f3; border-top: 5px solid #007bff;
+      border-radius: 50%; width: 40px; height: 40px;
+      animation: spin 1s linear infinite; margin: 50px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+    /* Modal Styles */
+    .modal {
+      display: none; position: fixed; z-index: 1001;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background: #fff; border-radius: 8px;
+      width: 90%; max-width: 700px; max-height: 90vh;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: flex; flex-direction: column;
+    }
+    .modal-header { padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { margin: 0; }
+    .modal-close { font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+    .modal-body { padding: 1rem; overflow-y: auto; }
+    .modal-body .form-group { margin-bottom: 1rem; }
+    .modal-body label { display: block; font-weight: 600; margin-bottom: 0.25rem; color: #555; }
+    .modal-body input, .modal-body textarea, .modal-body select {
+        width: 100%;
+        padding: 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    .modal-body textarea { resize: vertical; min-height: 80px; }
+    .modal-footer { padding: 1rem; border-top: 1px solid #eee; text-align: right; background-color: #f9f9f9; }
+    .modal-footer .approve-btn { flex: none; width: auto; padding: 0.7rem 1.5rem; }
+    .gallery {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .gallery img {
+      width: 100px; height: 75px; object-fit: cover; border-radius: 5px;
+      cursor: pointer;
+    }
+    /* Image Viewer Modal Styles */
+    .image-viewer-modal {
+        display: none; position: fixed; z-index: 1002;
+        left: 0; top: 0; width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.85);
+        justify-content: center; align-items: center;
+    }
+    .image-viewer-content { max-width: 90%; max-height: 90%; object-fit: contain; }
+    .image-viewer-close {
+        position: absolute; top: 20px; right: 35px;
+        color: #fff; font-size: 40px; font-weight: bold;
+        cursor: pointer; transition: 0.3s;
+    }
+    .image-viewer-close:hover { color: #bbb; }
+    .checkbox-container { display: flex; align-items: center; gap: 10px; }
+    .checkbox-container input { width: auto; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <h1>Hostel Approvals</h1>
+    <a href="admin-nav-page.html" class="back-link">← Back to Dashboard</a>
+  </div>
+
+  <div class="container">
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search by location..." style="flex: 2;" />
+      <select id="hostelTypeFilter" style="flex: 1;">
+        <option value="">All Types</option>
+        <option value="male">Male Only</option>
+        <option value="female">Female Only</option>
+        <option value="both">Both Genders</option>
+      </select>
+    </div>
+
+    <div id="listingsContainer" class="listings-grid">
+      <!-- Listings will be injected here by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Details Modal -->
+  <div id="detailsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Listing Details</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label for="modalLocation">Location</label><input type="text" id="modalLocation"></div>
+        <div class="form-group"><label for="modalRent">Rent (MWK)</label><input type="number" id="modalRent"></div>
+        <div class="form-group"><label for="modalBookingFee">Booking Fee (MWK)</label><input type="number" id="modalBookingFee"></div>
+        <div class="form-group"><label for="modalOccupancy">Occupancy</label><input type="number" id="modalOccupancy"></div>
+        <div class="form-group"><label for="modalDistance">Distance to Campus</label><input type="text" id="modalDistance"></div>
+        <div class="form-group"><label for="modalLandlordPhone">Landlord Phone</label><input type="tel" id="modalLandlordPhone"></div>
+        <div class="form-group"><label for="modalPaymentNumber">Payment Number</label><input type="tel" id="modalPaymentNumber"></div>
+        <div class="form-group">
+            <label for="modalHostelType">Hostel Type</label>
+            <select id="modalHostelType">
+                <option value="male">Male Only</option>
+                <option value="female">Female Only</option>
+                <option value="both">Both Genders</option>
+            </select>
+        </div>
+        <div class="form-group"><label for="modalDescription">Description</label><textarea id="modalDescription" rows="3"></textarea></div>
+        <div class="form-group"><label for="modalRules">Rules</label><textarea id="modalRules" rows="3"></textarea></div>
+        <div class="form-group checkbox-container">
+            <input type="checkbox" id="modalUtilities">
+            <label for="modalUtilities" style="margin:0; font-weight:normal;">Utilities Included?</label>
+        </div>
+        <div class="gallery" id="modalGallery"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="approve-btn" id="modalApproveBtn">Approve & Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="imageViewerModal" class="image-viewer-modal">
+    <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
+    <img class="image-viewer-content" id="fullImageView">
+  </div>
+  
+
+  <script src="../configs/apiConfigs.js"></script>
+  <script>
+    const listingsContainer = document.getElementById('listingsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const hostelTypeFilter = document.getElementById('hostelTypeFilter');
+    const modal = document.getElementById('detailsModal');
+    const imageViewerModal = document.getElementById('imageViewerModal');
+    let allHostels = [];
+    
+    const token = localStorage.getItem('token');
+
+    async function fetchAndRenderHostels() {
+      listingsContainer.innerHTML = '<div class="spinner"></div>';
+      try {
+        const params = new URLSearchParams({ search: searchInput.value, hostelType: hostelTypeFilter.value });
+        const response = await fetch(`${API_BASE_URL}/api/hostel-approvals?${params.toString()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) window.location.href = '/public/login-reg/login.html';
+            throw new Error('Network response was not ok');
+        }
+        
+        allHostels = await response.json();
+        renderHostels(allHostels);
+      } catch (err) {
+        listingsContainer.innerHTML = `<p class="error-message">Failed to load listings: ${err.message}</p>`;
+      }
+    }
+
+    function renderHostels(hostels) {
+      if (hostels.length === 0) {
+        listingsContainer.innerHTML = '<p>No pending hostels found.</p>';
+        return;
+      }
+      listingsContainer.innerHTML = hostels.map(hostel => {
+        const thumbnailUrl = hostel.photos && hostel.photos.length > 0 ? hostel.photos[0] : 'https://via.placeholder.com/300x180.png?text=No+Image';
+        return `
+        <div class="listing-card" data-id="${hostel._id}">
+          <img src="${thumbnailUrl}" alt="Hostel thumbnail" class="card-thumbnail">
+          <div class="card-content">
+            <h3>${hostel.location}</h3>
+            <p><strong>Rent:</strong> K${hostel.rent.toLocaleString()}</p>
+            <p><strong>Occupancy:</strong> ${hostel.occupancy} per room</p>
+          </div>
+          <div class="actions">
+            <button class="details-btn">Details</button>
+            <button class="delete-btn">Delete</button>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    listingsContainer.addEventListener('click', async (e) => {
+      const card = e.target.closest('.listing-card');
+      if (!card) return;
+      const id = card.dataset.id;
+      if (e.target.classList.contains('details-btn')) openModal(id);
+      if (e.target.classList.contains('delete-btn')) {
+        if (confirm('Are you sure you want to delete this hostel?')) {
+          try {
+            const res = await fetch(`${API_BASE_URL}/api/hostel-approvals/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+            if (!res.ok) throw new Error('Deletion failed');
+            card.remove();
+          } catch (err) { alert(`Error: ${err.message}`); }
+        }
+      }
+    });
+
+    document.getElementById('modalApproveBtn').addEventListener('click', async function() {
+        const id = this.dataset.id;
+        const updatedData = {
+            rent: document.getElementById('modalRent').value,
+            bookingFee: document.getElementById('modalBookingFee').value,
+            location: document.getElementById('modalLocation').value,
+            occupancy: document.getElementById('modalOccupancy').value,
+            distance: document.getElementById('modalDistance').value,
+            landlordPhone: document.getElementById('modalLandlordPhone').value,
+            paymentNumber: document.getElementById('modalPaymentNumber').value,
+            hostelType: document.getElementById('modalHostelType').value,
+            description: document.getElementById('modalDescription').value,
+            rules: document.getElementById('modalRules').value,
+            utilities: document.getElementById('modalUtilities').checked,
+        };
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/hostel-approvals/${id}/approve`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(updatedData)
+            });
+            if (!res.ok) throw new Error('Approval failed');
+            closeModal();
+            document.querySelector(`.listing-card[data-id="${id}"]`).remove();
+        } catch (err) { alert(`Error: ${err.message}`); }
+    });
+
+    function openModal(hostelId) {
+      const hostel = allHostels.find(h => h._id === hostelId);
+      if (!hostel) return;
+      document.getElementById('modalTitle').textContent = `Details for Hostel in ${hostel.location}`;
+      document.getElementById('modalLocation').value = hostel.location;
+      document.getElementById('modalRent').value = hostel.rent;
+      document.getElementById('modalBookingFee').value = hostel.bookingFee;
+      document.getElementById('modalOccupancy').value = hostel.occupancy;
+      document.getElementById('modalDistance').value = hostel.distance;
+      document.getElementById('modalLandlordPhone').value = hostel.landlordPhone;
+      document.getElementById('modalPaymentNumber').value = hostel.paymentNumber;
+      document.getElementById('modalHostelType').value = hostel.hostelType;
+      document.getElementById('modalDescription').value = hostel.description;
+      document.getElementById('modalRules').value = hostel.rules;
+      document.getElementById('modalUtilities').checked = hostel.utilities;
+      document.getElementById('modalApproveBtn').dataset.id = hostelId;
+      const gallery = document.getElementById('modalGallery');
+      gallery.innerHTML = hostel.photos.map(url => `<img src="${url}" alt="Hostel photo" onclick="openImageViewer('${url}')">`).join('');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() { modal.style.display = 'none'; }
+    function openImageViewer(src) { document.getElementById('fullImageView').src = src; imageViewerModal.style.display = 'flex'; }
+    function closeImageViewer() { imageViewerModal.style.display = 'none'; }
+
+    window.onclick = (event) => {
+        if (event.target == modal) closeModal();
+        if (event.target == imageViewerModal) closeImageViewer();
+    };
+
+    searchInput.addEventListener('input', () => setTimeout(fetchAndRenderHostels, 300));
+    hostelTypeFilter.addEventListener('change', fetchAndRenderHostels);
+
+    fetchAndRenderHostels();
+  </script>
+</body>
+</html>

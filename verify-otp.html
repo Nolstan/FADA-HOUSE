@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Account</title>
+    <!-- Reusing existing styles for a consistent look and feel -->
+    <link rel="stylesheet" href="assets/css/reg-styles.css"> 
+    <style>
+        .container {
+            max-width: 450px;
+        }
+        .form-header h1 {
+            font-size: 1.8em;
+        }
+        .form-header p {
+            color: #f0f0f0; /* Lighter text for better contrast on the blue header */
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        #output {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+            display: none; /* Hidden by default */
+        }
+        #output.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        #output.failure {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .resend-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .resend-link a {
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .resend-link a:hover {
+            text-decoration: underline;
+        }
+        /* Style for disabled buttons to show a loading state */
+        button:disabled {
+            background-color: #0056b3;
+            cursor: wait;
+        }
+        .resend-link a.disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Check Your Email</h1>
+            <p>We've sent a 6-digit code to <strong id="user-email-display">your email</strong>. Please enter it below to verify your account.</p>
+        </div>
+        
+        <div class="form-body">
+            <form id="verify-form">
+                <!-- The email is stored here, hidden from the user, but available to the script -->
+                <input type="hidden" id="email" required>
+                
+                <div class="form-group">
+                    <label for="otp">Verification Code (OTP)</label>
+                    <input type="text" id="otp" required pattern="\d{6}" maxlength="6" title="Please enter a 6-digit OTP">
+                </div>
+                
+                <button type="submit" id="verify-btn">Verify Account</button>
+                
+                <div id="output"></div>
+
+                <div class="resend-link">
+                    <p>Didn't receive the code? <a id="resend-otp-link">Resend OTP</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="configs/apiConfigs.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const verifyForm = document.getElementById('verify-form');
+            const emailInput = document.getElementById('email');
+            const otpInput = document.getElementById('otp');
+            const outputDiv = document.getElementById('output');
+            const resendLink = document.getElementById('resend-otp-link');
+            const verifyBtn = document.getElementById('verify-btn');
+            const emailDisplay = document.getElementById('user-email-display');
+
+            // 1. Pre-fill email from URL query parameter for better UX
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailFromUrl = urlParams.get('email');
+            if (emailFromUrl) {
+                emailInput.value = emailFromUrl;
+                emailDisplay.textContent = emailFromUrl; // Display email in the header
+            } else {
+                showOutput('Error: No email provided for verification.', 'failure');
+                verifyBtn.disabled = true;
+                resendLink.classList.add('disabled');
+            }
+
+            // 2. Handle OTP verification form submission
+            verifyForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const email = emailInput.value;
+                const otp = otpInput.value;
+
+                setLoading(true);
+                hideOutput();
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/users/verify-otp`, {
+                    
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, otp })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.error || 'Verification failed.');
+
+                    showOutput(data.message + ' Redirecting to login...', 'success');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 2500);
+
+                } catch (error) {
+                    showOutput(error.message, 'failure');
+                } finally {
+                    setLoading(false);
+                }
+            });
+
+            // 3. Handle "Resend OTP" link click
+            resendLink.addEventListener('click', async (event) => {
+                event.preventDefault(); // This is the crucial fix
+                if (resendLink.classList.contains('disabled')) return;
+
+                const email = emailInput.value;
+                setLoading(true, 'resend'); // Specify that resend is the source of loading
+                hideOutput();
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/users/resend-otp`, {
+                   
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const data = await response.json();
+
+                    if (!response.ok) throw new Error(data.error || 'Failed to resend OTP.');
+
+                    showOutput(data.message, 'success');
+                    startResendCooldown(); // Prevent spamming the resend link
+                } catch (error) {
+                    showOutput(error.message, 'failure');
+                } finally {
+                    setLoading(false, 'resend'); // Specify that resend is done
+                }
+            });
+
+            function showOutput(message, type) {
+                outputDiv.textContent = message;
+                outputDiv.className = type;
+                outputDiv.style.display = 'block';
+            }
+
+            function hideOutput() {
+                outputDiv.style.display = 'none';
+            }
+
+            function setLoading(isLoading, source = 'verify') {
+                verifyBtn.disabled = isLoading;
+                if (source === 'verify') {
+                    verifyBtn.textContent = isLoading ? 'Verifying...' : 'Verify Account';
+                }
+
+                if (!isLoading) {
+                    // Only re-enable the resend link if it's not in a cooldown period.
+                    if (!resendLink.dataset.cooldown) {
+                        resendLink.classList.remove('disabled');
+                    }
+                } else {
+                    // When either action starts, disable both buttons.
+                    resendLink.classList.add('disabled');
+                }
+            }
+
+            function startResendCooldown() {
+                // Use a data attribute to track the cooldown state.
+                resendLink.dataset.cooldown = 'true';
+                let seconds = 60; // Match the server-side cooldown
+                resendLink.classList.add('disabled');
+                resendLink.style.cursor = 'not-allowed';
+                resendLink.innerHTML = `Resend OTP in ${seconds}s`;
+
+                const interval = setInterval(() => {
+                    seconds--;
+                    if (seconds > 0) {
+                        resendLink.innerHTML = `Resend OTP in ${seconds}s`;
+                    } else {
+                        clearInterval(interval);
+                        resendLink.innerHTML = 'Resend OTP';
+                        delete resendLink.dataset.cooldown; // Cooldown is over
+                        resendLink.classList.remove('disabled');
+                        resendLink.style.cursor = 'pointer';
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

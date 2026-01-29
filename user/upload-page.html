@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Room Upload</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    #preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    #preview img {
+      max-width: 120px;
+      max-height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.3);
+    }
+    .preview-item {
+      position: relative;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(255, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    #uploadStatus {
+      position: sticky;
+      top: 10px;
+      z-index: 1001;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #uploadStatus.hidden { display: none; }
+    .status-message { flex-grow: 1; }
+    .close-status-btn { font-size: 24px; font-weight: bold; cursor: pointer; background: none; border: none; padding: 0 10px; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    #progressContainer {
+      width: 100%;
+      background: #f1f1f1;
+      margin: 15px 0;
+      display: none;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #progressBar {
+      height: 25px;
+      background: #4CAF50;
+      width: 0%;
+      text-align: center;
+      color: white;
+      line-height: 25px;
+      transition: width 0.3s;
+    }
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+    .submit-btn:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+    }
+    .checkbox-container input {
+      width: auto;
+      margin-right: 10px;
+    }
+    .manage-link-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #7f8c8d; /* A neutral, secondary color */
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-sizing: border-box; /* Important for anchor tags */
+    }
+    .manage-link-btn:hover {
+      background-color: #95a5a6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hostel Room Booking Form</h2>
+    <div id="uploadStatus" class="hidden">
+      <span class="status-message"></span>
+      <button class="close-status-btn" onclick="this.parentElement.classList.add('hidden')">&times;</button>
+    </div>
+    <form id="hostelForm">
+      <label for="rent">How much is the room per month?</label>
+      <input type="number" id="rent" name="rent" placeholder="e.g., 50000" required min="0">
+      <label for="bookingFee">How much is the booking fee?</label>
+      <input type="number" id="bookingFee" name="bookingFee" placeholder="e.g., 10000 (Cannot be edited later)" required min="0">
+      <label for="location">Where is the hostel located?</label>
+      <input type="text" id="location" name="location" placeholder="e.g., Blatyre,Chichiri / Lilongwe,Area 23 / Zomba,Tchire" required>
+      <label for="distance">Estimated time to reach campus</label>
+      <input type="text" id="distance" name="distance" placeholder="e.g., 5 minutes walk">
+      <label for="occupancy">How many people per room?</label>
+      <input type="number" id="occupancy" name="occupancy" placeholder="e.g., 1" required min="1">
+      <label for="landlordPhone">Landlord's phone number</label>
+      <input type="tel" id="landlordPhone" name="landlordPhone" placeholder="e.g., 0999123456" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+      <label for="paymentNumber">Your number to send payment once booked</label>
+      <input type="tel" id="paymentNumber" name="paymentNumber" placeholder="e.g., 0888123456" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+      <label for="photos">Upload room & surroundings pictures (max 5)</label>
+      <input type="file" id="photos" name="photos" accept="image/*" multiple required>
+      <div id="preview"></div>
+      <label for="hostelType">Hostel Gender type</label>
+      <select id="hostelType" name="hostelType" required>
+        <option value="">Select type</option>
+        <option value="male">Male Only</option>
+        <option value="female">Female Only</option>
+        <option value="both">Both Genders</option>
+      </select>
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="e.g., Self-contained room with a bed and a small kitchen area."></textarea>
+      <label for="rules">Rules</label>
+      <textarea id="rules" name="rules" placeholder="e.g., No smoking, no loud music after 10 PM."></textarea>
+      <div class="checkbox-container">
+        <input type="checkbox" id="utilities" name="utilities">
+        <label for="utilities" style="font-weight: normal;">Water & electricity included?</label>
+      </div>
+      <div id="progressContainer">
+        <div id="progressBar">0%</div>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Booking</button>
+      <!-- Link to Manage Listings -->
+      <a href="manage-list.html" class="manage-link-btn">View My Listings</a>
+    </form>
+  </div>
+
+  <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
+  <script src="../configs/apiConfigs.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('hostelForm');
+      const photosInput = document.getElementById('photos');
+      const preview = document.getElementById('preview');
+      const progressBar = document.getElementById('progressBar');
+      const progressContainer = document.getElementById('progressContainer');
+      const uploadStatus = document.getElementById('uploadStatus');
+      const submitBtn = document.getElementById('submitBtn');
+      let selectedFiles = [];
+
+      // Check authentication
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Redirect to the login page, which is at the root.
+        window.location.href = '../index.html';
+        return;
+      }
+
+      // Handle file selection and preview
+      photosInput.addEventListener('change', function(e) {
+        preview.innerHTML = '';
+        selectedFiles = [];
+        const files = Array.from(e.target.files);
+        if (files.length > 5) {
+          showMessage('You can upload a maximum of 5 photos', 'error');
+          photosInput.value = '';
+          return;
+        }
+        files.forEach((file, index) => {
+          if (!file.type.match('image.*')) {
+            showMessage('Only image files are allowed', 'error');
+            return;
+          }
+          if (file.size > 5 * 1024 * 1024) {
+            showMessage(`File ${file.name} is too large (max 5MB)`, 'error');
+            return;
+          }
+          selectedFiles.push(file);
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Preview ' + (index + 1);
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = function() {
+              previewItem.remove();
+              selectedFiles = selectedFiles.filter(f => f !== file);
+              updateFileInput();
+            };
+            previewItem.appendChild(img);
+            previewItem.appendChild(removeBtn);
+            preview.appendChild(previewItem);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      function updateFileInput() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        photosInput.files = dataTransfer.files;
+      }
+
+      // Form submission
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (selectedFiles.length === 0) {
+          showMessage('Please upload at least one photo', 'error');
+          return;
+        }
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Uploading...';
+        const uploadId = Date.now();
+        progressContainer.style.display = 'block';
+
+        try {
+          const formData = new FormData(form);
+          formData.append('uploadId', uploadId);
+          const response = await fetch(`${API_BASE_URL}/api/hostels/upload-hostel`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          progressBar.style.width = '100%';
+          progressBar.textContent = '100%';
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Upload failed');
+          }
+          const result = await response.json();
+          showMessage('Upload successful! Your listing is now pending approval.', 'success');
+
+          // Reset the form for a new upload
+          form.reset();
+          preview.innerHTML = '';
+          selectedFiles = [];
+          updateFileInput();
+        } catch (error) {
+          showMessage(`Upload failed: ${error.message || 'An unknown error occurred.'}`, 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Booking';
+          setTimeout(() => {
+            progressContainer.style.display = 'none';
+          }, 2000);
+        }
+      });
+
+      function showMessage(message, type) {
+        uploadStatus.innerHTML = message;
+        uploadStatus.className = `status-message ${type}`;
+        uploadStatus.classList.remove('hidden');
+        uploadStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  </script>
+</body>
+</html>

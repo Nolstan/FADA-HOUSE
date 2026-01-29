@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUANAR Hostels</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* LUANAR Theme Colors */
+    :root {
+      --luanar-dark-green: #014421;
+      --luanar-light-green: #4CAF50;
+      --luanar-accent: #3e8e41;
+      --text-dark: #1e293b;
+      --text-light: #ffffff;
+      --card-bg: #ffffff;
+      --background: #f8fafc;
+      --border-radius: 12px;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--background);
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Fixed Header Container */
+    .header-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--luanar-dark-green);
+      box-shadow: 0 4px 12px rgba(1, 68, 33, 0.4);
+      padding: 15px 30px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .Luanar-logo {
+      width: 80px;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-input {
+      display: block;
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: 2px solid var(--luanar-light-green);
+      width: 100%;
+      outline: none;
+      font-size: 1em;
+      background: #ffffff;
+      color: var(--text-dark);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--luanar-dark-green);
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-top: 110px;
+      padding: 20px;
+      flex: 1;
+      background-color: var(--background);
+    }
+
+    .content {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: #f0f9f0;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        border: 1px solid #e2e8f0;
+    }
+    .filter-group {
+        flex: 1;
+        min-width: 150px;
+    }
+    .filter-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    .filter-group select:focus {
+        border-color: var(--luanar-light-green);
+        outline: none;
+    }
+
+    /* Hostel Cards */
+    .available-rooms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .hostel-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--text-dark);
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hostel-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(1, 68, 33, 0.2);
+    }
+
+    .hostel-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--luanar-light-green);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .hostel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .hostel-info {
+      flex: 1;
+      padding: 1.5rem;
+    }
+
+    .hostel-info h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+      color: var(--luanar-dark-green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hostel-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .hostel-details p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+
+    .hostel-details i {
+      color: var(--luanar-light-green);
+      width: 16px;
+    }
+
+    .hostel-price {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--luanar-dark-green);
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--luanar-dark-green);
+      color: var(--text-light);
+      padding: 20px;
+      text-align: center;
+      border-top: 3px solid var(--luanar-light-green);
+      font-size: 0.9em;
+    }
+
+    .footer a {
+      color: #c6d8c1;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: row; /* KEEP this as row for the side-by-side layout */
+        align-items: center;
+        gap: 15px;
+      }
+      
+      .header-container {
+        padding: 10px 15px; /* Reduce padding for a more compact header */
+      }
+      
+      .Luanar-logo {
+        width: 50px; /* Make the logo smaller for mobile */
+      }
+      
+      .search-container {
+        flex: 1; /* Allow the search bar to take up remaining space */
+        max-width: none; /* Remove the max-width constraint on mobile */
+      }
+      
+      .search-input {
+        padding: 8px 15px; /* Reduce search input padding */
+      }
+
+      .main-content {
+        margin-top: 80px; /* Adjust margin-top to match the new, smaller header height */
+      }
+      
+      .available-rooms {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        padding: 20px;
+      }
+      
+      .hostel-card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <div class="header-content">
+      <img src="../assets/image/Luanar logo.jpg" alt="LUANAR Logo" class="Luanar-logo">
+      <div class="search-container">
+        <input id="searchInput" type="text" class="search-input" placeholder="Search for location...">
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="content">
+      <div class="filter-bar">
+        <div class="filter-group">
+            <select id="priceFilter">
+                <option value="">Max Price (Any)</option>
+                <option value="30000">Under K30,000</option>
+                <option value="50000">Under K50,000</option>
+                <option value="75000">Under K75,000</option>
+                <option value="100000">Under K100,000</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="occupancyFilter">
+                <option value="">Occupancy (Any)</option>
+                <option value="1">1 Person</option>
+                <option value="2">2 People</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="genderFilter">
+                <option value="any">Gender (Any)</option>
+                <option value="male">Male Only</option>
+                <option value="female">Female Only</option>
+                <option value="both">Both Genders</option>
+            </select>
+        </div>
+      </div>
+      <div id="hostelsContainer" class="available-rooms">
+        </div>
+      <p id="noResults" style="display:none; text-align:center; margin-top:20px;">
+        No hostels found for this location.
+      </p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+        <span>© 2025 LUANAR</span>
+        <span class="separator">|</span>
+        <span>Nolstan Logic</span>
+        <span class="separator">|</span>
+        <a href="mailto:nolstankumwenda@gamil.com"><i class="fas fa-envelope"></i> Email Us</a>
+        <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
+    </div>
+  </footer>
+
+  <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
+  <script src="../configs/apiConfigs.js"></script>
+
+  <script>
+    const city = 'lilongwe'; 
+    let hostelsData = [];
+
+    const searchInput = document.getElementById('searchInput');
+    const priceFilter = document.getElementById('priceFilter');
+    const occupancyFilter = document.getElementById('occupancyFilter');
+    const genderFilter = document.getElementById('genderFilter');
+
+    async function fetchHostels() {
+      try {
+        const params = new URLSearchParams({
+            search: searchInput.value.trim(),
+            maxPrice: priceFilter.value,
+            occupancy: occupancyFilter.value,
+            genderType: genderFilter.value
+        });
+        const backendURL = `${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`;
+        
+
+        const res = await fetch(backendURL);
+        if (!res.ok) throw new Error('Failed to fetch hostels');
+        const hostels = await res.json();
+        renderHostels(hostels);
+      } catch (error) {
+        document.getElementById('hostelsContainer').innerHTML = `
+          <div style="text-align: center; padding: 2rem; color: #666;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p>Error loading hostels: ${error.message}</p>
+            <button onclick="fetchHostels()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--luanar-light-green); color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function renderHostels(hostels) {
+      const container = document.getElementById('hostelsContainer');
+      const noResults = document.getElementById('noResults');
+      container.innerHTML = '';
+
+      if (hostels.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      } else {
+        noResults.style.display = 'none';
+      }
+
+      hostels.forEach(h => {
+        if (!h.photo) return;
+
+        const card = document.createElement('a');
+        card.className = 'hostel-card';
+        card.href = '#';
+        card.dataset.id = h._id;
+
+        const img = document.createElement('img');
+        img.src = h.photo || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+        img.alt = `Hostel near ${city}`;
+        card.appendChild(img);
+
+        let hostelType = (h.hostelType || "").toLowerCase().trim();
+        let badgeText = '';
+        if (hostelType === 'both' || hostelType === 'female and male' || hostelType === 'male and female') {
+          badgeText = 'Both';
+        } else if (hostelType === 'female') {
+          badgeText = 'Female';
+        } else if (hostelType === 'male') {
+          badgeText = 'Male';
+        }
+
+        if (badgeText) {
+            const badge = document.createElement('span');
+            badge.className = 'hostel-badge';
+            badge.textContent = badgeText;
+            card.appendChild(badge);
+        }
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'hostel-info';
+
+        const locationH3 = document.createElement('h3');
+        locationH3.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
+        locationH3.appendChild(document.createTextNode(h.location || 'N/A'));
+        infoDiv.appendChild(locationH3);
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'hostel-details';
+
+        const occupancyP = document.createElement('p');
+        occupancyP.innerHTML = `<i class="fas fa-users"></i> ${h.occupancy} student${h.occupancy > 1 ? 's' : ''}`;
+        detailsDiv.appendChild(occupancyP);
+
+        const rentP = document.createElement('p');
+        rentP.innerHTML = `<i class="fas fa-tag"></i> K${h.rent.toLocaleString()}/month`;
+        detailsDiv.appendChild(rentP);
+
+        infoDiv.appendChild(detailsDiv);
+        card.appendChild(infoDiv);
+
+        card.addEventListener('click', e => {
+          e.preventDefault();
+          localStorage.setItem('selectedHostelId', card.dataset.id);
+          localStorage.setItem('selectedUniversity', city);
+          window.location.href = 'all-details.html';
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Live filter on search input
+    let searchTimeout;
+    function handleFilterChange() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(fetchHostels, 300);
+    }
+
+    [searchInput, priceFilter, occupancyFilter, genderFilter].forEach(el => el.addEventListener('input', handleFilterChange));
+
+    // Initial fetch
+    fetchHostels();
+  </script>
+</body>
+</html>

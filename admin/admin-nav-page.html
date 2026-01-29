@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/admin-nav.css">
+</head>
+<body>
+
+  <header>
+    <h2>Admin Dashboard</h2>
+  </header>
+
+  <div class="container">
+    <h1>Welcome, <span id="adminUsername">Admin</span>!</h1>
+
+    <div class="nav-grid">
+      <!-- Approve/Reject Listings -->
+      <a href="./upproval-page.html">
+        <div class="nav-card">
+          <h3>Approve Hostels</h3>
+          <p>View and manage pending hostel uploads.</p>
+        </div>
+      </a>
+
+      <!-- Approve General Houses -->
+      <a href="./general-approval-page.html">
+        <div class="nav-card">
+          <h3>Approve  Houses</h3>
+          <p>manage pending general house uploads.</p>
+        </div>
+      </a>
+
+      <!-- Delete Houses/Hostels -->
+      <a href="./delete-house-hostel.html">
+        <div class="nav-card">
+          <h3>Delete Listings</h3>
+          <p>Remove booked outdated houses and hostels.</p>
+        </div>
+      </a>
+
+      <!-- List All Users -->
+      <a href="./users.html">
+        <div class="nav-card">
+          <h3>View All Users</h3>
+          <p>See a list of all registered users and their details.</p>
+        </div>
+      </a>
+
+
+      <!-- Manage Payments -->
+      <a href="./payments.html">
+        <div class="nav-card">
+          <h3>Manage Payments</h3>
+          <!-- <p>Track and manage payments from uploads.</p> -->
+          <p>feature Coming Soon!</p>
+        </div>
+      </a>
+
+
+
+      <!-- Add Admin -->
+      <a href="./add-admin.html">
+        <div class="nav-card">
+          <h3>Add Admin User</h3>
+          <p>Add more admin users</p>
+        </div>
+      </a>
+
+      <!-- Add Superadmin -->
+      <a href="./add-superadmin.html">
+        <div class="nav-card" style="border-color: #dc3545;">
+          <h3>Superadmin User</h3>
+          <p>Create superadmin user.</p>
+        </div>
+      </a>
+
+      <!-- List of Admins -->
+      <a href="./admin-users.html">
+        <div class="nav-card">
+          <h3>Admin Users</h3>
+          <p>Get a full list of admins </p>
+        </div>
+      </a>
+
+      <!-- upload new listing -->
+      <a href="../user/upload-nav.html">
+        <div class="nav-card">
+          <h3>Upload page</h3>
+          <p>Upload new house/hostel</p>
+        </div>
+      </a>
+
+      <!-- A person on duty contact-->
+      <a href="./update-contact.html">
+        <div class="nav-card">
+          <h3>Hostel Agent </h3>
+          <p>Customer Helper receiver</p>
+        </div>
+      </a>
+
+      <!-- General House Agent Contact-->
+      <a href="./update-general-contact.html">
+        <div class="nav-card">
+          <h3>General House Agent</h3>
+          <p>Customer Helper receiver</p>
+        </div>
+      </a>
+            <!-- user front page -->
+      <a href="../user/front-page.html">
+        <div class="nav-card">
+          <h3>User page</h3>
+          <p>visit user page</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  
+  <footer>
+    &copy; 2025 Oto-Nest-House Admin Panel
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+      const username = localStorage.getItem('username');
+
+      // Security check: only admins and superadmins can access this page
+      if (!token || (role !== 'admin' && role !== 'superadmin')) {
+        alert('Access Denied. Please log in as an administrator.');
+        window.location.href = '../../index.html';
+        return;
+      }
+
+      // Update the welcome message dynamically
+      const usernameSpan = document.getElementById('adminUsername');
+      if (username && usernameSpan) {
+        usernameSpan.textContent = username;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Superadmin User</title>
+    <link rel="stylesheet" href="../assets/css/admin-user-page.css"> <!-- Reusing user page styles -->
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #dc3545; /* Red for high-level action */
+            color: white;
+        }
+        #output {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        #output.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        #output.failure {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add New Superadmin User</h2>
+        <p style="margin-bottom: 20px; color: #dc3545; font-weight: bold;">HIGHLY SENSITIVE: Only superadmins can perform this action.</p>
+        <form id="add-superadmin-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="e.g., jane_doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="e.g., jane@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="e.g., 0888123456" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="e.g., Zomba" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Temporary Password</label>
+                <input type="password" id="password" placeholder="Min. 8 characters" required>
+            </div>
+            <button type="submit" class="btn">Create Superadmin</button>
+            <div id="output"></div>
+        </form>
+    </div>
+
+    <script src="../configs/apiConfigs.js"></script>
+    <script>
+        document.getElementById('add-superadmin-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const output = document.getElementById('output');
+            output.textContent = '';
+            output.className = '';
+ 
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const location = document.getElementById('location').value.trim();
+            const password = document.getElementById('password').value;
+            const token = localStorage.getItem('token');
+ 
+            if (!token) {
+                output.textContent = 'Authentication error. Please log in again.';
+                output.className = 'failure';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/admin/users/add-superadmin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username, email, password, phone, location })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'An unknown error occurred.');
+                }
+
+                output.textContent = data.message;
+                output.className = 'success';
+                document.getElementById('add-superadmin-form').reset();
+
+            } catch (error) {
+                output.textContent = error.message;
+                output.className = 'failure';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

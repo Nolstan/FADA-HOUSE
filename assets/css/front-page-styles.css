@@ -1,0 +1,442 @@
+    :root {
+      --primary: #FF6B6B;
+      --primary-light: #FF8E8E;
+      --primary-dark: #E25A5A;
+      --secondary: #4ECDC4;
+      --accent: #FFE66D;
+      --light: #F7F9FC;
+      --dark: #292F36;
+      --text: #3D3D3D;
+      --card-bg: #FFFFFF;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --gradient-hero: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s ease;
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      z-index: 1000;
+      background: transparent;
+    }
+
+    .nav-logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 10px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    .nav-btn.login {
+      color: white;
+      border: 2px solid white;
+    }
+
+    .nav-btn.login:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    .nav-btn.register {
+      background: white;
+      color: var(--primary);
+    }
+
+    .nav-btn.register:hover {
+      background: var(--dark);
+      color: white;
+      border-color: var(--dark);
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 0 20px;
+      background: var(--gradient-hero);
+    }
+
+    .hero-content {
+      max-width: 900px;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .welcome-message {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+      display: none; /* Hidden by default, shown by JS */
+    }
+
+    .hero-tagline {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 400;
+      margin-bottom: 2.5rem;
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 8px;
+      margin: 2rem auto;
+      max-width: 650px;
+      display: flex;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      animation: fadeIn 1s ease-out 0.5s both;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      padding: 18px 24px;
+      border-radius: var(--radius);
+      font-size: 1.1rem;
+      outline: none;
+      background: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-btn {
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 18px 36px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 12px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      background: #1a1e24;
+    }
+
+    /* Universities Section */
+    .universities-section {
+      background: var(--light);
+      padding: 6rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      margin-bottom: 4rem;
+      color: var(--text);
+      opacity: 0.9;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.2rem;
+    }
+
+    .universities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+    }
+
+    .university-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      text-decoration: none;
+    }
+
+    .university-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .university-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .university-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .university-card i {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      transition: var(--transition);
+    }
+
+    .university-card:hover i {
+      transform: scale(1.1);
+    }
+
+    .university-card span {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    /* Landlord Section */
+    .landlord-section {
+      background: linear-gradient(135deg, #FFE66D 0%, #FF9E6D 100%);
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .landlord-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .landlord-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    .landlord-description {
+      margin-bottom: 3rem;
+      font-size: 1.2rem;
+      color: var(--dark);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    #landlord-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--dark);
+      color: white;
+      padding: 20px 45px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-button.secondary-cta {
+      background: var(--card-bg);
+      color: var(--dark);
+      border: 2px solid var(--dark);
+    }
+
+    .cta-button.secondary-cta:hover {
+      background: var(--dark);
+      color: var(--card-bg);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow-hover);
+      background: #1a1e24;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer p {
+      opacity: 0.8;
+      margin-top: 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-section {
+        height: 90vh;
+      }
+      
+      .search-container {
+        flex-direction: column;
+        border-radius: var(--radius);
+        padding: 15px;
+        gap: 15px;
+      }
+      
+      .search-input, .search-btn {
+        border-radius: var(--radius);
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+      }
+      
+      .universities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 25px;
+      }
+      
+      .universities-section, .landlord-section {
+        padding: 4rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .universities-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .university-card {
+        padding: 25px 20px;
+      }
+      
+      .university-card i {
+        font-size: 2.5rem;
+      }
+      
+      .cta-button {
+        padding: 18px 35px;
+        font-size: 1.1rem;
+      }
+    }

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ekwendeni Hostels</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    :root {
+        --primary-color: #00796b; /* deep turquoise */
+        --secondary-color: #ffd54f; /* gold accent */
+        --text-color: #004d4d;
+        --bg-light: #f0fafa;
+        --card-radius: 12px;
+        --card-shadow: 0 6px 12px rgba(0, 77, 77, 0.1);
+        --card-hover-shadow: 0 10px 20px rgba(0, 77, 77, 0.2);
+        --transition: all 0.3s ease;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg-light);
+        color: var(--text-color);
+        min-height: 100vh;
+        display:flex;
+        flex-direction:column;
+    }
+
+    /* Header */
+    .header-container {
+        position: sticky;
+        top: 0;
+        background: var(--primary-color);
+        padding: 1rem 2rem;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .header-container h1 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .search-container {
+        margin-top: 0.5rem;
+        position: relative;
+        max-width: 400px;
+    }
+
+    #searchInput {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border-radius: 50px;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .search-container .fa-search {
+        position: absolute;
+        left: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+    }
+
+    /* Main content */
+    .main-content {
+        flex:1;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+    }
+
+    .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: var(--bg-light);
+        border-radius: var(--card-radius);
+        margin-bottom: 1.5rem;
+        border: 1px solid #e2e8f0;
+    }
+    .filter-group {
+        flex: 1;
+        min-width: 150px;
+    }
+    .filter-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    .filter-group select:focus {
+        border-color: var(--secondary-color);
+        outline: none;
+    }
+
+    .available-rooms {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+        gap: 1.5rem;
+    }
+
+    .hostel-card {
+        background:white;
+        border-radius: var(--card-radius);
+        overflow:hidden;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        text-decoration:none;
+        color: inherit;
+        position:relative;
+    }
+
+    .hostel-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .hostel-image {
+        width:100%;
+        height:180px;
+        object-fit:cover;
+    }
+
+    .hostel-badge {
+        position:absolute;
+        top:0.75rem;
+        right:0.75rem;
+        background: var(--secondary-color);
+        color: #004d4d;
+        padding:0.35rem 0.75rem;
+        border-radius:50px;
+        font-size:0.8rem;
+        font-weight:600;
+    }
+
+    .hostel-info {
+        padding:1rem 1rem 1.5rem 1rem;
+    }
+
+    .hostel-location {
+        font-weight:600;
+        font-size:1.1rem;
+        margin-bottom:0.5rem;
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+        color: var(--primary-color);
+    }
+
+    .hostel-details {
+        display:flex;
+        flex-wrap:wrap;
+        gap:1rem;
+        margin:0.5rem 0;
+    }
+
+    .detail-item {
+        display:flex;
+        align-items:center;
+        gap:0.5rem;
+        font-size:0.9rem;
+    }
+
+    .hostel-price {
+        font-weight:700;
+        font-size:1.2rem;
+        color: var(--text-color);
+    }
+
+    #noResults {
+        text-align:center;
+        padding:2rem;
+        color:#666;
+        display:none;
+    }
+
+    /* Footer */
+    .footer {
+        background: var(--primary-color);
+        color:white;
+        text-align:center;
+        padding:1.5rem;
+        margin-top:2rem;
+    }
+
+    .footer a {
+        color: var(--secondary-color);
+        text-decoration:none;
+    }
+
+    .footer a:hover { text-decoration:underline; }
+
+    /* Responsive */
+    @media(max-width:768px){
+        .available-rooms{ grid-template-columns:1fr; }
+    }
+</style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>Ekwendeni Hostels</h1>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input id="searchInput" type="search" placeholder="Search for location..." />
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title"><i class="fas fa-building"></i> Available Hostels</h2>
+        <div class="filter-bar">
+            <div class="filter-group">
+                <select id="priceFilter">
+                    <option value="">Max Price (Any)</option>
+                    <option value="30000">Under K30,000</option>
+                    <option value="50000">Under K50,000</option>
+                    <option value="75000">Under K75,000</option>
+                    <option value="100000">Under K100,000</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="occupancyFilter">
+                    <option value="">Occupancy (Any)</option>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="genderFilter">
+                    <option value="any">Gender (Any)</option>
+                    <option value="male">Male Only</option>
+                    <option value="female">Female Only</option>
+                    <option value="both">Both Genders</option>
+                </select>
+            </div>
+        </div>
+        <div id="hostelsContainer" class="available-rooms">
+            <div style="text-align:center; padding:2rem;">Loading hostels...</div>
+        </div>
+        <p id="noResults"><i class="fas fa-search"></i><br>No hostels found for this location.</p>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>© 2025 Ekwendeni</span>
+            <span class="separator">|</span>
+            <span>Nolstan Logic</span>
+            <span class="separator">|</span>
+            <a href="mailto:nolstankumwenda@gamil.com"><i class="fas fa-envelope"></i> Email Us</a>
+            <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
+        </div>
+    </footer>
+
+    <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
+    <script src="../configs/apiConfigs.js"></script>
+
+    <script>
+        const city = 'ekwendeni';
+        let hostelsData = [];
+
+        const searchInput = document.getElementById('searchInput');
+        const priceFilter = document.getElementById('priceFilter');
+        const occupancyFilter = document.getElementById('occupancyFilter');
+        const genderFilter = document.getElementById('genderFilter');
+
+        async function fetchHostels(){
+            try{
+                const params = new URLSearchParams({
+                    search: searchInput.value.trim(),
+                    maxPrice: priceFilter.value,
+                    occupancy: occupancyFilter.value,
+                    genderType: genderFilter.value
+                });
+                const backendURL = `${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`;
+                document.getElementById('hostelsContainer').innerHTML = `<div style="text-align:center; padding:2rem;">Loading hostels...</div>`;
+                const res = await fetch(backendURL);
+                if(!res.ok) throw new Error('Failed to fetch hostels');
+                const hostels = await res.json();
+                renderHostels(hostels);
+            }catch(err){
+                document.getElementById('hostelsContainer').innerHTML = `<div style="text-align:center; padding:2rem; color:#666;">
+                    <i class="fas fa-exclamation-triangle" style="font-size:2rem;"></i>
+                    <p>Error loading hostels: ${err.message}</p>
+                    <button onclick="fetchHostels()" style="margin-top:1rem;padding:0.5rem 1rem;background:var(--primary-color);color:white;border:none;border-radius:4px;cursor:pointer;">Try Again</button>
+                </div>`;
+            }
+        }
+
+        function renderHostels(hostels){
+            const container = document.getElementById('hostelsContainer');
+            const noResults = document.getElementById('noResults');
+            if(hostels.length === 0){
+                container.innerHTML='';
+                noResults.style.display='block';
+                return;
+            }
+            noResults.style.display='none';
+
+            hostels.forEach(h => {
+                const card = document.createElement('a');
+                card.className = 'hostel-card';
+                card.href = '#';
+                card.dataset.id = h._id;
+
+                const img = document.createElement('img');
+                img.src = h.photo || '/public/image/default-hostel.jpg';
+                img.alt = 'Hostel in Ekwendeni';
+                img.className = 'hostel-image';
+                card.appendChild(img);
+
+                let hostelType = (h.hostelType||"").toLowerCase().trim();
+                let badgeText = (hostelType==='both'?'Both':hostelType==='female'?'Female':hostelType==='male'?'Male':h.hostelType);
+
+                if (badgeText) {
+                    const badge = document.createElement('span');
+                    badge.className = 'hostel-badge';
+                    badge.textContent = badgeText;
+                    card.appendChild(badge);
+                }
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'hostel-info';
+
+                const locationDiv = document.createElement('div');
+                locationDiv.className = 'hostel-location';
+                locationDiv.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
+                locationDiv.appendChild(document.createTextNode(h.location || 'N/A'));
+                infoDiv.appendChild(locationDiv);
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.className = 'hostel-details';
+                const occupancyItem = document.createElement('div');
+                occupancyItem.className = 'detail-item';
+                occupancyItem.innerHTML = `<i class="fas fa-users"></i>`;
+                occupancyItem.appendChild(document.createTextNode(`${h.occupancy} student${h.occupancy > 1 ? 's' : ''}`));
+                detailsDiv.appendChild(occupancyItem);
+                const genderItem = document.createElement('div');
+                genderItem.className = 'detail-item';
+                genderItem.innerHTML = `<i class="fas fa-venus-mars"></i>`;
+                genderItem.appendChild(document.createTextNode(h.hostelType));
+                detailsDiv.appendChild(genderItem);
+                infoDiv.appendChild(detailsDiv);
+
+                const priceDiv = document.createElement('div');
+                priceDiv.className = 'hostel-price';
+                priceDiv.textContent = `K${h.rent.toLocaleString()}/month`;
+                infoDiv.appendChild(priceDiv);
+
+                card.appendChild(infoDiv);
+
+                card.addEventListener('click', e => {
+                    e.preventDefault();
+                    localStorage.setItem('selectedHostelId', card.dataset.id);
+                    localStorage.setItem('selectedUniversity','ekwendeni');
+                    window.location.href='all-details.html';
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        let searchTimeout;
+        function handleFilterChange() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(fetchHostels, 300);
+        }
+
+        [searchInput, priceFilter, occupancyFilter, genderFilter].forEach(el => el.addEventListener('input', handleFilterChange));
+
+        fetchHostels();
+    </script>
+</body>
+</html>
