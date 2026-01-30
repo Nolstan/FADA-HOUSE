@@ -609,11 +609,6 @@ body.redfin-theme {
     gap: 20px;
 }
 
-.rf-uni-logo {
-    height: 120px;
-    width: 100%;
-    object-fit: cover;
-}
 
 .rf-footer-links a {
     color: #bbb;
