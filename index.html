@@ -39,13 +39,13 @@
     <div class="rf-mosaic-container">
         <div class="rf-mosaic-item rf-main-photo">
             <span class="rf-badge">FEATURED CAMPUS</span>
-            <img src="assets/image/modern_house_exterior_1769785268578.png" alt="Featured University Housing">
+            <img src="Mubas-lib.jpg" alt="Featured University Housing" id="hero-main" class="ken-burns">
         </div>
         <div class="rf-mosaic-item rf-secondary-photo">
-            <img src="assets/image/modern_kitchen_interior_1769785289393.png" alt="Modern Interior">
+            <img src="Luarna.jpg" alt="Modern Interior" id="hero-sec-1" class="ken-burns">
         </div>
         <div class="rf-mosaic-item rf-secondary-photo">
-            <img src="assets/image/modern_backyard_pool_1769785310242.png" alt="Leisure Area">
+            <img src="unima.png" alt="Leisure Area" id="hero-sec-2" class="ken-burns">
         </div>
     </div>
 
@@ -239,6 +239,40 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Dynamic Hero Gallery
+        const heroImages = [
+            'Mubas-lib.jpg',
+            'Luarna.jpg',
+            'unima.png',
+            'Kuhes.png',
+            'Mzuni.jpg',
+            'Magu.png',
+            'Ekwendeni.jpg',
+            'General.jpg'
+        ];
+
+        function changeHeroImage(id, indexOffset) {
+            const img = document.getElementById(id);
+            let currentIndex = 0;
+
+            setInterval(() => {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % heroImages.length;
+                    // Use different offset for each slot
+                    const nextIndex = (currentIndex + indexOffset) % heroImages.length;
+                    img.src = heroImages[nextIndex];
+                    img.style.opacity = '1';
+                }, 1000);
+            }, 5000 + (indexOffset * 1000)); // Stagger the updates
+        }
+
+        if (document.getElementById('hero-main')) {
+            changeHeroImage('hero-main', 0);
+            changeHeroImage('hero-sec-1', 2);
+            changeHeroImage('hero-sec-2', 4);
+        }
     </script>
 </body>
 
