@@ -4,35 +4,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Users</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <title>User Directory - FadaHouse Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+  <style>
+    .rf-admin-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .rf-page-header {
+      margin: 20px 0 40px;
+    }
+
+    .rf-directory-bar {
+      background: white;
+      padding: 20px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .rf-search-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .rf-search-wrap i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--redfin-grey);
+    }
+
+    .rf-admin-input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    .rf-admin-input:focus {
+      border-color: var(--redfin-red);
+      outline: none;
+    }
+
+    /* User List Styling */
+    .rf-user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .rf-user-item {
+      background: white;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .rf-user-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .rf-user-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--redfin-black);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rf-badge {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
+    .rf-badge-active {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .rf-badge-banned {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .rf-user-meta {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: var(--redfin-grey);
+    }
+
+    .rf-user-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rf-user-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .rf-btn-action {
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .rf-btn-ban {
+      background: #fff;
+      border-color: var(--redfin-grey);
+      color: var(--redfin-grey);
+    }
+
+    .rf-btn-ban:hover {
+      border-color: var(--redfin-red);
+      color: var(--redfin-red);
+    }
+
+    .rf-btn-unban {
+      background: #fff;
+      border-color: #2E7D32;
+      color: #2E7D32;
+    }
+
+    .rf-btn-delete {
+      background: var(--redfin-red);
+      color: white;
+    }
+
+    .rf-btn-delete:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .rf-user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .rf-user-meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .rf-user-actions {
+        width: 100%;
+      }
+
+      .rf-btn-action {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 
-<body class="admin-page">
-  <header class="admin-header">
-    <h1>Oto-Nest-House Admin Panel</h1>
-  </header>
+<body class="redfin-theme">
+  <nav class="redfin-nav">
+    <div class="rf-nav-left">
+      <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+          style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
+    </div>
+    <div class="rf-nav-right">
+      <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+    </div>
+  </nav>
 
-  <div class="admin-list-container">
-    <div class="management-header">
-      <h2 class="management-title">All Registered Users <span id="userCount"
-          style="font-weight: normal; font-size: 0.8em; color: #555;"></span></h2>
-      <p class="management-subtitle">Manage all registered users in the system.</p>
+  <div class="rf-admin-container">
+    <div class="rf-page-header">
+      <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">User Directory <span id="userCount"
+          style="font-weight: 400; font-size: 16px; color: var(--redfin-grey); margin-left: 10px;"></span></h1>
+      <p style="color: var(--redfin-grey);">View and manage all registered user accounts on the platform.</p>
     </div>
 
-    <!-- Search Bar -->
-    <div class="admin-search-container">
-      <i class="fas fa-search admin-search-icon"></i>
-      <input type="text" id="searchInput" class="admin-search-input" placeholder="Search by name, phone, or email"
-        onkeyup="searchUsers()" />
+    <div class="rf-directory-bar">
+      <div class="rf-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" class="rf-admin-input" placeholder="Search by name, phone, or email..."
+          onkeyup="searchUsers()" />
+      </div>
     </div>
 
-    <div class="management-list" id="userList"></div>
+    <div id="userList" class="rf-user-list">
+      <!-- Loading state will be here -->
+    </div>
   </div>
 
-  <!-- Load global API config -->
   <script src="../configs/apiConfigs.js"></script>
-
   <script>
     const token = localStorage.getItem('token');
 
@@ -42,18 +224,20 @@
 
     async function fetchAndRenderUsers(searchTerm = '') {
       const userList = document.getElementById('userList');
-      userList.innerHTML = '<p>Loading users...</p>';
+      userList.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="rf-spinner"></div><p style="margin-top: 15px; color: var(--redfin-grey);">Loading users...</p></div>';
 
       try {
         const params = new URLSearchParams();
         if (searchTerm) params.append("search", searchTerm);
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/admin/users?${params.toString()}`,
-          { headers: { 'Authorization': `Bearer ${token}` } }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/admin/users?${params.toString()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
-        if (!response.ok) throw new Error(`Failed to fetch users: ${response.statusText}`);
+        if (!response.ok) {
+          if (response.status === 401 || response.status === 403) window.location.href = '../login.html';
+          throw new Error('Access denied');
+        }
 
         const data = await response.json();
         const users = data.users;
@@ -62,98 +246,79 @@
         document.getElementById('userCount').textContent = `(${data.totalUserCount || 0} total)`;
 
         if (users.length === 0) {
-          userList.innerHTML = searchTerm ?
-            '<p>No users found matching your search.</p>' :
-            '<p>No users found.</p>';
+          userList.innerHTML = `<div style="text-align: center; padding: 60px; color: var(--redfin-grey);">
+                        <i class="fas fa-user-slash" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
+                        <p>${searchTerm ? 'No users found matching your search.' : 'No users registered yet.'}</p>
+                    </div>`;
           return;
         }
 
         users.forEach(user => {
-          const userDiv = document.createElement('div');
-          userDiv.className = 'management-item';
-          userDiv.dataset.id = user._id;
+          const item = document.createElement('div');
+          item.className = 'rf-user-item';
+          item.dataset.id = user._id;
 
-          const banButtonClass = user.isBanned ? 'btn-unban' : 'btn-ban';
-          const banButtonText = user.isBanned ? 'Unban' : 'Ban';
+          const statusBadge = user.isBanned ?
+            '<span class="rf-badge rf-badge-banned">Banned</span>' :
+            '<span class="rf-badge rf-badge-active">Active</span>';
 
-          userDiv.innerHTML = `
-            <div class="item-info">
-              <div class="item-title">${user.username}</div>
-              <div class="item-details">
-                <span><i class="fas fa-envelope"></i> ${user.email}</span>
-                <span><i class="fas fa-phone"></i> ${user.phone || 'N/A'}</span>
-              </div>
-            </div>
-            <div class="item-actions">
-              <button class="action-btn btn-delete" onclick="deleteUser(this)">Delete</button>
-              <button class="action-btn ${banButtonClass}" onclick="toggleBan(this)">${banButtonText}</button>
-            </div>
-          `;
-          userList.appendChild(userDiv);
+          item.innerHTML = `
+                        <div class="rf-user-info">
+                            <h3>${user.username} ${statusBadge}</h3>
+                            <div class="rf-user-meta">
+                                <span><i class="fas fa-envelope"></i> ${user.email}</span>
+                                <span><i class="fas fa-phone"></i> ${user.phone || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="rf-user-actions">
+                            <button class="rf-btn-action rf-btn-delete" onclick="deleteUser('${user._id}')">Delete</button>
+                            ${user.isBanned ?
+              `<button class="rf-btn-action rf-btn-unban" onclick="toggleBan('${user._id}', false)">Unban User</button>` :
+              `<button class="rf-btn-action rf-btn-ban" onclick="toggleBan('${user._id}', true)">Ban User</button>`
+            }
+                        </div>
+                    `;
+          userList.appendChild(item);
         });
       } catch (error) {
-        console.error('Error:', error);
-        userList.innerHTML = `<p style="color: red;">Error loading users: ${error.message}</p>`;
+        userList.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--redfin-red);">Error: ${error.message}</div>`;
       }
     }
 
-    async function deleteUser(btn) {
-      const userDiv = btn.closest('.user');
-      const userId = userDiv.dataset.id;
-
-      if (confirm('Are you sure you want to permanently DELETE this user?')) {
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}/api/admin/users/${userId}`,
-            { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }
-          );
-
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || 'Failed to delete user.');
-
-          userDiv.remove();
-          alert(data.message);
-        } catch (error) {
-          console.error('Delete error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      }
+    async function deleteUser(id) {
+      if (!confirm('Are you sure you want to permanently DELETE this user? This action cannot be undone.')) return;
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Failed to delete user.');
+        document.querySelector(`.rf-user-item[data-id="${id}"]`).remove();
+      } catch (err) { alert(err.message); }
     }
 
-    async function toggleBan(btn) {
-      const userDiv = btn.closest('.user');
-      const userId = userDiv.dataset.id;
-      const isBanning = btn.classList.contains('ban-btn');
-
+    async function toggleBan(id, isBanning) {
       const action = isBanning ? 'BAN' : 'UNBAN';
-      if (confirm(`Are you sure you want to ${action} this user?`)) {
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}/api/admin/users/${userId}/ban`,
-            { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } }
-          );
+      if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}/ban`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Failed to update status.');
 
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || 'Failed to update status.');
-
-          if (isBanning) {
-            btn.textContent = 'Unban';
-            btn.classList.replace('btn-ban', 'btn-unban');
-          } else {
-            btn.textContent = 'Ban';
-            btn.classList.replace('btn-unban', 'btn-ban');
-          }
-          alert(data.message);
-        } catch (error) {
-          console.error('Ban/Unban error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      }
+        // Refresh list to show updated badge/button
+        fetchAndRenderUsers(document.getElementById('searchInput').value);
+        alert(data.message);
+      } catch (err) { alert(err.message); }
     }
 
     function searchUsers() {
       const searchTerm = document.getElementById('searchInput').value;
-      fetchAndRenderUsers(searchTerm);
+      clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(() => fetchAndRenderUsers(searchTerm), 500);
     }
   </script>
 </body>

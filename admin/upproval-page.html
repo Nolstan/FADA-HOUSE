@@ -4,30 +4,298 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hostel Approvals</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <title>Hostel Approvals - FadaHouse Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+  <style>
+    .rf-admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .rf-page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0 30px;
+    }
+
+    .rf-admin-filter-bar {
+      display: flex;
+      gap: 15px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .rf-search-wrap {
+      position: relative;
+      flex: 2;
+    }
+
+    .rf-search-wrap i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--redfin-grey);
+    }
+
+    .rf-admin-input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .rf-admin-select {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* Listing Grid */
+    .rf-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .rf-approval-card {
+      background: white;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .rf-approval-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .rf-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .rf-card-body {
+      padding: 20px;
+    }
+
+    .rf-card-body h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--redfin-black);
+    }
+
+    .rf-card-meta {
+      font-size: 14px;
+      color: var(--redfin-grey);
+      margin-bottom: 15px;
+    }
+
+    .rf-card-meta p {
+      margin-bottom: 5px;
+    }
+
+    .rf-card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .rf-btn-small {
+      flex: 1;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .rf-btn-details {
+      background: #f0f0f0;
+      color: var(--redfin-black);
+    }
+
+    .rf-btn-delete {
+      color: var(--redfin-red);
+      background: #fff;
+      border-color: var(--redfin-red);
+    }
+
+    /* Modal Redesign */
+    .rf-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      display: none;
+      backdrop-filter: blur(4px);
+    }
+
+    .rf-modal.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rf-modal-content {
+      background: white;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 12px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .rf-modal-header {
+      padding: 25px;
+      border-bottom: 1px solid var(--redfin-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+
+    .rf-modal-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .rf-modal-body {
+      padding: 25px;
+    }
+
+    .rf-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .rf-form-group {
+      margin-bottom: 20px;
+    }
+
+    .rf-form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--redfin-grey);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .rf-modal-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    .rf-modal-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .rf-modal-gallery img {
+      width: 100%;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .rf-modal-footer {
+      padding: 20px 25px;
+      border-top: 1px solid var(--redfin-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      position: sticky;
+      bottom: 0;
+      background: white;
+    }
+
+    /* Image Viewer */
+    .rf-viewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rf-viewer img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    @media (max-width: 768px) {
+      .rf-admin-filter-bar {
+        flex-direction: column;
+      }
+
+      .rf-form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
-<body class="admin-page">
-  <header class="admin-header">
-    <h1>Oto-Nest-House Admin Panel</h1>
-  </header>
+<body class="redfin-theme">
+  <nav class="redfin-nav">
+    <div class="rf-nav-left">
+      <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+          style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
+    </div>
+    <div class="rf-nav-right">
+      <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+    </div>
+  </nav>
 
-  <div class="admin-container">
-    <div class="management-header">
-      <h1 class="management-title">Hostel Approvals</h1>
-      <a href="admin-nav-page.html" class="btn btn-outline"
-        style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-      </a>
+  <div class="rf-admin-container">
+    <div class="rf-page-header">
+      <div>
+        <h1 style="font-size: 28px; font-weight: 800;">Hostel Approvals</h1>
+        <p style="color: var(--redfin-grey);">Review and manage pending university hostel listings.</p>
+      </div>
     </div>
 
-    <div class="admin-search-container" style="display: flex; gap: 1rem; align-items: center; max-width: 800px;">
-      <div style="position: relative; flex: 2;">
-        <i class="fas fa-search admin-search-icon"></i>
-        <input type="text" id="searchInput" class="admin-search-input" placeholder="Search by location..." />
+    <div class="rf-admin-filter-bar">
+      <div class="rf-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" class="rf-admin-input" placeholder="Search by location..." />
       </div>
-      <select id="hostelTypeFilter" class="admin-select" style="flex: 1; border-radius: 30px; padding: 12px 20px;">
+      <select id="hostelTypeFilter" class="rf-admin-select">
         <option value="">All Types</option>
         <option value="male">Male Only</option>
         <option value="female">Female Only</option>
@@ -35,70 +303,95 @@
       </select>
     </div>
 
-    <div id="listingsContainer" class="management-grid">
-      <!-- Listings will be injected here by JavaScript -->
+    <div id="listingsContainer" class="rf-admin-grid">
+      <!-- Spinner will be here -->
     </div>
   </div>
 
-  <!-- Details Modal -->
-  <div id="detailsModal" class="admin-modal">
-    <div class="admin-modal-content">
-      <div class="admin-modal-header">
-        <h2 id="modalTitle">Listing Details</h2>
-        <button class="modal-close" onclick="closeModal()"
-          style="background: none; border: none; font-size: 2rem; cursor: pointer;">&times;</button>
+  <!-- Approval Modal -->
+  <div id="detailsModal" class="rf-modal">
+    <div class="rf-modal-content">
+      <div class="rf-modal-header">
+        <h2 id="modalTitle">Hostel Details</h2>
+        <button onclick="closeModal()"
+          style="border:none; background:none; font-size: 28px; cursor:pointer;">&times;</button>
       </div>
-      <div class="admin-modal-body">
-        <div class="admin-form-group"><label for="modalLocation">Location</label><input type="text" id="modalLocation"
-            class="admin-input"></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-          <div class="admin-form-group"><label for="modalRent">Rent (MWK)</label><input type="number" id="modalRent"
-              class="admin-input"></div>
-          <div class="admin-form-group"><label for="modalBookingFee">Booking Fee (MWK)</label><input type="number"
-              id="modalBookingFee" class="admin-input"></div>
+      <div class="rf-modal-body">
+        <div class="rf-form-group">
+          <label>Location</label>
+          <input type="text" id="modalLocation" class="rf-modal-input">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-          <div class="admin-form-group"><label for="modalOccupancy">Occupancy</label><input type="number"
-              id="modalOccupancy" class="admin-input"></div>
-          <div class="admin-form-group"><label for="modalDistance">Distance to Campus</label><input type="text"
-              id="modalDistance" class="admin-input"></div>
+        <div class="rf-form-row">
+          <div class="rf-form-group">
+            <label>Rent (MWK)</label>
+            <input type="number" id="modalRent" class="rf-modal-input">
+          </div>
+          <div class="rf-form-group">
+            <label>Booking Fee (MWK)</label>
+            <input type="number" id="modalBookingFee" class="rf-modal-input">
+          </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-          <div class="admin-form-group"><label for="modalLandlordPhone">Landlord Phone</label><input type="tel"
-              id="modalLandlordPhone" class="admin-input"></div>
-          <div class="admin-form-group"><label for="modalPaymentNumber">Payment Number</label><input type="tel"
-              id="modalPaymentNumber" class="admin-input"></div>
+        <div class="rf-form-row">
+          <div class="rf-form-group">
+            <label>Occupancy</label>
+            <input type="number" id="modalOccupancy" class="rf-modal-input">
+          </div>
+          <div class="rf-form-group">
+            <label>Distance to Campus</label>
+            <input type="text" id="modalDistance" class="rf-modal-input">
+          </div>
         </div>
-        <div class="admin-form-group">
-          <label for="modalHostelType">Hostel Type</label>
-          <select id="modalHostelType" class="admin-select">
+        <div class="rf-form-row">
+          <div class="rf-form-group">
+            <label>Landlord Phone</label>
+            <input type="tel" id="modalLandlordPhone" class="rf-modal-input">
+          </div>
+          <div class="rf-form-group">
+            <label>Payment Number</label>
+            <input type="tel" id="modalPaymentNumber" class="rf-modal-input">
+          </div>
+        </div>
+        <div class="rf-form-group">
+          <label>Hostel Type</label>
+          <select id="modalHostelType" class="rf-modal-input">
             <option value="male">Male Only</option>
             <option value="female">Female Only</option>
             <option value="both">Both Genders</option>
           </select>
         </div>
-        <div class="admin-form-group"><label for="modalDescription">Description</label><textarea id="modalDescription"
-            rows="3" class="admin-textarea"></textarea></div>
-        <div class="admin-form-group"><label for="modalRules">Rules</label><textarea id="modalRules" rows="3"
-            class="admin-textarea"></textarea></div>
-        <div class="admin-form-group" style="display: flex; align-items: center; gap: 10px;">
-          <input type="checkbox" id="modalUtilities" style="width: auto;">
-          <label for="modalUtilities" style="margin: 0;">Utilities Included?</label>
+        <div class="rf-form-group">
+          <label>Description</label>
+          <textarea id="modalDescription" rows="4" class="rf-modal-input" style="resize: vertical;"></textarea>
         </div>
-        <div class="admin-gallery" id="modalGallery"></div>
+        <div class="rf-form-group">
+          <label>Rules</label>
+          <textarea id="modalRules" rows="4" class="rf-modal-input" style="resize: vertical;"></textarea>
+        </div>
+        <div class="rf-form-group" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="modalUtilities" style="width: 18px; height: 18px;">
+          <label for="modalUtilities" style="margin: 0; text-transform: none; color: var(--redfin-black);">Utilities
+            Included</label>
+        </div>
+        <div class="rf-form-group">
+          <label>Photo Gallery</label>
+          <div class="rf-modal-gallery" id="modalGallery"></div>
+        </div>
       </div>
-      <div class="admin-modal-footer">
-        <button class="btn btn-primary" id="modalApproveBtn">Approve & Save Changes</button>
+      <div class="rf-modal-footer">
+        <button onclick="closeModal()" class="rf-btn-small rf-btn-details"
+          style="flex:none; padding: 10px 25px;">Cancel</button>
+        <button id="modalApproveBtn" class="rf-btn-wide" style="flex:none; padding: 10px 30px;">Approve & Save
+          Changes</button>
       </div>
     </div>
   </div>
 
-  <!-- Image Modal -->
-  <div id="imageViewerModal" class="image-viewer-modal">
-    <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
-    <img class="image-viewer-content" id="fullImageView">
+  <!-- Image Viewer -->
+  <div id="imageViewerModal" class="rf-viewer">
+    <span onclick="closeImageViewer()"
+      style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+    <img id="fullImageView" src="">
   </div>
-
 
   <script src="../configs/apiConfigs.js"></script>
   <script>
@@ -112,7 +405,7 @@
     const token = localStorage.getItem('token');
 
     async function fetchAndRenderHostels() {
-      listingsContainer.innerHTML = '<div class="spinner"></div>';
+      listingsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;"><div class="rf-spinner"></div></div>';
       try {
         const params = new URLSearchParams({ search: searchInput.value, hostelType: hostelTypeFilter.value });
         const response = await fetch(`${API_BASE_URL}/api/hostel-approvals?${params.toString()}`, {
@@ -120,59 +413,58 @@
         });
 
         if (!response.ok) {
-          if (response.status === 401 || response.status === 403) window.location.href = '/public/login-reg/login.html';
-          throw new Error('Network response was not ok');
+          if (response.status === 401 || response.status === 403) window.location.href = '../login.html';
+          throw new Error('Access denied');
         }
 
         allHostels = await response.json();
         renderHostels(allHostels);
       } catch (err) {
-        listingsContainer.innerHTML = `<p class="error-message">Failed to load listings: ${err.message}</p>`;
+        listingsContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--redfin-red); padding: 50px;">Failed to load listings: ${err.message}</div>`;
       }
     }
 
     function renderHostels(hostels) {
       if (hostels.length === 0) {
-        listingsContainer.innerHTML = '<p>No pending hostels found.</p>';
+        listingsContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: var(--redfin-grey);">No pending hostels found.</div>';
         return;
       }
-      listingsContainer.innerHTML = hostels.map(hostel => {
-        const thumbnailUrl = hostel.photos && hostel.photos.length > 0 ? hostel.photos[0] : 'https://via.placeholder.com/300x180.png?text=No+Image';
+      listingsContainer.innerHTML = hostels.map(h => {
+        const thumb = h.photos && h.photos.length > 0 ? h.photos[0] : 'https://via.placeholder.com/400x250?text=No+Photo';
         return `
-        <div class="management-card" data-id="${hostel._id}">
-          <img src="${thumbnailUrl}" alt="Hostel thumbnail" class="management-thumb">
-          <div class="management-content">
-            <h3>${hostel.location}</h3>
-            <p><strong>Rent:</strong> K${hostel.rent.toLocaleString()}</p>
-            <p><strong>Occupancy:</strong> ${hostel.occupancy} per room</p>
-            <div class="item-actions" style="margin-top: 1rem;">
-                <button class="action-btn btn-approve details-btn">Details</button>
-                <button class="action-btn btn-delete delete-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-      `}).join('');
+                    <div class="rf-approval-card" data-id="${h._id}">
+                        <img src="${thumb}" class="rf-card-img" alt="Hostel">
+                        <div class="rf-card-body">
+                            <h3>${h.location}</h3>
+                            <div class="rf-card-meta">
+                                <p><strong>Rent:</strong> K${h.rent.toLocaleString()}</p>
+                                <p><strong>Occupancy:</strong> ${h.occupancy} per room</p>
+                            </div>
+                            <div class="rf-card-actions">
+                                <button class="rf-btn-small rf-btn-details" onclick="openModal('${h._id}')">Details</button>
+                                <button class="rf-btn-small rf-btn-delete" onclick="deleteHostel('${h._id}')">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+      }).join('');
     }
 
-    listingsContainer.addEventListener('click', async (e) => {
-      const card = e.target.closest('.listing-card');
-      if (!card) return;
-      const id = card.dataset.id;
-      if (e.target.classList.contains('details-btn')) openModal(id);
-      if (e.target.classList.contains('delete-btn')) {
-        if (confirm('Are you sure you want to delete this hostel?')) {
-          try {
-            const res = await fetch(`${API_BASE_URL}/api/hostel-approvals/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
-            if (!res.ok) throw new Error('Deletion failed');
-            card.remove();
-          } catch (err) { alert(`Error: ${err.message}`); }
-        }
-      }
-    });
+    async function deleteHostel(id) {
+      if (!confirm('Are you sure you want to delete this listing?')) return;
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/hostel-approvals/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Deletion failed');
+        document.querySelector(`.rf-approval-card[data-id="${id}"]`).remove();
+      } catch (err) { alert(err.message); }
+    }
 
-    document.getElementById('modalApproveBtn').addEventListener('click', async function () {
+    document.getElementById('modalApproveBtn').onclick = async function () {
       const id = this.dataset.id;
-      const updatedData = {
+      const data = {
         rent: document.getElementById('modalRent').value,
         bookingFee: document.getElementById('modalBookingFee').value,
         location: document.getElementById('modalLocation').value,
@@ -185,50 +477,52 @@
         rules: document.getElementById('modalRules').value,
         utilities: document.getElementById('modalUtilities').checked,
       };
+
       try {
         const res = await fetch(`${API_BASE_URL}/api/hostel-approvals/${id}/approve`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(updatedData)
+          body: JSON.stringify(data)
         });
         if (!res.ok) throw new Error('Approval failed');
         closeModal();
-        document.querySelector(`.listing-card[data-id="${id}"]`).remove();
-      } catch (err) { alert(`Error: ${err.message}`); }
-    });
+        document.querySelector(`.rf-approval-card[data-id="${id}"]`).remove();
+      } catch (err) { alert(err.message); }
+    };
 
-    function openModal(hostelId) {
-      const hostel = allHostels.find(h => h._id === hostelId);
-      if (!hostel) return;
-      document.getElementById('modalTitle').textContent = `Details for Hostel in ${hostel.location}`;
-      document.getElementById('modalLocation').value = hostel.location;
-      document.getElementById('modalRent').value = hostel.rent;
-      document.getElementById('modalBookingFee').value = hostel.bookingFee;
-      document.getElementById('modalOccupancy').value = hostel.occupancy;
-      document.getElementById('modalDistance').value = hostel.distance;
-      document.getElementById('modalLandlordPhone').value = hostel.landlordPhone;
-      document.getElementById('modalPaymentNumber').value = hostel.paymentNumber;
-      document.getElementById('modalHostelType').value = hostel.hostelType;
-      document.getElementById('modalDescription').value = hostel.description;
-      document.getElementById('modalRules').value = hostel.rules;
-      document.getElementById('modalUtilities').checked = hostel.utilities;
-      document.getElementById('modalApproveBtn').dataset.id = hostelId;
+    function openModal(id) {
+      const h = allHostels.find(x => x._id === id);
+      if (!h) return;
+
+      document.getElementById('modalTitle').textContent = `Approve Hostel in ${h.location}`;
+      document.getElementById('modalLocation').value = h.location;
+      document.getElementById('modalRent').value = h.rent;
+      document.getElementById('modalBookingFee').value = h.bookingFee;
+      document.getElementById('modalOccupancy').value = h.occupancy;
+      document.getElementById('modalDistance').value = h.distance;
+      document.getElementById('modalLandlordPhone').value = h.landlordPhone;
+      document.getElementById('modalPaymentNumber').value = h.paymentNumber;
+      document.getElementById('modalHostelType').value = h.hostelType;
+      document.getElementById('modalDescription').value = h.description;
+      document.getElementById('modalRules').value = h.rules;
+      document.getElementById('modalUtilities').checked = h.utilities;
+      document.getElementById('modalApproveBtn').dataset.id = id;
+
       const gallery = document.getElementById('modalGallery');
-      gallery.innerHTML = hostel.photos.map(url => `<img src="${url}" alt="Hostel photo" onclick="openImageViewer('${url}')">`).join('');
+      gallery.innerHTML = (h.photos || []).map(p => `<img src="${p}" onclick="openViewer('${p}')">`).join('');
+
       modal.classList.add('visible');
     }
 
     function closeModal() { modal.classList.remove('visible'); }
-    function openImageViewer(src) { document.getElementById('fullImageView').src = src; imageViewerModal.style.display = 'flex'; }
+    function openViewer(src) { document.getElementById('fullImageView').src = src; imageViewerModal.style.display = 'flex'; }
     function closeImageViewer() { imageViewerModal.style.display = 'none'; }
 
-    window.onclick = (event) => {
-      if (event.target == modal) closeModal();
-      if (event.target == imageViewerModal) closeImageViewer();
+    searchInput.oninput = () => {
+      clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(fetchAndRenderHostels, 500);
     };
-
-    searchInput.addEventListener('input', () => setTimeout(fetchAndRenderHostels, 300));
-    hostelTypeFilter.addEventListener('change', fetchAndRenderHostels);
+    hostelTypeFilter.onchange = fetchAndRenderHostels;
 
     fetchAndRenderHostels();
   </script>

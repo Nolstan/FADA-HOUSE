@@ -1,5 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +13,8 @@
       width: 100%;
       padding: 12px;
       margin-top: 10px;
-      background-color: #7f8c8d; /* A neutral, secondary color */
+      background-color: #7f8c8d;
+      /* A neutral, secondary color */
       color: white;
       text-align: center;
       text-decoration: none;
@@ -22,11 +24,16 @@
       font-weight: 600;
       cursor: pointer;
       transition: background-color 0.3s;
-      box-sizing: border-box; /* Important for anchor tags */
+      box-sizing: border-box;
+      /* Important for anchor tags */
     }
-    .manage-link-btn:hover { background-color: #95a5a6; }
+
+    .manage-link-btn:hover {
+      background-color: #95a5a6;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2>House Listing Form</h2>
@@ -53,15 +60,18 @@
 
       <!-- Description -->
       <label for="description">Description of the house</label>
-      <textarea id="description" name="description" placeholder="e.g., 3 bedrooms, cars can access, water available, etc." required></textarea>
+      <textarea id="description" name="description"
+        placeholder="e.g., 3 bedrooms, cars can access, water available, etc." required></textarea>
 
       <!-- Landlord Number -->
       <label for="landlordPhone">Landlord’s phone number</label>
-      <input type="tel" id="landlordPhone" name="landlordPhone" placeholder="Enter landlord's number" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)" />
+      <input type="tel" id="landlordPhone" name="landlordPhone" placeholder="Enter landlord's number" required
+        pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)" />
 
       <!-- Uploader Number -->
       <label for="uploaderPhone">Your number (for payment after upload)</label>
-      <input type="tel" id="uploaderPhone" name="uploaderPhone" placeholder="Enter your phone number" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)" />
+      <input type="tel" id="uploaderPhone" name="uploaderPhone" placeholder="Enter your phone number" required
+        pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)" />
 
       <!-- Upload Pictures -->
       <label for="photos">Upload house photos (max 10)</label>
@@ -77,7 +87,8 @@
       <button type="submit" class="submit-btn">Upload House</button>
 
       <!-- Status Message -->
-      <div id="statusMessage" style="display: none; margin-top: 15px; padding: 12px; border-radius: 5px; text-align: center;"></div>
+      <div id="statusMessage"
+        style="display: none; margin-top: 15px; padding: 12px; border-radius: 5px; text-align: center;"></div>
 
       <!-- Link to Manage Listings -->
       <a href="manage-list.html" class="manage-link-btn">View My Listings</a>
@@ -98,9 +109,9 @@
     // Check for authentication token on page load
     const token = localStorage.getItem('token');
     if (!token) { // Redirect to login if not authenticated
-        alert('You must be logged in to upload a listing.'); // Inform the user
-        window.location.href = '../index.html'; // Correct path to root index.html
-    } 
+      alert('You must be logged in to upload a listing.'); // Inform the user
+      window.location.href = '../login.html'; // Correct path to root index.html
+    }
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -117,7 +128,7 @@
         formData.append('uploadId', uploadId);
 
         const response = await fetch(`${API_BASE_URL}/api/general/upload`, {
-        
+
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}` // Add the authentication token here
@@ -154,4 +165,5 @@
     });
   </script>
 </body>
+
 </html>

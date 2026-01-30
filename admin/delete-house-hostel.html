@@ -1,296 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Delete Dashboard</title>
- <link rel="stylesheet" href="../assets/css/adm-del-hou-host.css">
- <style>
-    /* UX and New Feature Styles */
-    .master-filter-bar {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
-      align-items: flex-end; /* Aligns items to the bottom */
+  <title>Listings Cleanup - FadaHouse Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+  <style>
+    .rf-admin-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
     }
-    .master-filter-bar .input-group {
+
+    .rf-tab-nav {
+      display: flex;
+      gap: 20px;
+      border-bottom: 1px solid var(--redfin-border);
+      margin: 30px 0;
+    }
+
+    .rf-tab-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--redfin-grey);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .rf-tab-btn.active {
+      color: var(--redfin-red);
+    }
+
+    .rf-tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--redfin-red);
+    }
+
+    .rf-cleanup-bar {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      background: white;
+      padding: 20px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .rf-input-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--redfin-grey);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .rf-admin-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* Listing Grid */
+    .rf-cleanup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .rf-cleanup-card {
+      background: white;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-    .master-filter-bar .search-group {
-      flex-grow: 1; /* Makes search bar take up remaining space */
+
+    .rf-card-gallery {
+      display: flex;
+      gap: 2px;
+      height: 180px;
+      background: #f0f0f0;
     }
-    .master-filter-bar label {
-      font-size: 0.85em;
+
+    .rf-card-gallery img {
+      flex: 1;
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .rf-card-body {
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .rf-card-body h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .rf-card-meta {
+      font-size: 14px;
+      color: var(--redfin-grey);
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .rf-card-desc {
+      font-size: 13px;
+      line-height: 1.5;
       color: #555;
-      margin-bottom: 4px;
-    }
-    .master-filter-bar input {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-      box-sizing: border-box;
+      margin-bottom: 15px;
     }
 
-    .gallery img {
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-    .description.collapsed {
-      overflow: hidden;
+    .rf-card-desc.collapsed {
       display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 10; /* Limit to 10 lines */
+      overflow: hidden;
     }
-    .see-more-btn {
-      background: none; border: none; color: #007bff;
-      cursor: pointer; padding: 5px 0; font-weight: bold;
+
+    .rf-see-more {
+      color: var(--redfin-red);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: block;
     }
-    .modal {
-      display: none; position: fixed; z-index: 1000;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.8);
-      justify-content: center; align-items: center;
+
+    .rf-btn-delete {
+      width: 100%;
+      padding: 12px;
+      background: white;
+      color: var(--redfin-red);
+      border: 1px solid var(--redfin-red);
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .modal-content { max-width: 90vw; max-height: 90vh; }
-    .close {
-      position: absolute; top: 20px; right: 35px;
-      color: #f1f1f1; font-size: 40px; font-weight: bold;
+
+    .rf-btn-delete:hover {
+      background: var(--redfin-red);
+      color: white;
+    }
+
+    /* Image Modal */
+    .rf-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rf-modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 4px;
+    }
+
+    .rf-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
       cursor: pointer;
     }
-    .spinner {
-      border: 5px solid #f3f3f3; border-top: 5px solid #3498db;
-      border-radius: 50%; width: 40px; height: 40px;
-      animation: spin 1s linear infinite; margin: 20px auto;
+
+    @media (max-width: 768px) {
+      .rf-cleanup-bar {
+        grid-template-columns: 1fr;
+      }
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
-    }
- </style>
+  </style>
 </head>
-<body>
 
-  <div class="dashboard-container">
-    <h2>Admin Delete Dashboard</h2>
+<body class="redfin-theme">
+  <nav class="redfin-nav">
+    <div class="rf-nav-left">
+      <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+          style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
+    </div>
+    <div class="rf-nav-right">
+      <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+    </div>
+  </nav>
 
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab(event, 'houses')">Houses 🏡</button>
-      <button class="tab-btn" onclick="showTab(event, 'hostels')">Hostels 🛏️</button>
+  <div class="rf-admin-container">
+    <div class="rf-page-header">
+      <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">Listings Cleanup</h1>
+      <p style="color: var(--redfin-grey);">Remove booked, expired, or outdated listings from the platform.</p>
     </div>
 
-    <div class="master-filter-bar">
-      <div class="input-group">
-        <label for="occupancy">People per Room</label>
-        <input type="number" id="occupancy" placeholder="e.g., 2" onkeyup="applyFilters()">
+    <div class="rf-tab-nav">
+      <button class="rf-tab-btn active" onclick="showTab(event, 'houses')">General Houses</button>
+      <button class="rf-tab-btn" onclick="showTab(event, 'hostels')">University Hostels</button>
+    </div>
+
+    <div class="rf-cleanup-bar">
+      <div class="rf-input-group">
+        <label>Capacity</label>
+        <input type="number" id="occupancy" class="rf-admin-input" placeholder="e.g., 2" onkeyup="applyFilters()">
       </div>
-      <div class="input-group search-group">
-        <label for="searchInput">Search by Location or Phone</label>
-        <input type="text" id="searchInput" placeholder="e.g., Chitawira or 099..." onkeyup="applyFilters()">
+      <div class="rf-input-group">
+        <label>Search Listing</label>
+        <input type="text" id="searchInput" class="rf-admin-input" placeholder="Search by area, location, or phone..."
+          onkeyup="applyFilters()">
       </div>
     </div>
 
-    <!-- Houses Listing -->
-    <div id="houses" class="tab-content">
-      <!-- House listings will be dynamically loaded here -->
-    </div>
-
-    <!-- Hostels Listing -->
-    <div id="hostels" class="tab-content" style="display:none">
-      <!-- Hostel listings will be dynamically loaded here -->
-    </div>
+    <div id="houses" class="rf-cleanup-grid tab-content"></div>
+    <div id="hostels" class="rf-cleanup-grid tab-content" style="display:none"></div>
   </div>
 
-  <!-- Image Viewer Modal -->
-  <div id="imageModal" class="modal" onclick="closeModal()">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="modalImage">
-    </div>
+  <!-- Image Modal -->
+  <div id="imageModal" class="rf-modal" onclick="closeModal()">
+    <span class="rf-modal-close">&times;</span>
+    <img id="modalImage" src="" />
   </div>
 
   <script src="../configs/apiConfigs.js"></script>
   <script>
     const ADMIN_HOSTEL_API_URL = `${API_BASE_URL}/api/admin/hostels`;
     const ADMIN_HOUSE_API_URL = `${API_BASE_URL}/api/admin/general-houses`;
-    const token = localStorage.getItem('token'); // Assuming you store JWT in localStorage
+    const token = localStorage.getItem('token');
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Set the initial active tab and fetch its data
-      document.querySelector('.tab-btn.active').click();
+      if (!token) window.location.href = '../login.html';
+      fetchAndRenderHouses();
     });
 
     function showTab(event, tabName) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-      document.getElementById(tabName).style.display = 'block';
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabName).style.display = 'grid';
+      document.querySelectorAll('.rf-tab-btn').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
-      // Fetch data for the newly active tab
-      if (tabName === 'hostels') {
-        fetchAndRenderHostels();
-      } else if (tabName === 'houses') {
-        fetchAndRenderHouses();
-      }
+      if (tabName === 'hostels') fetchAndRenderHostels();
+      else fetchAndRenderHouses();
 
-      // Clear all filters on tab switch
       document.getElementById('searchInput').value = '';
       document.getElementById('occupancy').value = '';
     }
 
     async function fetchAndRenderHostels(filters = {}) {
       const container = document.getElementById('hostels');
-      container.innerHTML = '<div class="spinner"></div>'; // Show spinner
+      container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><div class="rf-spinner"></div></div>';
 
       try {
         const params = new URLSearchParams();
         if (filters.search) params.append('search', filters.search);
         if (filters.occupancy) params.append('occupancy', filters.occupancy);
 
-        const queryString = params.toString();
-        const url = queryString ? `${ADMIN_HOSTEL_API_URL}?${queryString}` : ADMIN_HOSTEL_API_URL;
-
-        const response = await fetch(url, {
+        const response = await fetch(`${ADMIN_HOSTEL_API_URL}?${params.toString()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        if (!response.ok) throw new Error('Failed to fetch');
         const hostels = await response.json();
-        container.innerHTML = ''; // Clear loading message
+        container.innerHTML = '';
 
         if (hostels.length === 0) {
-          container.innerHTML = '<p>No hostels found matching your criteria.</p>';
+          container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--redfin-grey);">No hostels found.</p>';
           return;
         }
 
-        hostels.forEach(hostel => {
-          const listingDiv = document.createElement('div');
-          listingDiv.className = 'listing';
-          listingDiv.dataset.id = hostel._id;
-
-          const photosHTML = hostel.photos.map(photo => `<img src="${photo}" alt="Hostel photo" onclick="openModal(event, '${photo}')">`).join('');
-
-          listingDiv.innerHTML = `
-            <h3>${hostel.name}</h3>
-            <p><strong>Location:</strong> ${hostel.location}</p>
-            <p><strong>Price Per Month:</strong> MWK ${hostel.pricePerMonth.toLocaleString()}</p>
-            <p><strong>People Per Room:</strong> ${hostel.peoplePerRoom}</p>
-            <p><strong>Description:</strong></p>
-            <p class="description" id="desc-${hostel._id}">${hostel.description || 'N/A'}</p>
-            <p><strong>Landlord Phone:</strong> ${hostel.landlordPhone}</p>
-            <p><strong>Uploader Phone:</strong> ${hostel.uploaderPhone}</p>
-            <div class="gallery">
-              ${photosHTML}
-            </div>
-            <button class="delete-btn" onclick="deleteListing(event, this)">Delete Listing</button>
-          `;
-          container.appendChild(listingDiv);
-
-          // Add 'See More' functionality for the description
-          setupCollapsibleText(`desc-${hostel._id}`);
-        });
-
-      } catch (error) {
-        console.error('Error:', error);
-        container.innerHTML = `<p style="color: red;">Error loading hostels: ${error.message}</p>`;
-      }
+        hostels.forEach(hostel => renderCard(container, hostel, 'hostel'));
+      } catch (err) { container.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`; }
     }
 
     async function fetchAndRenderHouses(filters = {}) {
       const container = document.getElementById('houses');
-      container.innerHTML = '<div class="spinner"></div>';
+      container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><div class="rf-spinner"></div></div>';
 
       try {
         const params = new URLSearchParams();
         if (filters.search) params.append('search', filters.search);
-        // Occupancy filter is ignored for houses
 
-        const queryString = params.toString();
-        const url = queryString ? `${ADMIN_HOUSE_API_URL}?${queryString}` : ADMIN_HOUSE_API_URL;
-
-        const response = await fetch(url, {
+        const response = await fetch(`${ADMIN_HOUSE_API_URL}?${params.toString()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
+        if (!response.ok) throw new Error('Failed to fetch');
         const houses = await response.json();
         container.innerHTML = '';
 
         if (houses.length === 0) {
-          container.innerHTML = '<p>No houses found matching your criteria.</p>';
+          container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--redfin-grey);">No general houses found.</p>';
           return;
         }
 
-        houses.forEach(house => {
-          const listingDiv = document.createElement('div');
-          listingDiv.className = 'listing';
-          listingDiv.dataset.id = house._id;
-
-          const photosHTML = house.photos.slice(0, 2).map(photo => `<img src="${photo}" alt="House photo" onclick="openModal(event, '${photo}')">`).join('');
-
-          listingDiv.innerHTML = `
-            <h3>House in ${house.area}</h3>
-            <p><strong>District:</strong> ${house.district}</p>
-            <p><strong>Cost:</strong> MWK ${house.cost.toLocaleString()}</p>
-            <p><strong>Description:</strong></p>
-            <p class="description" id="desc-house-${house._id}">${house.description || 'N/A'}</p>
-            <p><strong>Landlord Phone:</strong> ${house.landlordPhone}</p>
-            <p><strong>Uploader Phone:</strong> ${house.uploaderPhone}</p>
-            <div class="gallery">
-              ${photosHTML}
-            </div>
-            <button class="delete-btn" onclick="deleteListing(event, this)">Delete Listing</button>
-          `;
-          container.appendChild(listingDiv);
-          setupCollapsibleText(`desc-house-${house._id}`);
-        });
-      } catch (error) {
-        console.error('Error:', error);
-        container.innerHTML = `<p style="color: red;">Error loading houses: ${error.message}</p>`;
-      }
+        houses.forEach(house => renderCard(container, house, 'house'));
+      } catch (err) { container.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`; }
     }
 
-    async function deleteListing(event, btn) {
-      event.stopPropagation(); // Prevent modal from opening if delete is clicked
-      const listing = btn.closest('.listing');
-      const id = listing.dataset.id;
-      const type = listing.parentElement.id; // 'hostels' or 'houses'
+    function renderCard(container, item, type) {
+      const card = document.createElement('div');
+      card.className = 'rf-cleanup-card';
+      card.dataset.id = item._id;
 
-      if(confirm('Are you sure you want to delete this listing?')) {
-        try {
-          let url;
-          if (type === 'hostels') {
-            url = `${ADMIN_HOSTEL_API_URL}/${id}`;
-          } else if (type === 'houses') {
-            url = `${ADMIN_HOUSE_API_URL}/${id}`;
-          } else {
-            throw new Error('Unknown listing type.');
-          }
+      const photos = item.photos || [];
+      const photoHtml = photos.slice(0, 2).map(p => `<img src="${p}" onclick="openModal('${p}')">`).join('');
 
-          const response = await fetch(url, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
+      const title = type === 'hostel' ? item.name : `House in ${item.area}`;
+      const price = type === 'hostel' ? item.pricePerMonth : item.cost;
+      const location = type === 'hostel' ? item.location : item.district;
 
-          if (!response.ok) {
-            const errData = await response.json();
-            throw new Error(errData.error || 'Failed to delete listing.');
-          }
+      card.innerHTML = `
+                <div class="rf-card-gallery">${photoHtml}</div>
+                <div class="rf-card-body">
+                    <h3>${title}</h3>
+                    <div class="rf-card-meta">
+                        <span><strong>Price:</strong> MWK ${price.toLocaleString()}</span>
+                        <span><strong>Location:</strong> ${location}</span>
+                        <span><strong>Contact:</strong> ${item.landlordPhone}</span>
+                    </div>
+                    <p class="rf-card-desc collapsed" id="desc-${item._id}">${item.description || 'No description provided.'}</p>
+                    <span class="rf-see-more" onclick="toggleDesc('${item._id}')" id="btn-${item._id}">Read More</span>
+                    <button class="rf-btn-delete" onclick="deleteListing('${item._id}', '${type}')">Delete Listing</button>
+                </div>
+            `;
+      container.appendChild(card);
+    }
 
-          listing.remove();
-          alert('Listing deleted successfully.');
-
-        } catch (error) {
-          console.error('Delete error:', error);
-          alert(`Error deleting listing: ${error.message}`);
-        }
-      }
+    async function deleteListing(id, type) {
+      if (!confirm('Are you sure you want to delete this listing?')) return;
+      try {
+        const url = type === 'hostel' ? `${ADMIN_HOSTEL_API_URL}/${id}` : `${ADMIN_HOUSE_API_URL}/${id}`;
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error('Delete failed');
+        document.querySelector(`.rf-cleanup-card[data-id="${id}"]`).remove();
+      } catch (err) { alert(err.message); }
     }
 
     function applyFilters() {
@@ -298,53 +372,28 @@
         search: document.getElementById('searchInput').value,
         occupancy: document.getElementById('occupancy').value
       };
-
-      const activeTab = document.querySelector('.tab-content:not([style*="display: none"])');
-      if (activeTab.id === 'hostels') {
-        fetchAndRenderHostels(filters);
-      } else if (activeTab.id === 'houses') {
-        fetchAndRenderHouses(filters);
-      }
-      // Add else if for houses when implemented
+      const activeTab = document.querySelector('.rf-tab-btn.active').textContent.includes('Hostels') ? 'hostels' : 'houses';
+      if (activeTab === 'hostels') fetchAndRenderHostels(filters);
+      else fetchAndRenderHouses(filters);
     }
 
-    function openModal(event, src) {
-      event.stopPropagation();
+    function toggleDesc(id) {
+      const p = document.getElementById(`desc-${id}`);
+      const btn = document.getElementById(`btn-${id}`);
+      p.classList.toggle('collapsed');
+      btn.textContent = p.classList.contains('collapsed') ? 'Read More' : 'Read Less';
+    }
+
+    function openModal(src) {
       const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      modalImg.src = src;
+      document.getElementById('modalImage').src = src;
       modal.style.display = 'flex';
     }
 
     function closeModal() {
-      const modal = document.getElementById('imageModal');
-      modal.style.display = 'none';
+      document.getElementById('imageModal').style.display = 'none';
     }
-
-    function setupCollapsibleText(elementId) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-
-        // Check if text is long enough to need collapsing
-        const lineCount = element.scrollHeight / parseFloat(getComputedStyle(element).lineHeight);
-        
-        if (lineCount > 10) { // Corresponds to -webkit-line-clamp: 10
-            element.classList.add('collapsed');
-            const seeMoreBtn = document.createElement('button');
-            seeMoreBtn.className = 'see-more-btn';
-            seeMoreBtn.textContent = 'See More';
-            
-            element.parentNode.insertBefore(seeMoreBtn, element.nextSibling);
-
-            seeMoreBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                element.classList.toggle('collapsed');
-                const isCollapsed = element.classList.contains('collapsed');
-                seeMoreBtn.textContent = isCollapsed ? 'See More' : 'See Less';
-            });
-        }
-    }
-
   </script>
 </body>
+
 </html>

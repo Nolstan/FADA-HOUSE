@@ -1,0 +1,521 @@
+/* assets/css/redfin-redesign.css */
+
+:root {
+    --redfin-red: #d92228;
+    --redfin-red-hover: #b81d22;
+    --redfin-grey: #666;
+    --redfin-light-grey: #f0f0f0;
+    --redfin-border: #e0e0e0;
+    --redfin-black: #333;
+}
+
+body.redfin-theme {
+    background-color: #fff;
+    color: var(--redfin-black);
+    font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Header & Search */
+.redfin-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--redfin-border);
+    padding: 0.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 64px;
+}
+
+.rf-logo {
+    color: var(--redfin-red);
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-decoration: none;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rf-search-bar {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--redfin-border);
+    border-radius: 4px;
+    padding: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.rf-search-input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.rf-search-btn {
+    background: var(--redfin-red);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.rf-search-btn:hover {
+    background: var(--redfin-red-hover);
+}
+
+.rf-nav-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.rf-nav-link {
+    text-decoration: none;
+    color: var(--redfin-black);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.rf-btn-signin {
+    border: 1px solid var(--redfin-black);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+/* Photo Mosaic Mosaic */
+.rf-mosaic-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 250px 250px;
+    gap: 10px;
+}
+
+.rf-mosaic-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.rf-mosaic-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.rf-mosaic-item:hover img {
+    transform: scale(1.02);
+}
+
+.rf-main-photo {
+    grid-row: span 2;
+}
+
+.rf-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--redfin-red);
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+/* Summary Bar */
+.rf-summary-bar {
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 1rem;
+}
+
+.rf-price-info h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.rf-price-info p {
+    color: var(--redfin-grey);
+    font-size: 0.9rem;
+}
+
+.rf-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.rf-stat-item {
+    text-align: center;
+}
+
+.rf-stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.rf-stat-label {
+    font-size: 0.8rem;
+    color: var(--redfin-grey);
+    text-transform: uppercase;
+}
+
+/* Main Grid Layout */
+.rf-main-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    padding: 2rem 1rem;
+}
+
+.rf-section-title {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--redfin-black);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.rf-uni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.rf-uni-card {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--redfin-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.rf-uni-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rf-uni-icon {
+    height: 120px;
+    background: var(--redfin-light-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--redfin-red);
+}
+
+.rf-uni-content {
+    padding: 1rem;
+    text-align: center;
+}
+
+.rf-uni-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Sidebar thinking card */
+.rf-thinking-card {
+    background: var(--redfin-light-grey);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.rf-thinking-card h3 {
+    margin-top: 0;
+}
+
+.rf-btn-wide {
+    display: block;
+    width: 100%;
+    background: var(--redfin-red);
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .rf-mosaic-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .rf-main-photo {
+        grid-row: span 1;
+        height: 300px;
+    }
+
+    .rf-secondary-photo {
+        display: none;
+    }
+
+    .rf-main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .rf-nav {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+    }
+}
+/* University Pages Specific Styles */
+.rf-uni-container {
+    padding-top: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.rf-uni-hero {
+    padding: 30px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rf-uni-logo {
+    height: 60px;
+    width: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.rf-uni-title h1 {
+    font-size: 28px;
+    color: var(--redfin-black);
+    margin: 0;
+}
+
+.rf-uni-title p {
+    color: #666;
+    margin: 4px 0 0;
+    font-size: 14px;
+}
+
+/* Filter Bar */
+.rf-filter-bar {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+}
+
+.rf-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rf-filter-group label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rf-filter-select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    min-width: 150px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.rf-filter-search {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.rf-filter-search i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.rf-filter-search input {
+    width: 100%;
+    padding: 10px 12px 10px 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+/* Grid Layout */
+.rf-hostel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+/* Redfin Style Hostel Card */
+.rf-hostel-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+}
+
+.rf-hostel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.rf-hostel-img-wrap {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rf-hostel-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.rf-hostel-card:hover .rf-hostel-img-wrap img {
+    transform: scale(1.05);
+}
+
+.rf-hostel-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--redfin-black);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-transform: uppercase;
+}`n.rf-hostel-content {
+    padding: 16px;
+    flex: 1;
+}
+
+.rf-hostel-price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--redfin-black);
+    margin-bottom: 4px;
+}
+
+.rf-hostel-meta {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.rf-hostel-meta span i {
+    margin-right: 4px;
+    color: #999;
+}
+
+.rf-hostel-loc {
+    font-size: 14px;
+    color: var(--redfin-black);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}`n
+.rf-hostel-loc i {
+    color: var(--redfin-red);
+}`n
+.rf-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: #888;
+    background: #f9f9f9;
+    border-radius: 12px;
+}`n
+.rf-no-results i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #ddd;
+    display: block;
+}`n
+/* Shared Footer for University Pages */
+.rf-uni-footer {
+    background: var(--redfin-black);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 60px;
+}`n
+.rf-footer-links {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}`n
+.rf-footer-links a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+}`n
+.rf-footer-links a:hover {
+    color: white;
+}`n
+.rf-footer-copy {
+    font-size: 12px;
+    color: #777;
+}

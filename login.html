@@ -4,74 +4,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FadaHouse</title>
+    <title>FadaHouse - Sign In</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/redfin-redesign.css">
+    <style>
+        body {
+            background-color: var(--rf-bg-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Slider */
+        .rf-bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .rf-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: rf-slideshow 15s linear infinite;
+        }
+
+        .rf-bg-slide:nth-child(1) {
+            background-image: url('assets/image/modern_house_exterior_1769785268578.png');
+            animation-delay: 0s;
+        }
+
+        .rf-bg-slide:nth-child(2) {
+            background-image: url('assets/image/modern_kitchen_interior_1769785289393.png');
+            animation-delay: 5s;
+        }
+
+        .rf-bg-slide:nth-child(3) {
+            background-image: url('assets/image/modern_backyard_pool_1769785310242.png');
+            animation-delay: 10s;
+        }
+
+        @keyframes rf-slideshow {
+            0% {
+                opacity: 0;
+                transform: scale(1);
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            33% {
+                opacity: 1;
+            }
+
+            38% {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .rf-login-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            /* Overlay for better readability */
+        }
+
+        .rf-login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .redfin-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        .rf-login-card h1 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: var(--redfin-black);
+            text-align: center;
+        }
+
+        .rf-form-group {
+            margin-bottom: 20px;
+        }
+
+        .rf-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .rf-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        .rf-input:focus {
+            outline: none;
+            border-color: var(--redfin-red);
+        }
+
+        .rf-btn-submit {
+            width: 100%;
+            background-color: var(--redfin-red);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .rf-btn-submit:hover {
+            background-color: var(--rf-red-hover);
+        }
+
+        .rf-auth-links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .rf-auth-links a {
+            color: var(--redfin-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .rf-error-msg {
+            color: var(--redfin-red);
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+        }
+    </style>
 </head>
 
-<body class="auth-page">
-    <div class="login-container">
-        <section class="login-section">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="logo-text">FadaHouse</div>
-            </div>
+<body>
+    <!-- Background Slider -->
+    <div class="rf-bg-slider">
+        <div class="rf-bg-slide"></div>
+        <div class="rf-bg-slide"></div>
+        <div class="rf-bg-slide"></div>
+    </div>
 
-            <div class="welcome-text">
-                <h1>Login Here</h1>
-            </div>
+    <!-- Shared Top Nav -->
+    <nav class="redfin-nav">
+        <div class="rf-nav-left">
+            <a href="index.html" class="rf-logo">FADAHOUSE</a>
+        </div>
+        <div class="rf-nav-right">
+            <a href="index.html" class="rf-nav-link">Home</a>
+            <a href="register-user.html" class="rf-nav-link">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="rf-login-wrapper">
+        <div class="rf-login-card">
+            <h1>Sign In</h1>
+
+            <div id="error" class="rf-error-msg"></div>
 
             <form id="login-form">
-                <div class="form-group">
+                <div class="rf-form-group">
                     <label for="username">Username</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" placeholder="Enter your username" required>
-                    </div>
+                    <input type="text" id="username" class="rf-input" placeholder="Enter your username" required>
                 </div>
 
-                <div class="form-group">
+                <div class="rf-form-group">
                     <label for="password">Password</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                    </div>
+                    <input type="password" id="password" class="rf-input" placeholder="Enter your password" required>
                 </div>
 
-                <div class="error" id="error"></div>
-
-                <div class="options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                <div class="rf-form-group"
+                    style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                    <label style="font-weight: normal; margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="remember"> Remember me
+                    </label>
+                    <a href="forgot-password.html" style="color: var(--redfin-red); text-decoration: none;">Forgot
+                        password?</a>
                 </div>
 
-                <button type="submit" id="login-btn" class="login-btn">Login</button>
+                <button type="submit" id="login-btn" class="rf-btn-submit">Sign In</button>
 
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-
-                <div class="signup-link">
-                    Don't have an account? <a href="register-user.html">Sign up</a>
+                <div class="rf-auth-links">
+                    Don't have an account? <a href="register-user.html">Join FadaHouse</a>
                 </div>
             </form>
-        </section>
-
-        <section class="profile-section">
-            <div class="profile-content">
-                <div class="profile-image">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
+
     <script src="configs/apiConfigs.js"></script>
     <script src="assets/javascript/login.js"></script>
+    <script>
+        // Adjust error visibility if it has content
+        const errorDiv = document.getElementById('error');
+        const observer = new MutationObserver(() => {
+            errorDiv.style.display = errorDiv.innerText.trim() ? 'block' : 'none';
+        });
+        observer.observe(errorDiv, { childList: true, characterData: true, subtree: true });
+    </script>
 </body>
 
 </html>

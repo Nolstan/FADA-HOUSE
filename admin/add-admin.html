@@ -1,78 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Admin User</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Admin - FadaHouse Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+    <style>
+        .rf-admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .rf-form-card {
+            background: white;
+            padding: 40px;
+            border: 1px solid var(--redfin-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .rf-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .rf-form-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .rf-form-header p {
+            color: var(--redfin-grey);
+            font-size: 14px;
+        }
+
+        .rf-field-group {
+            margin-bottom: 20px;
+        }
+
+        .rf-field-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--redfin-grey);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .rf-admin-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--redfin-border);
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+
+        .rf-admin-input:focus {
+            border-color: var(--redfin-red);
+            outline: none;
+        }
+
+        .rf-btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--redfin-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .rf-btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        .rf-back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: var(--redfin-grey);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .rf-back-link:hover {
+            color: var(--redfin-black);
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+    </style>
 </head>
-<body class="admin-page">
-    <header class="admin-header">
-        <h1>Oto-Nest-House Admin Panel</h1>
-    </header>
 
-    <div class="admin-container" style="max-width: 600px;">
-        <div class="management-header">
-            <h1 class="management-title">Add New Admin</h1>
-            <p class="management-subtitle">Only superadmins can create new administrative accounts.</p>
+<body class="redfin-theme">
+    <nav class="redfin-nav">
+        <div class="rf-nav-left">
+            <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+                    style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
         </div>
+        <div class="rf-nav-right">
+            <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        </div>
+    </nav>
 
-        <div class="admin-list-container" style="margin-top: 0;">
-            <form id="add-admin-form">
-                <div class="admin-form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="admin-input" placeholder="e.g., john_doe" required>
-                </div>
-                <div class="admin-form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" class="admin-input" placeholder="e.g., john@example.com" required>
-                </div>
-                <div class="admin-form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" class="admin-input" placeholder="e.g., 0999123456" required>
-                </div>
-                <div class="admin-form-group">
-                    <label for="location">Location</label>
-                    <input type="text" id="location" class="admin-input" placeholder="e.g., Blantyre" required>
-                </div>
-                <div class="admin-form-group">
-                    <label for="password">Temporary Password</label>
-                    <input type="password" id="password" class="admin-input" placeholder="Min. 8 characters" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Admin Account</button>
-                <div id="output" style="margin-top: 1.5rem; text-align: center; border-radius: 8px; padding: 12px; display: none;"></div>
-            </form>
-            <div style="margin-top: 2rem; text-align: center;">
-                <a href="admin-nav-page.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    <div class="rf-admin-container">
+        <div class="rf-form-card">
+            <div class="rf-form-header">
+                <h2>Add New Admin</h2>
+                <p>Create a standard administrative account for staff members.</p>
             </div>
+
+            <form id="add-admin-form">
+                <div class="rf-field-group">
+                    <label>Username</label>
+                    <input type="text" id="username" class="rf-admin-input" placeholder="e.g., john_doe" required />
+                </div>
+                <div class="rf-field-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" class="rf-admin-input" placeholder="e.g., john@fadahouse.com"
+                        required />
+                </div>
+                <div class="rf-field-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" class="rf-admin-input" placeholder="e.g., 0999123456" required />
+                </div>
+                <div class="rf-field-group">
+                    <label>Assigned Location</label>
+                    <input type="text" id="location" class="rf-admin-input" placeholder="e.g., Blantyre" required />
+                </div>
+                <div class="rf-field-group">
+                    <label>Temporary Password</label>
+                    <input type="password" id="password" class="rf-admin-input" placeholder="Min. 8 characters"
+                        required />
+                </div>
+                <button type="submit" class="rf-btn-submit">Register Administrator</button>
+            </form>
+
+            <div id="output"></div>
+
+            <a href="admin-nav-page.html" class="rf-back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
         </div>
     </div>
 
     <script src="../configs/apiConfigs.js"></script>
     <script>
-        document.getElementById('add-admin-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+        document.getElementById('add-admin-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const out = document.getElementById('output');
+            out.style.display = 'block';
+            out.textContent = 'Processing registration...';
+            out.style.background = '#f8f8f8';
+            out.style.color = '#555';
 
-            const output = document.getElementById('output');
-            output.style.display = 'block';
-            output.textContent = 'Processing...';
-            output.style.backgroundColor = '#e3f2fd';
-            output.style.color = '#1976d2';
- 
-            const username = document.getElementById('username').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const location = document.getElementById('location').value.trim();
-            const password = document.getElementById('password').value;
+            const payload = {
+                username: document.getElementById('username').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                location: document.getElementById('location').value.trim(),
+                password: document.getElementById('password').value
+            };
+
             const token = localStorage.getItem('token');
- 
-            if (!token) {
-                output.textContent = 'Authentication error. Please log in again.';
-                output.style.backgroundColor = '#ffeeee';
-                output.style.color = '#dc3545';
-                return;
-            }
-
             try {
                 const response = await fetch(`${API_BASE_URL}/api/admin/users/add-admin`, {
                     method: 'POST',
@@ -80,25 +186,23 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ username, email, password, phone, location })
+                    body: JSON.stringify(payload)
                 });
 
                 const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Registration failed');
 
-                if (!response.ok) throw new Error(data.error || 'An unknown error occurred.');
-
-                output.textContent = data.message;
-                output.style.backgroundColor = '#e8f5e9';
-                output.style.color = '#2e7d32';
-                document.getElementById('add-admin-form').reset();
-
-            } catch (error) {
-                output.textContent = error.message;
-                output.style.backgroundColor = '#ffeeee';
-                output.style.color = '#dc3545';
-                console.error('Error:', error);
+                out.textContent = data.message;
+                out.style.background = '#E8F5E9';
+                out.style.color = '#2E7D32';
+                this.reset();
+            } catch (err) {
+                out.textContent = err.message;
+                out.style.background = '#FFEBEE';
+                out.style.color = '#C62828';
             }
         });
     </script>
 </body>
+
 </html>

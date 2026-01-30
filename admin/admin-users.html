@@ -4,30 +4,213 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manage Admin Users</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <title>Admin Team - FadaHouse Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+  <style>
+    .rf-admin-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .rf-page-header {
+      margin: 20px 0 40px;
+    }
+
+    .rf-directory-bar {
+      background: white;
+      padding: 20px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .rf-search-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .rf-search-wrap i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--redfin-grey);
+    }
+
+    .rf-admin-input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: 1px solid var(--redfin-border);
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    /* Admin Grid Styling */
+    .rf-admin-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .rf-team-card {
+      background: white;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      padding: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .rf-team-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .rf-team-info h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--redfin-black);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rf-badge {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .rf-badge-super {
+      background: var(--redfin-red);
+      color: white;
+    }
+
+    .rf-badge-admin {
+      background: #E3F2FD;
+      color: #1976D2;
+    }
+
+    .rf-badge-banned {
+      background: #000;
+      color: #fff;
+    }
+
+    .rf-team-meta {
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+      color: var(--redfin-grey);
+    }
+
+    .rf-team-meta span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rf-team-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .rf-btn-action {
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .rf-btn-ban {
+      background: #fff;
+      border-color: var(--redfin-grey);
+      color: var(--redfin-grey);
+    }
+
+    .rf-btn-ban:hover:not(:disabled) {
+      border-color: var(--redfin-red);
+      color: var(--redfin-red);
+    }
+
+    .rf-btn-delete {
+      background: white;
+      color: var(--redfin-red);
+      border-color: var(--redfin-red);
+    }
+
+    .rf-btn-delete:hover:not(:disabled) {
+      background: var(--redfin-red);
+      color: white;
+    }
+
+    .rf-btn-action:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .rf-team-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .rf-team-meta {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .rf-team-actions {
+        width: 100%;
+      }
+
+      .rf-btn-action {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 
-<body class="admin-page">
-  <header class="admin-header">
-    <h1>Oto-Nest-House Admin Panel</h1>
-  </header>
+<body class="redfin-theme">
+  <nav class="redfin-nav">
+    <div class="rf-nav-left">
+      <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+          style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
+    </div>
+    <div class="rf-nav-right">
+      <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+    </div>
+  </nav>
 
-  <div class="admin-list-container">
-    <div class="management-header">
-      <h2 class="management-title">Manage Administrators <span id="userCount"
-          style="font-weight: normal; font-size: 0.8em; color: #555;"></span></h2>
-      <p class="management-subtitle">Only superadmins can view this page and perform actions.</p>
+  <div class="rf-admin-container">
+    <div class="rf-page-header">
+      <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">Admin Team <span id="userCount"
+          style="font-weight: 400; font-size: 16px; color: var(--redfin-grey); margin-left: 10px;"></span></h1>
+      <p style="color: var(--redfin-grey);">Manage the administrative team and system access levels.</p>
     </div>
 
-    <!-- Search Bar -->
-    <div class="admin-search-container">
-      <i class="fas fa-search admin-search-icon"></i>
-      <input type="text" id="searchInput" class="admin-search-input"
-        placeholder="Search by name, email, phone, or location" onkeyup="searchAdmins()" />
+    <div class="rf-directory-bar">
+      <div class="rf-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" class="rf-admin-input" placeholder="Search by name, email, or role..."
+          onkeyup="searchAdmins()" />
+      </div>
     </div>
 
-    <div class="management-list" id="userList">
+    <div id="userList" class="rf-admin-list">
       <!-- Loading state will be here -->
     </div>
   </div>
@@ -36,6 +219,7 @@
   <script>
     const API_ENDPOINT = `${API_BASE_URL}/api/admin/users/admins`;
     const token = localStorage.getItem('token');
+    const currentUserRole = localStorage.getItem('role');
 
     document.addEventListener('DOMContentLoaded', () => {
       fetchAndRenderAdmins();
@@ -43,7 +227,7 @@
 
     async function fetchAndRenderAdmins(searchTerm = '') {
       const userList = document.getElementById('userList');
-      userList.innerHTML = '<p>Loading administrators...</p>';
+      userList.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="rf-spinner"></div></div>';
 
       try {
         const url = searchTerm ? `${API_ENDPOINT}?search=${encodeURIComponent(searchTerm)}` : API_ENDPOINT;
@@ -52,12 +236,15 @@
         });
 
         if (response.status === 403) {
-          userList.innerHTML = `<p style="color: red; font-weight: bold;">Access Denied. You must be a superadmin to view this page.</p>`;
+          userList.innerHTML = `<div style="text-align: center; padding: 60px; color: var(--redfin-red);">
+                        <i class="fas fa-lock" style="font-size: 40px; margin-bottom: 15px;"></i>
+                        <h2 style="font-weight: 800;">Access Denied</h2>
+                        <p>Only superadmins can manage the administrative team.</p>
+                    </div>`;
           return;
         }
-        if (!response.ok) {
-          throw new Error(`Failed to fetch admins: ${response.statusText}`);
-        }
+
+        if (!response.ok) throw new Error('Failed to fetch');
 
         const data = await response.json();
         const users = data.users;
@@ -66,100 +253,75 @@
         document.getElementById('userCount').textContent = `(${data.totalUserCount || 0} total)`;
 
         if (users.length === 0) {
-          userList.innerHTML = searchTerm ?
-            '<p>No administrators found matching your search.</p>' :
-            '<p>No administrators found.</p>';
+          userList.innerHTML = '<p style="text-align: center; color: var(--redfin-grey);">No administrators found.</p>';
           return;
         }
 
         users.forEach(user => {
-          const userDiv = document.createElement('div');
-          userDiv.className = 'management-item';
-          userDiv.dataset.id = user._id;
+          const card = document.createElement('div');
+          card.className = 'rf-team-card';
+          card.dataset.id = user._id;
 
-          const isSuperAdmin = user.role === 'superadmin';
-          const banButtonClass = user.isBanned ? 'btn-unban' : 'btn-ban';
-          const banButtonText = user.isBanned ? 'Unban' : 'Ban';
-          // Disable buttons for superadmins
-          const actionsDisabled = isSuperAdmin ? 'disabled' : '';
+          const isSuper = user.role === 'superadmin';
+          const roleBadge = isSuper ?
+            '<span class="rf-badge rf-badge-super">Superadmin</span>' :
+            '<span class="rf-badge rf-badge-admin">Admin</span>';
 
-          userDiv.innerHTML = `
-            <div class="item-info">
-              <div class="item-title">${user.username} <span style="color: ${isSuperAdmin ? 'var(--accent)' : 'var(--primary)'}; font-size: 0.9rem;">(${user.role})</span></div>
-              <div class="item-details">
-                <span><i class="fas fa-envelope"></i> ${user.email}</span>
-                <span><i class="fas fa-phone"></i> ${user.phone || 'N/A'}</span>
-                <span><i class="fas fa-map-marker-alt"></i> ${user.location || 'N/A'}</span>
-              </div>
-            </div>
-            <div class="item-actions">
-              <button class="action-btn btn-delete" onclick="deleteAdmin(this)" ${actionsDisabled}>Delete</button>
-              <button class="action-btn ${banButtonClass}" onclick="toggleAdminBan(this)" ${actionsDisabled}>${banButtonText}</button>
-            </div>
-          `;
-          userList.appendChild(userDiv);
+          const banBadge = user.isBanned ? '<span class="rf-badge rf-badge-banned">Banned</span>' : '';
+
+          // Only superadmins can take action, and cannot target other superadmins (except themselves maybe, but usually not)
+          const canAction = currentUserRole === 'superadmin' && !isSuper;
+
+          card.innerHTML = `
+                        <div class="rf-team-info">
+                            <h3>${user.username} ${roleBadge} ${banBadge}</h3>
+                            <div class="rf-team-meta">
+                                <span><i class="fas fa-envelope"></i> ${user.email}</span>
+                                <span><i class="fas fa-phone"></i> ${user.phone || 'N/A'}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${user.location || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="rf-team-actions">
+                            <button class="rf-btn-action rf-btn-delete" onclick="deleteAdmin('${user._id}')" ${!canAction ? 'disabled' : ''}>Delete</button>
+                            ${user.isBanned ?
+              `<button class="rf-btn-action rf-btn-ban" onclick="toggleAdminBan('${user._id}', false)" ${!canAction ? 'disabled' : ''}>Unban</button>` :
+              `<button class="rf-btn-action rf-btn-ban" onclick="toggleAdminBan('${user._id}', true)" ${!canAction ? 'disabled' : ''}>Ban</button>`
+            }
+                        </div>
+                    `;
+          userList.appendChild(card);
         });
-      } catch (error) {
-        console.error('Error:', error);
-        userList.innerHTML = `<p style="color: red;">Error loading administrators: ${error.message}</p>`;
-      }
+      } catch (err) { userList.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`; }
     }
 
-    async function deleteAdmin(btn) {
-      const userDiv = btn.closest('.user');
-      const userId = userDiv.dataset.id;
-
-      if (confirm('Are you sure you want to permanently DELETE this admin user?')) {
-        try {
-          const response = await fetch(`${API_ENDPOINT}/${userId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || 'Failed to delete admin.');
-
-          userDiv.remove();
-          alert(data.message);
-        } catch (error) {
-          console.error('Delete error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      }
+    async function deleteAdmin(id) {
+      if (!confirm('Are you sure you want to delete this administrator?')) return;
+      try {
+        const response = await fetch(`${API_ENDPOINT}/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error('Delete failed');
+        document.querySelector(`.rf-team-card[data-id="${id}"]`).remove();
+      } catch (err) { alert(err.message); }
     }
 
-    async function toggleAdminBan(btn) {
-      const userDiv = btn.closest('.user');
-      const userId = userDiv.dataset.id;
-      const isBanning = btn.classList.contains('ban-btn');
-
-      const action = isBanning ? 'BAN' : 'UNBAN';
-      if (confirm(`Are you sure you want to ${action} this admin user?`)) {
-        try {
-          const response = await fetch(`${API_ENDPOINT}/${userId}/ban`, {
-            method: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || 'Failed to update status.');
-
-          if (isBanning) {
-            btn.textContent = 'Unban';
-            btn.classList.replace('btn-ban', 'btn-unban');
-          } else {
-            btn.textContent = 'Ban';
-            btn.classList.replace('btn-unban', 'btn-ban');
-          }
-          alert(data.message);
-        } catch (error) {
-          console.error('Ban/Unban error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      }
+    async function toggleAdminBan(id, isBanning) {
+      if (!confirm(`Are you sure you want to ${isBanning ? 'ban' : 'unban'} this administrator?`)) return;
+      try {
+        const response = await fetch(`${API_ENDPOINT}/${id}/ban`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error('Action failed');
+        fetchAndRenderAdmins(document.getElementById('searchInput').value);
+      } catch (err) { alert(err.message); }
     }
 
     function searchAdmins() {
       const searchTerm = document.getElementById('searchInput').value;
-      fetchAndRenderAdmins(searchTerm);
+      clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(() => fetchAndRenderAdmins(searchTerm), 500);
     }
   </script>
 </body>

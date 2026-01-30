@@ -3,30 +3,44 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ekwendeni Hostels</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ekwendeni Hostels - FadaHouse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
 </head>
 
-<body class="university-page theme-ekwenden">
-    <header class="uni-header">
-        <div class="uni-header-content">
-            <div class="logo-text" style="font-size: 1.5rem; font-weight: 700; color: white;">Ekwendeni Hostels</div>
-            <div class="search-container"
-                style="margin: 0; max-width: 400px; background: rgba(255,255,255,0.9); border: none;">
-                <i class="fas fa-search" style="margin-left: 10px; color: var(--theme-dark);"></i>
-                <input id="searchInput" type="search" placeholder="Search for location..." class="search-input"
-                    style="padding: 10px; border: none;">
+<body class="redfin-theme">
+    <!-- Shared Top Nav -->
+    <nav class="redfin-nav">
+        <div class="rf-nav-left">
+            <a href="../index.html" class="rf-logo">FADAHOUSE</a>
+        </div>
+        <div class="rf-nav-right">
+            <a href="../index.html" class="rf-nav-link">Home</a>
+            <a href="../login.html" class="rf-nav-link rf-btn-signin">Join / Sign in</a>
+        </div>
+    </nav>
+
+    <div class="rf-uni-container">
+        <div class="rf-uni-hero">
+            <div class="rf-uni-logo-text">EKWENDENI</div>
+            <div class="rf-uni-title">
+                <h1>Ekwendeni Hostels</h1>
+                <p>Available student accommodation near Ekwendeni University</p>
             </div>
         </div>
-    </header>
 
+        <div class="rf-filter-bar">
+            <div class="rf-filter-search">
+                <i class="fas fa-search"></i>
+                <input id="searchInput" type="search" placeholder="Search by location (e.g. Ekwendeni Center)...">
+            </div>
 
-    <div class="main-content">
-        <h2 class="page-title"><i class="fas fa-building"></i> Available Hostels</h2>
-        <div class="filter-bar">
-            <div class="filter-group">
-                <select id="priceFilter">
+            <div class="rf-filter-group">
+                <label>Price Range</label>
+                <select id="priceFilter" class="rf-filter-select">
                     <option value="">Max Price (Any)</option>
                     <option value="30000">Under K30,000</option>
                     <option value="50000">Under K50,000</option>
@@ -34,50 +48,59 @@
                     <option value="100000">Under K100,000</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <select id="occupancyFilter">
-                    <option value="">Occupancy (Any)</option>
+
+            <div class="rf-filter-group">
+                <label>Occupancy</label>
+                <select id="occupancyFilter" class="rf-filter-select">
+                    <option value="">Any</option>
                     <option value="1">1 Person</option>
                     <option value="2">2 People</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <select id="genderFilter">
-                    <option value="any">Gender (Any)</option>
+
+            <div class="rf-filter-group">
+                <label>Gender</label>
+                <select id="genderFilter" class="rf-filter-select">
+                    <option value="any">Any</option>
                     <option value="male">Male Only</option>
                     <option value="female">Female Only</option>
                     <option value="both">Both Genders</option>
                 </select>
             </div>
         </div>
-        <div id="hostelsContainer" class="available-rooms">
-            <div style="text-align:center; padding:2rem;">Loading hostels...</div>
+
+        <div id="hostelsContainer" class="rf-hostel-grid">
+            <!-- Dynamic Content -->
         </div>
-        <p id="noResults"><i class="fas fa-search"></i><br>No hostels found for this location.</p>
+
+        <div id="noResults" class="rf-no-results" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>No hostels found</h3>
+            <p>Try adjusting your search filters or searching a different location.</p>
+        </div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <span>© 2025 Ekwendeni</span>
-            <span class="separator">|</span>
-            <span>Nolstan Logic</span>
-            <span class="separator">|</span>
-            <a href="mailto:nolstankumwenda@gamil.com"><i class="fas fa-envelope"></i> Email Us</a>
-            <a href="tel:+265981353135"><i class="fas fa-phone"></i> Call Us</a>
+    <footer class="rf-uni-footer">
+        <div class="rf-footer-links">
+            <a href="../index.html">Home</a>
+            <a href="mailto:nolstankumwenda@gamil.com">Contact Support</a>
+            <a href="tel:+265981353135">Privacy Policy</a>
+        </div>
+        <div class="rf-footer-copy">
+            © 2025 Ekwendeni | Partnered with Nolstan Logic
         </div>
     </footer>
 
-    <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
     <script src="../configs/apiConfigs.js"></script>
 
     <script>
         const city = 'ekwendeni';
-        let hostelsData = [];
-
         const searchInput = document.getElementById('searchInput');
         const priceFilter = document.getElementById('priceFilter');
         const occupancyFilter = document.getElementById('occupancyFilter');
         const genderFilter = document.getElementById('genderFilter');
+        const hostelsContainer = document.getElementById('hostelsContainer');
+        const noResults = document.getElementById('noResults');
 
         async function fetchHostels() {
             try {
@@ -87,101 +110,86 @@
                     occupancy: occupancyFilter.value,
                     genderType: genderFilter.value
                 });
-                const backendURL = `${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`;
-                document.getElementById('hostelsContainer').innerHTML = `<div style="text-align:center; padding:2rem;">Loading hostels...</div>`;
-                const res = await fetch(backendURL);
+
+                hostelsContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <div class="rf-spinner"></div>
+                    <p>Fetching best matches...</p>
+                </div>`;
+
+                const res = await fetch(`${API_BASE_URL}/api/universities/${city}/hostels?${params.toString()}`);
                 if (!res.ok) throw new Error('Failed to fetch hostels');
                 const hostels = await res.json();
                 renderHostels(hostels);
             } catch (err) {
-                document.getElementById('hostelsContainer').innerHTML = `<div style="text-align:center; padding:2rem; color:#666;">
-                    <i class="fas fa-exclamation-triangle" style="font-size:2rem;"></i>
-                    <p>Error loading hostels: ${err.message}</p>
-                    <button onclick="fetchHostels()" style="margin-top:1rem;padding:0.5rem 1rem;background:var(--primary-color);color:white;border:none;border-radius:4px;cursor:pointer;">Try Again</button>
+                hostelsContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #d92228;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 32px;"></i>
+                    <p>Connection error: ${err.message}</p>
                 </div>`;
             }
         }
 
         function renderHostels(hostels) {
-            const container = document.getElementById('hostelsContainer');
-            const noResults = document.getElementById('noResults');
             if (hostels.length === 0) {
-                container.innerHTML = '';
+                hostelsContainer.innerHTML = '';
                 noResults.style.display = 'block';
                 return;
             }
             noResults.style.display = 'none';
 
-            hostels.forEach(h => {
-                const card = document.createElement('a');
-                card.className = 'hostel-card';
-                card.href = '#';
-                card.dataset.id = h._id;
+            hostelsContainer.innerHTML = hostels.map(h => {
+                const type = (h.hostelType || "").toLowerCase().trim();
+                let badgeText = '';
+                if (type.includes('both')) badgeText = 'Both Genders';
+                else if (type.includes('female')) badgeText = 'Female only';
+                else if (type.includes('male')) badgeText = 'Male only';
 
-                const img = document.createElement('img');
-                img.src = h.photo || '/public/image/default-hostel.jpg';
-                img.alt = 'Hostel in Ekwendeni';
-                img.className = 'hostel-image';
-                card.appendChild(img);
+                return `
+                <a class="rf-hostel-card" href="#" onclick="selectHostel('${h._id}')">
+                    <div class="rf-hostel-img-wrap">
+                        <img src="${h.photo || 'https://via.placeholder.com/400x300?text=No+Photo'}" alt="${h.location}">
+                        ${badgeText ? `<span class="rf-hostel-badge">${badgeText}</span>` : ''}
+                    </div>
+                    <div class="rf-hostel-content">
+                        <div class="rf-hostel-price">K${h.rent.toLocaleString()} <small>/ month</small></div>
+                        <div class="rf-hostel-meta">
+                            <span><i class="fas fa-user-friends"></i> ${h.occupancy} student${h.occupancy > 1 ? 's' : ''}</span>
+                            <span><i class="fas fa-walking"></i> ${h.distance || 'Nearby'}</span>
+                        </div>
+                        <div class="rf-hostel-loc">
+                            <i class="fas fa-map-marker-alt"></i> ${h.location}
+                        </div>
+                    </div>
+                </a>`;
+            }).join('');
+        }
 
-                let hostelType = (h.hostelType || "").toLowerCase().trim();
-                let badgeText = (hostelType === 'both' ? 'Both' : hostelType === 'female' ? 'Female' : hostelType === 'male' ? 'Male' : h.hostelType);
-
-                if (badgeText) {
-                    const badge = document.createElement('span');
-                    badge.className = 'hostel-badge';
-                    badge.textContent = badgeText;
-                    card.appendChild(badge);
-                }
-
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'hostel-info';
-
-                const locationDiv = document.createElement('div');
-                locationDiv.className = 'hostel-location';
-                locationDiv.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
-                locationDiv.appendChild(document.createTextNode(h.location || 'N/A'));
-                infoDiv.appendChild(locationDiv);
-
-                const detailsDiv = document.createElement('div');
-                detailsDiv.className = 'hostel-details';
-                const occupancyItem = document.createElement('div');
-                occupancyItem.className = 'detail-item';
-                occupancyItem.innerHTML = `<i class="fas fa-users"></i>`;
-                occupancyItem.appendChild(document.createTextNode(`${h.occupancy} student${h.occupancy > 1 ? 's' : ''}`));
-                detailsDiv.appendChild(occupancyItem);
-                const genderItem = document.createElement('div');
-                genderItem.className = 'detail-item';
-                genderItem.innerHTML = `<i class="fas fa-venus-mars"></i>`;
-                genderItem.appendChild(document.createTextNode(h.hostelType));
-                detailsDiv.appendChild(genderItem);
-                infoDiv.appendChild(detailsDiv);
-
-                const priceDiv = document.createElement('div');
-                priceDiv.className = 'hostel-price';
-                priceDiv.textContent = `K${h.rent.toLocaleString()}/month`;
-                infoDiv.appendChild(priceDiv);
-
-                card.appendChild(infoDiv);
-
-                card.addEventListener('click', e => {
-                    e.preventDefault();
-                    localStorage.setItem('selectedHostelId', card.dataset.id);
-                    localStorage.setItem('selectedUniversity', 'ekwendeni');
-                    window.location.href = 'all-details.html';
-                });
-
-                container.appendChild(card);
-            });
+        function selectHostel(id) {
+            localStorage.setItem('selectedHostelId', id);
+            localStorage.setItem('selectedUniversity', city);
+            window.location.href = 'all-details.html';
         }
 
         let searchTimeout;
-        function handleFilterChange() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(fetchHostels, 300);
-        }
+        [searchInput, priceFilter, occupancyFilter, genderFilter].forEach(el => {
+            el.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(fetchHostels, 300);
+            });
+        });
 
-        [searchInput, priceFilter, occupancyFilter, genderFilter].forEach(el => el.addEventListener('input', handleFilterChange));
+        // Auth handling
+        const token = localStorage.getItem('token');
+        const loginLink = document.querySelector('.rf-btn-signin');
+        if (token) {
+            loginLink.textContent = 'Sign out';
+            loginLink.href = '#';
+            loginLink.onclick = () => {
+                localStorage.clear();
+                window.location.reload();
+            };
+        }
 
         fetchHostels();
     </script>

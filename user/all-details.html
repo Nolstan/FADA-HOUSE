@@ -4,129 +4,359 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hostel Details | MUBAS</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <title>Hostel Details - FadaHouse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+    <style>
+        .rf-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .rf-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--redfin-black);
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .rf-back-link:hover {
+            color: var(--redfin-red);
+        }
+
+        .rf-details-gallery {
+            margin-bottom: 30px;
+        }
+
+        .rf-main-img-wrap {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid var(--redfin-border);
+            cursor: zoom-in;
+        }
+
+        .rf-main-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rf-thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .rf-thumb-item {
+            height: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .rf-thumb-item.active {
+            border-color: var(--redfin-red);
+        }
+
+        .rf-thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rf-details-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .rf-details-content h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .rf-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .rf-info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rf-info-icon {
+            width: 45px;
+            height: 45px;
+            background: #f8f8f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--redfin-red);
+        }
+
+        .rf-info-text .label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .rf-info-text .value {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .rf-desc-section {
+            margin-bottom: 40px;
+        }
+
+        .rf-desc-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .rf-desc-text {
+            line-height: 1.7;
+            color: #444;
+            white-space: pre-line;
+        }
+
+        /* Sidebar Card */
+        .rf-contact-card {
+            background: white;
+            border: 1px solid var(--redfin-border);
+            border-radius: 8px;
+            padding: 25px;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .rf-price-box {
+            margin-bottom: 20px;
+        }
+
+        .rf-price-box .price {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--redfin-black);
+        }
+
+        .rf-btn-contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 12px;
+            transition: opacity 0.2s;
+        }
+
+        .rf-btn-phone {
+            background: var(--redfin-red);
+            color: white;
+        }
+
+        .rf-btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .rf-btn-fb {
+            background: #1877F2;
+            color: white;
+        }
+
+        .rf-btn-contact:hover {
+            opacity: 0.9;
+        }
+
+        /* Lightbox */
+        .rf-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rf-lightbox.active {
+            display: flex;
+        }
+
+        .rf-lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 4px;
+        }
+
+        .rf-lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .rf-details-main {
+                grid-template-columns: 1fr;
+            }
+
+            .rf-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rf-contact-card {
+                position: static;
+                margin-top: 30px;
+            }
+
+            .rf-main-img-wrap {
+                height: 250px;
+            }
+        }
+    </style>
 </head>
 
-
-</head>
-
-<body class="university-page">
-    <header class="uni-header">
-        <div class="uni-header-content">
-            <div class="logo-container">
-                <img src="../assets/image/mubas logo.png" alt="MUBAS Logo"
-                    style="height: 40px; border-radius: 5px; background: white; padding: 2px;" />
-                <h1 style="font-size: 1.2rem; margin-left:10px;">Hostel Details</h1>
-            </div>
-            <button class="nav-btn login" onclick="window.history.back()"
-                style="background: transparent; color: white; border: 2px solid white; padding: 5px 15px; border-radius: 20px; cursor: pointer;">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
+<body class="redfin-theme">
+    <!-- Shared Top Nav -->
+    <nav class="redfin-nav">
+        <div class="rf-nav-left">
+            <a href="../index.html" class="rf-logo">FADAHOUSE</a>
         </div>
-    </header>
+        <div class="rf-nav-right">
+            <a href="../index.html" class="rf-nav-link">Home</a>
+            <a href="../login.html" class="rf-nav-link rf-btn-signin">Join / Sign in</a>
+        </div>
+    </nav>
 
+    <div class="rf-details-container">
+        <a href="javascript:history.back()" class="rf-back-link">
+            <i class="fas fa-arrow-left"></i> Back to listings
+        </a>
 
-    <main class="details-page-content">
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
+        <div id="loading" style="text-align: center; padding: 100px;">
+            <div class="rf-spinner"></div>
+            <p>Loading property details...</p>
         </div>
 
         <div id="content" style="display: none;">
-            <div class="details-header">
-                <h1 id="hostelName" class="details-title">Hostel Details</h1>
-                <div class="details-subtitle" id="hostelLocationRow">
-                    <i class="fas fa-map-marker-alt"></i> <span id="hostelLocation">Loading...</span>
+            <div class="rf-details-gallery">
+                <div class="rf-main-img-wrap" id="mainImgWrap">
+                    <img id="mainImage" src="" alt="Property Main Image">
                 </div>
+                <div class="rf-thumb-grid" id="thumbGrid"></div>
             </div>
 
-            <div id="main-content-layout" class="details-main-layout">
-                <div class="left-column">
-                    <div class="gallery-container">
-                        <div class="main-image-wrapper">
-                            <img id="mainImage" class="main-image" alt="Hostel Image" />
-                        </div>
-                        <div class="thumbnails-grid" id="imageGallery"></div>
-                    </div>
+            <div class="rf-details-main">
+                <div class="rf-details-content">
+                    <h2 id="hostelName">Property Name</h2>
 
-                    <div class="details-grid">
-                        <div class="features-section">
-                            <h3 class="features-title"><i class="fas fa-info-circle"></i> Key Information</h3>
-                            <div class="info-stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-icon"><i class="fas fa-users"></i></div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Occupancy</span>
-                                        <span class="stat-value" id="hostelOccupancy">Loading...</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon"><i class="fas fa-venus-mars"></i></div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Gender</span>
-                                        <span class="stat-value" id="hostelGender">Loading...</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon"><i class="fas fa-road"></i></div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Distance</span>
-                                        <span class="stat-value" id="hostelDistance">Loading...</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Utilities</span>
-                                        <span class="stat-value" id="hostelUtilities">Loading...</span>
-                                    </div>
-                                </div>
+                    <div class="rf-info-grid">
+                        <div class="rf-info-item">
+                            <div class="rf-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="rf-info-text">
+                                <span class="label">Location</span>
+                                <span class="value" id="hostelLocation">...</span>
                             </div>
                         </div>
-
-                        <div class="details-content-section">
-                            <h2><i class="fas fa-align-left"></i> Description</h2>
-                            <p class="description-text" id="hostelDescription">No description available.</p>
+                        <div class="rf-info-item">
+                            <div class="rf-info-icon"><i class="fas fa-user-friends"></i></div>
+                            <div class="rf-info-text">
+                                <span class="label">Occupancy</span>
+                                <span class="value" id="hostelOccupancy">...</span>
+                            </div>
                         </div>
-
-                        <div class="details-content-section">
-                            <h2><i class="fas fa-gavel"></i> Rules</h2>
-                            <p class="description-text" id="hostelRules">No rules specified.</p>
+                        <div class="rf-info-item">
+                            <div class="rf-info-icon"><i class="fas fa-venus-mars"></i></div>
+                            <div class="rf-info-text">
+                                <span class="label">Type</span>
+                                <span class="value" id="hostelType">...</span>
+                            </div>
                         </div>
+                        <div class="rf-info-item">
+                            <div class="rf-info-icon"><i class="fas fa-walking"></i></div>
+                            <div class="rf-info-text">
+                                <span class="label">Distance</span>
+                                <span class="value" id="hostelDistance">...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rf-desc-section">
+                        <h3>Description</h3>
+                        <p class="rf-desc-text" id="hostelDescription">...</p>
+                    </div>
+
+                    <div class="rf-desc-section">
+                        <h3>Rules & Policies</h3>
+                        <p class="rf-desc-text" id="hostelRules">...</p>
                     </div>
                 </div>
 
-                <div class="contact-sidebar">
-                    <div class="contact-card">
-                        <h2 class="contact-title"><i class="fas fa-phone-alt"></i> Book Now</h2>
-                        <div class="contact-price-box">
-                            <div class="price-tag" id="hostelPrice">K0</div>
-                            <div class="price-period">per month</div>
+                <div class="rf-details-sidebar">
+                    <div class="rf-contact-card">
+                        <div class="rf-price-box">
+                            <span class="price" id="hostelPrice">K0</span>
+                            <small>/ month</small>
                         </div>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">Interested
-                            in
-                            this hostel? Contact the management directly to book a viewing.</p>
-                        <div class="action-buttons">
-                            <a href="#" id="callBtn" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> Call
-                                Agent</a>
-                            <a href="#" id="whatsappBtn" target="_blank" class="btn btn-whatsapp btn-large"><i
-                                    class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                            <a href="#" id="facebookBtn" target="_blank" class="btn btn-facebook btn-large"><i
-                                    class="fa-brands fa-facebook-f"></i> Facebook</a>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">
+                            Interested in this hostel? Contact the verified agent below.
+                        </p>
+                        <div class="rf-action-btns">
+                            <a href="#" id="callBtn" class="rf-btn-contact rf-btn-phone">
+                                <i class="fas fa-phone"></i> Call Agent
+                            </a>
+                            <a href="#" id="whatsappBtn" target="_blank" class="rf-btn-contact rf-btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a href="#" id="facebookBtn" target="_blank" class="rf-btn-contact rf-btn-fb">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </a>
                         </div>
-
-                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div
-                                    style="width: 40px; height: 40px; background: var(--bg-deep); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-muted); border: 1px solid var(--border);">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div>
-                                    <div
-                                        style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
-                                        Verified Agent</div>
-                                    <div style="font-weight: 700; color: var(--text-primary);">Nolstan Logic</div>
-                                </div>
+                        <div
+                            style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 12px;">
+                            <div
+                                style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #999;">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase;">
+                                    Verified Agent</div>
+                                <div style="font-size: 14px; font-weight: 700;">Nolstan Logic</div>
                             </div>
                         </div>
                     </div>
@@ -134,255 +364,136 @@
             </div>
         </div>
 
-        <div id="errorState" class="error-state" style="display: none;">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h2>Error Loading Hostel Details</h2>
-            <p>We couldn't load the hostel details at this time. Please try again later.</p>
-            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="window.location.reload()">
-                <i class="fas fa-redo"></i> Try Again
-            </button>
+        <div id="errorState" style="display: none; text-align: center; padding: 100px;">
+            <i class="fas fa-exclamation-circle"
+                style="font-size: 48px; color: var(--redfin-red); margin-bottom: 20px;"></i>
+            <h3>Oops! Something went wrong</h3>
+            <p>We couldn't load the hostel details. Please try again.</p>
+            <button onclick="window.location.reload()" class="rf-btn-wide"
+                style="display: inline-block; width: auto; padding: 10px 30px;">Retry</button>
         </div>
+    </div>
 
-        <!-- Lightbox Modal -->
-        <div id="lightbox-modal" class="lightbox-modal">
-            <span class="lightbox-close">&times;</span>
-            <img class="lightbox-img" id="lightbox-image">
-            <div class="lightbox-nav">
-                <div class="nav-arrow lightbox-prev"><i class="fas fa-chevron-left"></i></div>
-                <div class="nav-arrow lightbox-next"><i class="fas fa-chevron-right"></i></div>
-            </div>
+    <div class="rf-lightbox" id="lightbox">
+        <span class="rf-lightbox-close">&times;</span>
+        <img id="lightboxImg" src="">
+    </div>
+
+    <footer class="rf-uni-footer">
+        <div class="rf-footer-links">
+            <a href="../index.html">Home</a>
+            <a href="mailto:nolstankumwenda@gmail.com">Contact Support</a>
+            <a href="tel:+265981353135">Privacy Policy</a>
         </div>
-    </main>
-    </main>
+        <div class="rf-footer-copy">
+            © 2025 FadaHouse | Partnered with Nolstan Logic
+        </div>
+    </footer>
 
-    <!-- This script tag loads the configuration and makes the API_BASE_URL variable available globally -->
     <script src="../configs/apiConfigs.js"></script>
-
     <script>
-        // DOM Elements
-        const loadingElement = document.getElementById('loading');
-        const contentElement = document.getElementById('content');
-        const errorStateElement = document.getElementById('errorState');
-
-        // Get hostel ID from localStorage
         const hostelId = localStorage.getItem('selectedHostelId');
-        const university = localStorage.getItem('selectedUniversity');
 
-        // Check if we have the necessary data
-        if (!hostelId || !university) {
-            showError('No hostel selected. Please go back and select a hostel first.');
+        if (!hostelId) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
         } else {
-            // Fetch hostel details
             fetchHostelDetails();
-            fetchAgentContacts(); // Fetch agent contacts as well
+            fetchAgentContacts();
         }
 
         async function fetchHostelDetails() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/universities/hostel/${hostelId}`);
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch hostel details');
-                }
-
-                const hostel = await response.json();
-                displayHostelDetails(hostel);
-
-            } catch (error) {
-                console.error('Error loading hostel details:', error);
-                showError('Could not load hostel details. Please check your connection and try again.');
+                const res = await fetch(`${API_BASE_URL}/api/universities/hostel/${hostelId}`);
+                if (!res.ok) throw new Error('Hostel not found');
+                const hostel = await res.json();
+                displayHostel(hostel);
+            } catch (err) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
             }
-        }
-
-        function displayHostelDetails(hostel) {
-            // Hide loading, show content
-            loadingElement.style.display = 'none';
-            contentElement.style.display = 'block';
-
-            // Set main details
-            document.getElementById('hostelName').textContent = hostel.name || 'Hostel Details';
-            document.getElementById('hostelLocation').textContent = hostel.location || 'Not specified';
-            document.getElementById('hostelPrice').textContent = `K${(hostel.rent || 0).toLocaleString()}`;
-            document.getElementById('hostelOccupancy').textContent = `${hostel.occupancy || 'N/A'} student${hostel.occupancy > 1 ? 's' : ''}`;
-            document.getElementById('hostelGender').textContent = hostel.hostelType || 'Not specified';
-            document.getElementById('hostelDescription').textContent = hostel.description || 'No description available.';
-            document.getElementById('hostelDistance').textContent = hostel.distance || 'Not specified';
-            document.getElementById('hostelUtilities').innerHTML = hostel.utilities ? '<i class="fas fa-check-circle" style="color: green;"></i> Included' : '<i class="fas fa-times-circle" style="color: red;"></i> Not Included';
-            document.getElementById('hostelRules').textContent = hostel.rules || 'No rules specified.';
-
-            // Setup the image gallery and lightbox
-            setupImageGalleryAndLightbox(hostel.photos);
-
-            // Add 'See More' functionality
-            setupCollapsibleText('hostelDescription', 6);
-            setupCollapsibleText('hostelRules', 6);
         }
 
         async function fetchAgentContacts() {
             try {
-                // This endpoint should return the global contacts for the hostel agent
                 const res = await fetch(`${API_BASE_URL}/api/contact-info`);
-                if (!res.ok) throw new Error('Failed to fetch agent contacts');
-                const contacts = await res.json();
-
-                // Populate ALL agent contact buttons with the correct links
-                document.getElementById('callBtn').href = `tel:${contacts.phoneNumber}`;
-                document.getElementById('whatsappBtn').href = contacts.whatsappLink;
-                document.getElementById('facebookBtn').href = contacts.facebookLink;
-            } catch (error) {
-                console.error('Could not load agent contacts:', error);
-                // If it fails, the hardcoded link will be used as a fallback.
-            }
+                if (res.ok) {
+                    const contacts = await res.json();
+                    document.getElementById('callBtn').href = `tel:${contacts.phoneNumber}`;
+                    document.getElementById('whatsappBtn').href = contacts.whatsappLink;
+                    document.getElementById('facebookBtn').href = contacts.facebookLink;
+                }
+            } catch (error) { }
         }
 
-        function showError(message) {
-            loadingElement.style.display = 'none';
-            contentElement.style.display = 'none';
-            errorStateElement.style.display = 'block';
+        function displayHostel(h) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
 
-            // set a custom error message if needed
-            // document.getElementById('errorMessage').textContent = message;
+            document.getElementById('hostelName').textContent = h.name || 'Hostel Details';
+            document.getElementById('hostelLocation').textContent = h.location || h.city || 'N/A';
+            document.getElementById('hostelPrice').textContent = `K${(h.rent || 0).toLocaleString()}`;
+            document.getElementById('hostelOccupancy').textContent = `${h.occupancy || 'N/A'} Students`;
+            document.getElementById('hostelType').textContent = h.hostelType || 'Hostel';
+            document.getElementById('hostelDistance').textContent = h.distance || 'Not specified';
+            document.getElementById('hostelDescription').textContent = h.description || 'No description available.';
+            document.getElementById('hostelRules').textContent = h.rules || 'No special rules specified.';
+
+            setupGallery(h.photos);
         }
 
-        function setupImageGalleryAndLightbox(photos) {
+        function setupGallery(photos) {
             const mainImg = document.getElementById('mainImage');
-            const gallery = document.getElementById('imageGallery');
-            const defaultImage = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+            const thumbGrid = document.getElementById('thumbGrid');
+            const placeholder = 'https://via.placeholder.com/1200x800?text=No+Photo';
 
-            if (!photos || !Array.isArray(photos) || photos.length === 0) {
-                mainImg.src = defaultImage;
-                mainImg.alt = 'No image available';
+            if (!photos || photos.length === 0) {
+                mainImg.src = placeholder;
                 return;
             }
 
-            // --- Image Optimization ---
-            const getOptimizedUrl = (url, transformations) => {
-                if (!url || !url.includes('res.cloudinary.com')) {
-                    return url; // Not a Cloudinary URL, return as is
-                }
-                const parts = url.split('/upload/');
-                if (parts.length !== 2) {
-                    return url; // Malformed URL, return as is
-                }
-                // Inserts transformations like "w_800,f_auto,q_auto"
-                return `${parts[0]}/upload/${transformations}/${parts[1]}`;
+            mainImg.src = photos[0];
+
+            photos.forEach((p, i) => {
+                const thumb = document.createElement('div');
+                thumb.className = `rf-thumb-item ${i === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${p}" alt="Photo ${i + 1}">`;
+                thumb.onclick = () => {
+                    mainImg.src = p;
+                    document.querySelectorAll('.rf-thumb-item').forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                };
+                thumbGrid.appendChild(thumb);
+            });
+
+            // Lightbox
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+
+            document.getElementById('mainImgWrap').onclick = () => {
+                lightboxImg.src = mainImg.src;
+                lightbox.classList.add('active');
             };
 
-            const photoUrls = photos.map(url => getOptimizedUrl(url, 'w_1200,h_800,c_limit,f_auto,q_auto'));
-            const thumbUrls = photos.map(url => getOptimizedUrl(url, 'w_200,h_150,c_fill,f_auto,q_auto'));
+            document.querySelector('.rf-lightbox-close').onclick = () => {
+                lightbox.classList.remove('active');
+            };
 
-            mainImg.src = photoUrls[0];
-            mainImg.onerror = function () { this.src = defaultImage; };
-            gallery.innerHTML = '';
-
-            thumbUrls.forEach((thumbUrl, index) => {
-                const img = document.createElement('img');
-                img.src = thumbUrl;
-                img.alt = `Hostel photo ${index + 1}`;
-                img.className = 'thumbnail-item';
-                if (index === 0) img.classList.add('active');
-                img.addEventListener('click', () => {
-                    mainImg.src = photoUrls[index];
-                    document.querySelector('.thumbnail.active')?.classList.remove('active');
-                    img.classList.add('active');
-                });
-                img.onerror = function () { this.style.display = 'none'; };
-                gallery.appendChild(img);
-            });
-
-            // --- Lightbox Logic ---
-            const modal = document.getElementById('lightbox-modal');
-            const modalImg = document.getElementById('lightbox-image');
-            const closeBtn = document.querySelector('.lightbox-close');
-            const prevBtn = document.querySelector('.lightbox-prev');
-            const nextBtn = document.querySelector('.lightbox-next');
-            let currentIndex = 0;
-
-            function openModal(index) {
-                currentIndex = index;
-                modal.classList.add('visible');
-                modalImg.src = photoUrls[currentIndex];
-                updateNavButtons();
-            }
-
-            function closeModal() { modal.classList.remove('visible'); }
-
-            function showNext() {
-                if (currentIndex < photoUrls.length - 1) {
-                    currentIndex++;
-                    modalImg.src = photoUrls[currentIndex];
-                    updateNavButtons();
-                }
-            }
-
-            function showPrev() {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    modalImg.src = photoUrls[currentIndex];
-                    updateNavButtons();
-                }
-            }
-
-            function updateNavButtons() {
-                prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
-                nextBtn.style.display = currentIndex === photoUrls.length - 1 ? 'none' : 'block';
-            }
-
-            mainImg.addEventListener('click', () => {
-                const currentSrc = mainImg.src;
-                const index = photoUrls.findIndex(p => p === currentSrc);
-                openModal(index !== -1 ? index : 0);
-            });
-
-            closeBtn.addEventListener('click', closeModal);
-            nextBtn.addEventListener('click', showNext);
-            prevBtn.addEventListener('click', showPrev);
-            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-            document.addEventListener('keydown', (e) => {
-                if (modal.classList.contains('visible')) {
-                    if (e.key === 'Escape') closeModal();
-                    if (e.key === 'ArrowRight') showNext();
-                    if (e.key === 'ArrowLeft') showPrev();
-                }
-            });
+            lightbox.onclick = (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('active');
+            };
         }
 
-        function setupCollapsibleText(elementId, lineLimit) {
-            const element = document.getElementById(elementId);
-            if (!element || !element.textContent || element.textContent.trim() === 'No description available.' || element.textContent.trim() === 'No rules specified.') {
-                return;
-            }
-
-            // Temporarily apply the collapsed class to measure if overflow happens
-            element.classList.add('collapsed');
-
-            // Check if the content is actually overflowing
-            const isOverflowing = element.scrollHeight > element.clientHeight;
-
-            // If it's not overflowing, just remove the class and do nothing else
-            if (!isOverflowing) {
-                element.classList.remove('collapsed');
-                return;
-            }
-
-            // If it is overflowing, create and add the "See More" button
-            if (isOverflowing) {
-                const seeMoreBtn = document.createElement('button');
-                seeMoreBtn.className = 'see-more-btn';
-                seeMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> See More';
-                seeMoreBtn.style.display = 'inline-block';
-
-                element.parentNode.insertBefore(seeMoreBtn, element.nextSibling);
-
-                seeMoreBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    element.classList.toggle('collapsed');
-                    const isCollapsed = element.classList.contains('collapsed');
-                    seeMoreBtn.innerHTML = isCollapsed ?
-                        '<i class="fas fa-chevron-down"></i> See More' :
-                        '<i class="fas fa-chevron-up"></i> See Less';
-                });
-            }
+        // Auth
+        const token = localStorage.getItem('token');
+        const loginLink = document.querySelector('.rf-btn-signin');
+        if (token) {
+            loginLink.textContent = 'Sign out';
+            loginLink.href = '#';
+            loginLink.onclick = () => {
+                localStorage.clear();
+                window.location.reload();
+            };
         }
     </script>
 </body>

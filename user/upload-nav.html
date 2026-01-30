@@ -1,17 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select House Type</title>
-   <link rel="stylesheet" href="../assets/css/upload-nav.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Listing - FadaHouse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+    <style>
+        .rf-selection-container {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .rf-selection-header {
+            margin-bottom: 50px;
+        }
+
+        .rf-selection-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .rf-selection-header p {
+            color: var(--redfin-grey);
+            font-size: 18px;
+        }
+
+        .rf-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .rf-selection-card {
+            background: white;
+            border: 1px solid var(--redfin-border);
+            border-radius: 12px;
+            padding: 40px;
+            text-decoration: none;
+            color: var(--redfin-black);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .rf-selection-card:hover {
+            border-color: var(--redfin-red);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .rf-selection-icon {
+            width: 80px;
+            height: 80px;
+            background: #f8f8f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--redfin-red);
+            transition: all 0.2s;
+        }
+
+        .rf-selection-card:hover .rf-selection-icon {
+            background: var(--redfin-red);
+            color: white;
+        }
+
+        .rf-selection-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .rf-selection-card p {
+            color: var(--redfin-grey);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .rf-btn-select {
+            margin-top: 10px;
+            padding: 12px 24px;
+            background: white;
+            color: var(--redfin-red);
+            border: 1px solid var(--redfin-red);
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .rf-selection-card:hover .rf-btn-select {
+            background: var(--redfin-red);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .rf-selection-container {
+                margin: 40px auto;
+            }
+
+            .rf-selection-header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Which type of house do you want to upload?</h1>
-        <p>Choose one of the options below:</p>
-        <a href="upload-page.html">Student Hostel</a>
-        <a href="general-upload.html">Other House</a>
+
+<body class="redfin-theme">
+    <div class="rf-selection-container">
+        <div class="rf-selection-header">
+            <h1>What are you listing today?</h1>
+            <p>Select the type of property you want to add to FadaHouse.</p>
+        </div>
+
+        <div class="rf-selection-grid">
+            <a href="upload-page.html" class="rf-selection-card">
+                <div class="rf-selection-icon"><i class="fas fa-university"></i></div>
+                <h2>Student Hostel</h2>
+                <p>Accommodations specifically for university or college students.</p>
+                <div class="rf-btn-select">Select Type</div>
+            </a>
+
+            <a href="general-upload.html" class="rf-selection-card">
+                <div class="rf-selection-icon"><i class="fas fa-home"></i></div>
+                <h2>Other House</h2>
+                <p>Private houses, apartments, or property rentals for general use.</p>
+                <div class="rf-btn-select">Select Type</div>
+            </a>
+        </div>
+
+        <div style="margin-top: 60px;">
+            <a href="../index.html" style="color: var(--redfin-grey); text-decoration: none; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
     </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '../login.html';
+        }
+    </script>
 </body>
+
 </html>

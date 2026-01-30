@@ -2,89 +2,251 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update General House Agent Contact</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General House Agent Contacts - FadaHouse Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
+    <style>
+        .rf-admin-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .rf-form-card {
+            background: white;
+            padding: 40px;
+            border: 1px solid var(--redfin-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .rf-form-header {
+            margin-bottom: 30px;
+        }
+
+        .rf-form-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .rf-form-header p {
+            color: var(--redfin-grey);
+            font-size: 14px;
+        }
+
+        .rf-field-group {
+            margin-bottom: 20px;
+        }
+
+        .rf-field-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--redfin-grey);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .rf-input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .rf-input-with-icon i {
+            position: absolute;
+            left: 15px;
+            font-size: 18px;
+        }
+
+        .rf-admin-input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid var(--redfin-border);
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+
+        .rf-admin-input:focus {
+            border-color: var(--redfin-red);
+            outline: none;
+        }
+
+        .rf-btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--redfin-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .rf-btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* Preview Section */
+        .rf-preview-card {
+            background: #f9f9f9;
+            border: 1px solid var(--redfin-border);
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .rf-preview-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rf-preview-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .rf-preview-item:last-child {
+            border-bottom: none;
+        }
+
+        .rf-preview-label {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--redfin-grey);
+        }
+
+        .rf-preview-value {
+            font-size: 14px;
+            color: var(--redfin-black);
+            max-width: 60%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rf-preview-value a {
+            color: var(--redfin-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .rf-preview-value a:hover {
+            text-decoration: underline;
+        }
+
+        .rf-back-nav {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .rf-back-link {
+            color: var(--redfin-grey);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .rf-back-link:hover {
+            color: var(--redfin-red);
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+    </style>
 </head>
 
-<body class="admin-page">
-    <header class="admin-header">
-        <h1>Oto-Nest-House Admin Panel</h1>
-    </header>
-
-    <div class="admin-container" style="max-width: 800px;">
-        <div class="management-header">
-            <h1 class="management-title">Update General House Contacts</h1>
-            <p class="management-subtitle">These details are shown on all "General House" listings.</p>
+<body class="redfin-theme">
+    <nav class="redfin-nav">
+        <div class="rf-nav-left">
+            <a href="admin-nav-page.html" class="rf-logo">FADAHOUSE <span
+                    style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
         </div>
+        <div class="rf-nav-right">
+            <a href="admin-nav-page.html" class="rf-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        </div>
+    </nav>
 
-        <div class="admin-list-container" style="margin-top: 0;">
+    <div class="rf-admin-container">
+        <div class="rf-form-card">
+            <div class="rf-form-header">
+                <h1>General House Contacts</h1>
+                <p>Public contact details for all private "General House" listings.</p>
+            </div>
+
             <form id="update-contact-form">
-                <div class="admin-form-group">
-                    <label for="whatsappNumber">WhatsApp Number</label>
-                    <div style="position: relative;">
-                        <i class="fab fa-whatsapp"
-                            style="position: absolute; left: 15px; top: 15px; color: #25d366;"></i>
-                        <input type="tel" id="whatsappNumber" class="admin-input" style="padding-left: 45px;"
-                            placeholder="265991234567" required>
+                <div class="rf-field-group">
+                    <label>WhatsApp Number</label>
+                    <div class="rf-input-with-icon">
+                        <i class="fab fa-whatsapp" style="color: #25d366;"></i>
+                        <input type="tel" id="whatsappNumber" class="rf-admin-input" placeholder="e.g., 265991234567"
+                            required />
                     </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="facebookLink">Facebook Profile Link</label>
-                    <div style="position: relative;">
-                        <i class="fab fa-facebook"
-                            style="position: absolute; left: 15px; top: 15px; color: #1877f2;"></i>
-                        <input type="url" id="facebookLink" class="admin-input" style="padding-left: 45px;"
-                            placeholder="https://facebook.com/your-profile" required>
+                <div class="rf-field-group">
+                    <label>Facebook Profile Link</label>
+                    <div class="rf-input-with-icon">
+                        <i class="fab fa-facebook" style="color: #1877f2;"></i>
+                        <input type="url" id="facebookLink" class="rf-admin-input"
+                            placeholder="https://facebook.com/profile" required />
                     </div>
                 </div>
 
-                <div class="admin-form-group">
-                    <label for="phoneNumber">Display Phone Number</label>
-                    <div style="position: relative;">
-                        <i class="fas fa-phone"
-                            style="position: absolute; left: 15px; top: 15px; color: var(--theme-primary);"></i>
-                        <input type="tel" id="phoneNumber" class="admin-input" style="padding-left: 45px;"
-                            placeholder="099... / 088..." required>
+                <div class="rf-field-group">
+                    <label>Display Phone Number</label>
+                    <div class="rf-input-with-icon">
+                        <i class="fas fa-phone" style="color: var(--redfin-red);"></i>
+                        <input type="tel" id="phoneNumber" class="rf-admin-input" placeholder="e.g., 0991 234 567"
+                            required />
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Contacts</button>
-                <div id="output"
-                    style="margin-top: 1rem; text-align: center; border-radius: 8px; padding: 10px; display: none;">
-                </div>
+                <button type="submit" class="rf-btn-submit">Update Public Contacts</button>
             </form>
+
+            <div id="output"></div>
         </div>
 
-        <div class="admin-list-container" style="margin-top: 2rem; background: var(--light-bg);">
-            <h3 style="margin-top: 0; margin-bottom: 1.5rem; color: var(--theme-dark);"><i class="fas fa-eye"></i>
-                Current Live Info</h3>
-            <div class="management-list">
-                <div class="management-item">
-                    <div class="item-info">
-                        <div class="item-title">WhatsApp Link</div>
-                        <div class="item-details"><a id="currentWhatsapp" href="#" target="_blank">Loading...</a></div>
-                    </div>
-                </div>
-                <div class="management-item">
-                    <div class="item-info">
-                        <div class="item-title">Facebook Link</div>
-                        <div class="item-details"><a id="currentFacebook" href="#" target="_blank">Loading...</a></div>
-                    </div>
-                </div>
-                <div class="management-item">
-                    <div class="item-info">
-                        <div class="item-title">Phone Number</div>
-                        <div class="item-details"><span id="currentPhone">Loading...</span></div>
-                    </div>
-                </div>
+        <div class="rf-preview-card">
+            <h3><i class="fas fa-eye"></i> Current Live Info</h3>
+            <div class="rf-preview-item">
+                <span class="rf-preview-label">WhatsApp</span>
+                <span class="rf-preview-value"><a id="currentWhatsapp" href="#" target="_blank">Loading...</a></span>
             </div>
-            <div style="margin-top: 2rem; text-align: center;">
-                <a href="admin-nav-page.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to
-                    Dashboard</a>
+            <div class="rf-preview-item">
+                <span class="rf-preview-label">Facebook</span>
+                <span class="rf-preview-value"><a id="currentFacebook" href="#" target="_blank">Loading...</a></span>
             </div>
+            <div class="rf-preview-item">
+                <span class="rf-preview-label">Phone</span>
+                <span class="rf-preview-value" id="currentPhone">Loading...</span>
+            </div>
+        </div>
+
+        <div class="rf-back-nav">
+            <a href="admin-nav-page.html" class="rf-back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
         </div>
     </div>
 
@@ -97,59 +259,76 @@
             const output = document.getElementById('output');
             try {
                 const response = await fetch(API_ENDPOINT);
-                if (!response.ok) throw new Error('Failed to load contact info.');
+                if (!response.ok) throw new Error('Failed to load current contact information.');
+
                 const data = await response.json();
-                document.getElementById('whatsappNumber').value = data.whatsappLink.split('/').pop() || '';
+                const whatsappRaw = data.whatsappLink.split('/').pop() || '';
+                document.getElementById('whatsappNumber').value = whatsappRaw;
                 document.getElementById('facebookLink').value = data.facebookLink;
                 document.getElementById('phoneNumber').value = data.phoneNumber;
-                document.getElementById('currentWhatsapp').href = data.whatsappLink;
-                document.getElementById('currentWhatsapp').textContent = data.whatsappLink;
-                document.getElementById('currentFacebook').href = data.facebookLink;
-                document.getElementById('currentFacebook').textContent = data.facebookLink;
-                document.getElementById('currentPhone').textContent = data.phoneNumber;
+
+                updatePreview(data);
             } catch (error) {
-                output.textContent = `Error loading current info: ${error.message}`;
-                output.style.display = 'block';
-                output.style.backgroundColor = '#ffeeee';
-                output.style.color = '#dc3545';
+                showOutput(error.message, 'error');
             }
         });
 
-        document.getElementById('update-contact-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const output = document.getElementById('output');
-            output.style.display = 'block';
-            output.textContent = 'Updating...';
-            output.style.backgroundColor = '#e3f2fd';
-            output.style.color = '#1976d2';
+        document.getElementById('update-contact-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            showOutput('Updating records...', 'loading');
 
-            const whatsappLink = `https://wa.me/${document.getElementById('whatsappNumber').value.trim().replace(/\D/g, '')}`;
-            const facebookLink = document.getElementById('facebookLink').value.trim();
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const whatsappVal = document.getElementById('whatsappNumber').value.trim().replace(/\D/g, '');
+            const payload = {
+                whatsappLink: `https://wa.me/${whatsappVal}`,
+                facebookLink: document.getElementById('facebookLink').value.trim(),
+                phoneNumber: document.getElementById('phoneNumber').value.trim()
+            };
 
             try {
                 const response = await fetch(API_ENDPOINT, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ whatsappLink, facebookLink, phoneNumber })
+                    body: JSON.stringify(payload)
                 });
+
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.error || 'Failed to update.');
-                output.textContent = data.message;
-                output.style.backgroundColor = '#e8f5e9';
-                output.style.color = '#2e7d32';
-                const updatedData = data.data;
-                document.getElementById('currentWhatsapp').href = updatedData.whatsappLink;
-                document.getElementById('currentWhatsapp').textContent = updatedData.whatsappLink;
-                document.getElementById('currentFacebook').href = updatedData.facebookLink;
-                document.getElementById('currentFacebook').textContent = updatedData.facebookLink;
-                document.getElementById('currentPhone').textContent = updatedData.phoneNumber;
+                if (!response.ok) throw new Error(data.error || 'Update failed.');
+
+                showOutput(data.message, 'success');
+                updatePreview(data.data);
             } catch (error) {
-                output.textContent = error.message;
-                output.style.backgroundColor = '#ffeeee';
-                output.style.color = '#dc3545';
+                showOutput(error.message, 'error');
             }
         });
+
+        function updatePreview(data) {
+            const wa = document.getElementById('currentWhatsapp');
+            wa.href = data.whatsappLink;
+            wa.textContent = data.whatsappLink;
+
+            const fb = document.getElementById('currentFacebook');
+            fb.href = data.facebookLink;
+            fb.textContent = data.facebookLink;
+
+            document.getElementById('currentPhone').textContent = data.phoneNumber;
+        }
+
+        function showOutput(msg, type) {
+            const out = document.getElementById('output');
+            out.style.display = 'block';
+            out.textContent = msg;
+
+            if (type === 'loading') {
+                out.style.background = '#f0f0f0';
+                out.style.color = '#666';
+            } else if (type === 'success') {
+                out.style.background = '#E8F5E9';
+                out.style.color = '#2E7D32';
+            } else if (type === 'error') {
+                out.style.background = '#FFEBEE';
+                out.style.color = '#C62828';
+            }
+        }
     </script>
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
       margin: 0;
       padding: 20px;
     }
+
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -21,18 +23,23 @@
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
     h2 {
       text-align: center;
       color: #2c3e50;
       margin-bottom: 30px;
     }
+
     label {
       display: block;
       margin: 15px 0 5px;
       font-weight: 600;
       color: #2c3e50;
     }
-    input, select, textarea {
+
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 10px;
       border: 1px solid #ddd;
@@ -41,26 +48,31 @@
       box-sizing: border-box;
       margin-bottom: 10px;
     }
+
     textarea {
       min-height: 80px;
       resize: vertical;
     }
+
     #preview {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin: 15px 0;
     }
+
     #preview img {
       max-width: 120px;
       max-height: 120px;
       object-fit: cover;
       border-radius: 8px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.3);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     }
+
     .preview-item {
       position: relative;
     }
+
     .remove-btn {
       position: absolute;
       top: 5px;
@@ -74,6 +86,7 @@
       font-size: 12px;
       cursor: pointer;
     }
+
     #uploadStatus {
       position: sticky;
       top: 10px;
@@ -82,16 +95,39 @@
       margin: 15px 0;
       border-radius: 5px;
       display: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    #uploadStatus.hidden { display: none; }
-    .status-message { flex-grow: 1; }
-    .close-status-btn { font-size: 24px; font-weight: bold; cursor: pointer; background: none; border: none; padding: 0 10px; }
-    .success { background: #d4edda; color: #155724; }
-    .error { background: #f8d7da; color: #721c24; }
+
+    #uploadStatus.hidden {
+      display: none;
+    }
+
+    .status-message {
+      flex-grow: 1;
+    }
+
+    .close-status-btn {
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0 10px;
+    }
+
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
     #progressContainer {
       width: 100%;
       background: #f1f1f1;
@@ -100,6 +136,7 @@
       border-radius: 5px;
       overflow: hidden;
     }
+
     #progressBar {
       height: 25px;
       background: #4CAF50;
@@ -109,6 +146,7 @@
       line-height: 25px;
       transition: width 0.3s;
     }
+
     .submit-btn {
       display: block;
       width: 100%;
@@ -123,28 +161,34 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     .submit-btn:hover {
       background-color: #2980b9;
     }
+
     .submit-btn:disabled {
       background-color: #95a5a6;
       cursor: not-allowed;
     }
+
     .checkbox-container {
       display: flex;
       align-items: center;
       margin: 15px 0;
     }
+
     .checkbox-container input {
       width: auto;
       margin-right: 10px;
     }
+
     .manage-link-btn {
       display: block;
       width: 100%;
       padding: 12px;
       margin-top: 10px;
-      background-color: #7f8c8d; /* A neutral, secondary color */
+      background-color: #7f8c8d;
+      /* A neutral, secondary color */
       color: white;
       text-align: center;
       text-decoration: none;
@@ -154,13 +198,16 @@
       font-weight: 600;
       cursor: pointer;
       transition: background-color 0.3s;
-      box-sizing: border-box; /* Important for anchor tags */
+      box-sizing: border-box;
+      /* Important for anchor tags */
     }
+
     .manage-link-btn:hover {
       background-color: #95a5a6;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2>Hostel Room Booking Form</h2>
@@ -172,17 +219,21 @@
       <label for="rent">How much is the room per month?</label>
       <input type="number" id="rent" name="rent" placeholder="e.g., 50000" required min="0">
       <label for="bookingFee">How much is the booking fee?</label>
-      <input type="number" id="bookingFee" name="bookingFee" placeholder="e.g., 10000 (Cannot be edited later)" required min="0">
+      <input type="number" id="bookingFee" name="bookingFee" placeholder="e.g., 10000 (Cannot be edited later)" required
+        min="0">
       <label for="location">Where is the hostel located?</label>
-      <input type="text" id="location" name="location" placeholder="e.g., Blatyre,Chichiri / Lilongwe,Area 23 / Zomba,Tchire" required>
+      <input type="text" id="location" name="location"
+        placeholder="e.g., Blatyre,Chichiri / Lilongwe,Area 23 / Zomba,Tchire" required>
       <label for="distance">Estimated time to reach campus</label>
       <input type="text" id="distance" name="distance" placeholder="e.g., 5 minutes walk">
       <label for="occupancy">How many people per room?</label>
       <input type="number" id="occupancy" name="occupancy" placeholder="e.g., 1" required min="1">
       <label for="landlordPhone">Landlord's phone number</label>
-      <input type="tel" id="landlordPhone" name="landlordPhone" placeholder="e.g., 0999123456" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+      <input type="tel" id="landlordPhone" name="landlordPhone" placeholder="e.g., 0999123456" required
+        pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
       <label for="paymentNumber">Your number to send payment once booked</label>
-      <input type="tel" id="paymentNumber" name="paymentNumber" placeholder="e.g., 0888123456" required pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
+      <input type="tel" id="paymentNumber" name="paymentNumber" placeholder="e.g., 0888123456" required
+        pattern="[0-9]{9,13}" title="Enter a valid phone number (9-13 digits)">
       <label for="photos">Upload room & surroundings pictures (max 5)</label>
       <input type="file" id="photos" name="photos" accept="image/*" multiple required>
       <div id="preview"></div>
@@ -194,7 +245,8 @@
         <option value="both">Both Genders</option>
       </select>
       <label for="description">Description</label>
-      <textarea id="description" name="description" placeholder="e.g., Self-contained room with a bed and a small kitchen area."></textarea>
+      <textarea id="description" name="description"
+        placeholder="e.g., Self-contained room with a bed and a small kitchen area."></textarea>
       <label for="rules">Rules</label>
       <textarea id="rules" name="rules" placeholder="e.g., No smoking, no loud music after 10 PM."></textarea>
       <div class="checkbox-container">
@@ -214,7 +266,7 @@
   <script src="../configs/apiConfigs.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('hostelForm');
       const photosInput = document.getElementById('photos');
       const preview = document.getElementById('preview');
@@ -228,12 +280,12 @@
       const token = localStorage.getItem('token');
       if (!token) {
         // Redirect to the login page, which is at the root.
-        window.location.href = '../index.html';
+        window.location.href = '../login.html';
         return;
       }
 
       // Handle file selection and preview
-      photosInput.addEventListener('change', function(e) {
+      photosInput.addEventListener('change', function (e) {
         preview.innerHTML = '';
         selectedFiles = [];
         const files = Array.from(e.target.files);
@@ -253,7 +305,7 @@
           }
           selectedFiles.push(file);
           const reader = new FileReader();
-          reader.onload = function(e) {
+          reader.onload = function (e) {
             const previewItem = document.createElement('div');
             previewItem.className = 'preview-item';
             const img = document.createElement('img');
@@ -262,7 +314,7 @@
             const removeBtn = document.createElement('button');
             removeBtn.className = 'remove-btn';
             removeBtn.innerHTML = '×';
-            removeBtn.onclick = function() {
+            removeBtn.onclick = function () {
               previewItem.remove();
               selectedFiles = selectedFiles.filter(f => f !== file);
               updateFileInput();
@@ -282,7 +334,7 @@
       }
 
       // Form submission
-      form.addEventListener('submit', async function(e) {
+      form.addEventListener('submit', async function (e) {
         e.preventDefault();
         if (selectedFiles.length === 0) {
           showMessage('Please upload at least one photo', 'error');
@@ -337,4 +389,5 @@
     });
   </script>
 </body>
+
 </html>

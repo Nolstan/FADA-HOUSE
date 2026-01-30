@@ -5,122 +5,142 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Find perfect accommodation for university students">
-    <title>CampusStay - Find Your Student Home</title>
+    <title>FadaHouse - Premium Student Accommodation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/redfin-redesign.css">
 </head>
 
-<body>
-    <!-- Navigation bar -->
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">
-            <i class="fas fa-home"></i> FadaHouse
+<body class="redfin-theme">
+    <!-- Header with Integrated Search -->
+    <nav class="redfin-nav">
+        <a href="index.html" class="rf-logo">
+            <i class="fas fa-home"></i> FADA-HOUSE
         </a>
-        <div class="nav-links" id="nav-links">
-            <a href="login.html" class="nav-btn login">Login</a>
-            <a href="register-user.html" class="nav-btn register">Register</a>
+
+        <div class="rf-search-bar">
+            <input type="text" class="rf-search-input search-input" placeholder="City, Address, School, Agent, ZIP">
+            <button class="rf-search-btn search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <div class="rf-nav-actions" id="nav-links">
+            <a href="#" class="rf-nav-link">Buy</a>
+            <a href="#" class="rf-nav-link">Rent</a>
+            <a href="login.html" class="rf-nav-link rf-btn-signin">Join / Sign in</a>
         </div>
     </nav>
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h2 id="welcome-message" class="welcome-message"></h2>
-            <h1 class="hero-tagline">Your Campus Adventure Starts Here</h1>
-            <p class="hero-subtitle">Discover the perfect home away from home near your university</p>
 
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search universities.....">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i> Find Housing
-                </button>
+    <!-- Photo Mosaic Hero -->
+    <div class="rf-mosaic-container">
+        <div class="rf-mosaic-item rf-main-photo">
+            <span class="rf-badge">FEATURED CAMPUS</span>
+            <img src="assets/image/modern_house_exterior_1769785268578.png" alt="Featured University Housing">
+        </div>
+        <div class="rf-mosaic-item rf-secondary-photo">
+            <img src="assets/image/modern_kitchen_interior_1769785289393.png" alt="Modern Interior">
+        </div>
+        <div class="rf-mosaic-item rf-secondary-photo">
+            <img src="assets/image/modern_backyard_pool_1769785310242.png" alt="Leisure Area">
+        </div>
+    </div>
+
+    <!-- Summary / Stats Bar -->
+    <div class="rf-summary-bar">
+        <div class="rf-price-info">
+            <h1 id="welcome-message">Find Your Student Home</h1>
+            <p>Malawi's #1 Platform for University Accommodations</p>
+        </div>
+        <div class="rf-stats">
+            <div class="rf-stat-item">
+                <span class="rf-stat-value">10+</span>
+                <span class="rf-stat-label">Universities</span>
+            </div>
+            <div class="rf-stat-item">
+                <span class="rf-stat-value">500+</span>
+                <span class="rf-stat-label">Rooms</span>
+            </div>
+            <div class="rf-stat-item">
+                <span class="rf-stat-value">24/7</span>
+                <span class="rf-stat-label">Support</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Universities Section -->
-    <section class="universities-section">
-        <div class="container">
-            <h2 class="section-title">Find Your University</h2>
-            <p class="section-subtitle">Browse accommodation options near your campus</p>
-
-            <div class="universities-grid">
-                <a href="user/mubas.html" class="university-card">
-                    <i class="fas fa-university"></i>
-                    <span>MUBAS</span>
+    <!-- Main Content Layout -->
+    <main class="rf-main-layout">
+        <!-- Content Area -->
+        <div class="rf-content-area">
+            <h2 class="rf-section-title">Browse by University</h2>
+            <div class="rf-uni-grid">
+                <a href="user/mubas.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-university"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">MUBAS</span>
+                    </div>
                 </a>
-
-                <a href="user/Luarna.html" class="university-card">
-                    <i class="fas fa-seedling"></i>
-                    <span>LUANAR</span>
+                <a href="user/Luarna.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-seedling"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">LUANAR</span>
+                    </div>
                 </a>
-
-                <a href="user/chanco.html" class="university-card">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>CHANCO</span>
+                <a href="user/chanco.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">CHANCO</span>
+                    </div>
                 </a>
-
-                <a href="user/Kuhes.html" class="university-card">
-                    <i class="fas fa-heartbeat"></i>
-                    <span>KUHES</span>
+                <a href="user/Kuhes.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">KUHES</span>
+                    </div>
                 </a>
-
-                <a href="user/mzuni.html" class="university-card">
-                    <i class="fas fa-book"></i>
-                    <span>MZUNI</span>
+                <a href="user/mzuni.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-book"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">MZUNI</span>
+                    </div>
                 </a>
-
-                <!-- <a href="user/must.html" class="university-card">
-          <i class="fas fa-building-columns"></i>
-          <span>BIU</span>
-        </a> -->
-
-                <a href="user/ekwenden.html" class="university-card">
-                    <i class="fas fa-mountain"></i>
-                    <span>Ekwendeni</span>
+                <a href="user/ekwenden.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-mountain"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">Ekwendeni</span>
+                    </div>
                 </a>
-
-                <!-- <a href="user/livingStonia.html" class="university-card">
-          <i class="fas fa-church"></i>
-          <span>Livingstonia</span>
-        </a> -->
-
-                <a href="user/magu.html" class="university-card">
-                    <i class="fas fa-landmark"></i>
-                    <span>MAGU</span>
+                <a href="user/magu.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">MAGU</span>
+                    </div>
                 </a>
-
-                <!-- <a href="user/cu.html" class="university-card">
-          <i class="fas fa-globe"></i>
-          <span>CU</span>
-        </a> -->
-
-                <a href="user/general.html" class="university-card">
-                    <i class="fas fa-home"></i>
-                    <span>General</span>
+                <a href="user/general.html" class="rf-uni-card">
+                    <div class="rf-uni-icon"><i class="fas fa-home"></i></div>
+                    <div class="rf-uni-content">
+                        <span class="rf-uni-name">General</span>
+                    </div>
                 </a>
             </div>
         </div>
-    </section>
 
-    <!-- Landlord Section -->
-    <section class="landlord-section">
-        <div class="container">
-            <div class="landlord-content">
-                <h2 class="landlord-title">List Your Property</h2>
-                <p class="landlord-description">Connect with thousands of students searching for accommodation</p>
-                <div id="landlord-actions"> <!-- This will be updated by JS if logged in -->
-                    <a href="user/manage.html" class="cta-button">
-                        <i class="fas fa-upload"></i> Get Started
-                    </a>
+        <!-- Sidebar -->
+        <aside class="rf-sidebar">
+            <div class="rf-thinking-card">
+                <h3>Thinking of listing?</h3>
+                <p>Post your property and reach thousands of students in Malawi.</p>
+                <div id="landlord-actions">
+                    <a href="login.html" class="rf-btn-wide">Get Started</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </aside>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 FadaHouse- Find Your Student Home. All rights reserved.</p>
+            <p>© 2025 FadaHouse - Find Your Student Home. All rights reserved.</p>
         </div>
     </footer>
 
@@ -131,18 +151,17 @@
             const username = localStorage.getItem('username');
             const welcomeMessage = document.getElementById('welcome-message');
             if (token && username && welcomeMessage) {
-                welcomeMessage.innerHTML = `Welcome, <span style="color: var(--accent);">${username}</span>!`;
-                welcomeMessage.style.display = 'block';
+                welcomeMessage.innerHTML = `Welcome back, <span style="color: var(--redfin-red);">${username}</span>!`;
             }
 
             // Update nav links and landlord actions if logged in
             if (token) {
-                // Update Nav Links to show Logout
                 const navLinks = document.getElementById('nav-links');
                 if (navLinks) {
                     navLinks.innerHTML = `
-            <a href="#" id="logout-btn" class="nav-btn login">Logout</a>
-          `;
+                        <a href="#" class="rf-nav-link">Favorites</a>
+                        <a href="#" id="logout-btn" class="rf-nav-link rf-btn-signin">Logout</a>
+                    `;
 
                     document.getElementById('logout-btn').addEventListener('click', function (e) {
                         e.preventDefault();
@@ -154,13 +173,14 @@
                 const landlordActions = document.getElementById('landlord-actions');
                 if (landlordActions) {
                     landlordActions.innerHTML = `
-            <a href="user/upload-nav.html" class="cta-button">
-              <i class="fas fa-plus-circle"></i> Upload New Listing
-            </a>
-            <a href="user/manage-list.html" class="cta-button secondary-cta">
-              <i class="fas fa-tasks"></i> Manage My Listings
-            </a>
-          `;
+                        <a href="user/upload-nav.html" class="rf-btn-wide">Get Started</a>
+                        <a href="user/upload-nav.html" class="rf-btn-wide">
+                            <i class="fas fa-plus-circle"></i> Upload New Listing
+                        </a>
+                        <a href="user/manage-list.html" class="rf-btn-wide" style="background: transparent; color: var(--redfin-red); border: 1px solid var(--redfin-red);">
+                            <i class="fas fa-tasks"></i> Manage My Listings
+                        </a>
+                    `;
                 }
             }
 
@@ -168,42 +188,33 @@
             document.querySelector('.search-btn').addEventListener('click', function () {
                 const searchTerm = document.querySelector('.search-input').value.toLowerCase().trim();
                 if (searchTerm) {
-                    // Find matching university
-                    const universities = document.querySelectorAll('.university-card span');
+                    const universities = document.querySelectorAll('.rf-uni-name');
                     let found = false;
 
                     universities.forEach(card => {
                         const uniName = card.textContent.toLowerCase();
                         if (uniName.includes(searchTerm)) {
                             found = true;
-                            card.closest('.university-card').style.animation = 'pulse 1s';
+                            const parentCard = card.closest('.rf-uni-card');
+                            parentCard.style.animation = 'pulse 1s';
                             setTimeout(() => {
-                                window.location.href = card.closest('.university-card').getAttribute('href');
+                                window.location.href = parentCard.getAttribute('href');
                             }, 800);
                         }
                     });
 
                     if (!found) {
-                        // Add a "not found" 
                         const searchInput = document.querySelector('.search-input');
-                        searchInput.style.boxShadow = '0 0 0 3px #FF6B6B';
-                        searchInput.placeholder = "No results found. Try another search...";
+                        searchInput.style.boxShadow = '0 0 0 3px #d92228';
+                        searchInput.placeholder = "No results found...";
                         setTimeout(() => {
                             searchInput.style.boxShadow = '';
-                            searchInput.placeholder = "Search universities.....";
+                            searchInput.placeholder = "City, Address, School, Agent, ZIP";
                         }, 2000);
                     }
-                } else {
-                    // If search is empty, gently shake the input
-                    const searchInput = document.querySelector('.search-input');
-                    searchInput.style.animation = 'shake 0.5s';
-                    setTimeout(() => {
-                        searchInput.style.animation = '';
-                    }, 500);
                 }
             });
 
-            // Allow pressing Enter to search
             document.querySelector('.search-input').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     document.querySelector('.search-btn').click();
@@ -214,18 +225,12 @@
         // Add animations
         const style = document.createElement('style');
         style.textContent = `
-      @keyframes pulse {
-        0% { transform: translateY(-10px) scale(1.03); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-        70% { transform: translateY(-10px) scale(1.1); box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
-        100% { transform: translateY(-10px) scale(1.03); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
-      }
-      
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-        20%, 40%, 60%, 80% { transform: translateX(8px); }
-      }
-    `;
+            @keyframes pulse {
+                0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 34, 40, 0.7); }
+                70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(217, 34, 40, 0); }
+                100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 34, 40, 0); }
+            }
+        `;
         document.head.appendChild(style);
     </script>
 </body>

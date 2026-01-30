@@ -4,188 +4,259 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <title>Admin Dashboard - FadaHouse</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/redfin-redesign.css">
   <style>
-    /* Admin specific additions that might not be in main.css yet */
-    .admin-page {
-      background-color: var(--light);
-    }
-
-    .admin-header {
-      background: var(--dark);
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    .admin-container {
+    .rf-admin-container {
       max-width: 1200px;
-      margin: 3rem auto;
-      padding: 0 2rem;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
-    .admin-welcome {
-      font-size: 2.5rem;
+    .rf-admin-header-box {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--redfin-border);
+    }
+
+    .rf-admin-header-box h1 {
+      font-size: 32px;
       font-weight: 800;
-      color: var(--dark);
-      margin-bottom: 3rem;
-      text-align: center;
+      color: var(--redfin-black);
     }
 
-    .admin-welcome span {
-      color: var(--primary);
+    .rf-admin-header-box p {
+      color: var(--redfin-grey);
+      font-size: 16px;
     }
 
-    /* Reusing the cards logic but with specific admin colors if needed */
-    .admin-nav-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+    .rf-admin-section {
+      margin-bottom: 50px;
     }
 
-    .admin-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      text-align: center;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      text-decoration: none;
-      color: var(--dark);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      border: 2px solid transparent;
-    }
-
-    .admin-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--primary);
-    }
-
-    .admin-card i {
-      font-size: 3rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .admin-card h3 {
-      font-size: 1.5rem;
+    .rf-section-title {
+      font-size: 14px;
       font-weight: 700;
+      text-transform: uppercase;
+      color: var(--redfin-grey);
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .admin-card p {
-      color: #666;
-      font-size: 1rem;
+    .rf-section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--redfin-border);
+    }
+
+    .rf-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .rf-admin-card {
+      background: white;
+      border: 1px solid var(--redfin-border);
+      border-radius: 8px;
+      padding: 24px;
+      text-decoration: none;
+      color: var(--redfin-black);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .rf-admin-card:hover {
+      border-color: var(--redfin-red);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .rf-admin-icon {
+      width: 48px;
+      height: 48px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--redfin-red);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .rf-admin-card:hover .rf-admin-icon {
+      background: var(--redfin-red);
+      color: white;
+    }
+
+    .rf-admin-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .rf-admin-info p {
+      font-size: 14px;
+      color: var(--redfin-grey);
+      line-height: 1.4;
+    }
+
+    .rf-super-card {
+      border-left: 4px solid var(--redfin-red);
+    }
+
+    @media (max-width: 768px) {
+      .rf-admin-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
-<body class="admin-page">
-
-  <header class="admin-header">
-    <h1>Oto-Nest-House Admin Panel</h1>
-  </header>
-
-  <div class="admin-container">
-    <h2 class="admin-welcome">Welcome back, <span id="adminUsername">Admin</span>!</h2>
-
-    <div class="admin-nav-grid">
-      <!-- Approve/Reject Listings -->
-      <a href="./upproval-page.html" class="admin-card">
-        <i class="fas fa-check-circle"></i>
-        <h3>Approve Hostels</h3>
-        <p>View and manage pending hostel uploads.</p>
-      </a>
-
-      <!-- Approve General Houses -->
-      <a href="./general-approval-page.html" class="admin-card">
-        <i class="fas fa-home"></i>
-        <h3>Approve Houses</h3>
-        <p>Manage pending general house uploads.</p>
-      </a>
-
-      <!-- Delete Houses/Hostels -->
-      <a href="./delete-house-hostel.html" class="admin-card">
-        <i class="fas fa-trash-alt"></i>
-        <h3>Delete Listings</h3>
-        <p>Remove booked outdated listings.</p>
-      </a>
-
-      <!-- List All Users -->
-      <a href="./users.html" class="admin-card">
-        <i class="fas fa-users"></i>
-        <h3>View All Users</h3>
-        <p>Manage registered user details.</p>
-      </a>
-
-      <!-- Manage Payments -->
-      <a href="./payments.html" class="admin-card">
-        <i class="fas fa-credit-card"></i>
-        <h3>Manage Payments</h3>
-        <p>Feature Coming Soon!</p>
-      </a>
-
-      <!-- Add Admin -->
-      <a href="./add-admin.html" class="admin-card">
-        <i class="fas fa-user-plus"></i>
-        <h3>Add Admin User</h3>
-        <p>Expand the administration team.</p>
-      </a>
-
-      <!-- Add Superadmin -->
-      <a href="./add-superadmin.html" class="admin-card" style="border-color: rgba(220, 53, 69, 0.2);">
-        <i class="fas fa-user-shield" style="color: #dc3545;"></i>
-        <h3 style="color: #dc3545;">Superadmin User</h3>
-        <p>Create high-level admin accounts.</p>
-      </a>
-
-      <!-- List of Admins -->
-      <a href="./admin-users.html" class="admin-card">
-        <i class="fas fa-user-cog"></i>
-        <h3>Admin Users</h3>
-        <p>View the list of all admins.</p>
-      </a>
-
-      <!-- upload new listing -->
-      <a href="../user/upload-nav.html" class="admin-card">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <h3>Upload Page</h3>
-        <p>Post new houses or hostels.</p>
-      </a>
-
-      <!-- A person on duty contact-->
-      <a href="./update-contact.html" class="admin-card">
-        <i class="fas fa-headset"></i>
-        <h3>Hostel Agent</h3>
-        <p>Update customer help receiver.</p>
-      </a>
-
-      <!-- General House Agent Contact-->
-      <a href="./update-general-contact.html" class="admin-card">
-        <i class="fas fa-user-tie"></i>
-        <h3>General Agent</h3>
-        <p>Update general house help contacts.</p>
-      </a>
-
-      <!-- user front page -->
-      <a href="../user/front-page.html" class="admin-card">
-        <i class="fas fa-external-link-alt"></i>
-        <h3>User Page</h3>
-        <p>Visit the main user portal.</p>
-      </a>
+<body class="redfin-theme">
+  <!-- Header -->
+  <nav class="redfin-nav">
+    <div class="rf-nav-left">
+      <a href="../index.html" class="rf-logo">FADAHOUSE <span
+          style="font-weight: 400; font-size: 14px; margin-left: 10px; color: var(--redfin-grey);">ADMIN</span></a>
     </div>
+    <div class="rf-nav-right">
+      <a href="../index.html" class="rf-nav-link">User Site</a>
+      <a href="#" class="rf-nav-link rf-btn-signin" id="logoutBtn">Sign Out</a>
+    </div>
+  </nav>
+
+  <div class="rf-admin-container">
+    <div class="rf-admin-header-box">
+      <h1>Welcome back, <span id="adminUsername">Admin</span></h1>
+      <p>Manage your properties, users, and platform settings.</p>
+    </div>
+
+    <!-- Approvals Section -->
+    <section class="rf-admin-section">
+      <h2 class="rf-section-title">Pending Approvals</h2>
+      <div class="rf-admin-grid">
+        <a href="./upproval-page.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="rf-admin-info">
+            <h3>Hostel Listings</h3>
+            <p>Review and approve new university hostel submissions.</p>
+          </div>
+        </a>
+        <a href="./general-approval-page.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-home"></i></div>
+          <div class="rf-admin-info">
+            <h3>General Houses</h3>
+            <p>Manage approval queue for houses in other areas.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Management Section -->
+    <section class="rf-admin-section">
+      <h2 class="rf-section-title">Platform Management</h2>
+      <div class="rf-admin-grid">
+        <a href="./users.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-users"></i></div>
+          <div class="rf-admin-info">
+            <h3>User Directory</h3>
+            <p>View and manage all registered user accounts.</p>
+          </div>
+        </a>
+        <a href="./delete-house-hostel.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-trash-alt"></i></div>
+          <div class="rf-admin-info">
+            <h3>Cleanup Tool</h3>
+            <p>Remove booked or outdated listing records.</p>
+          </div>
+        </a>
+        <a href="./admin-users.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-user-cog"></i></div>
+          <div class="rf-admin-info">
+            <h3>Admin Team</h3>
+            <p>Current list of system administrators.</p>
+          </div>
+        </a>
+        <a href="./add-admin.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-user-plus"></i></div>
+          <div class="rf-admin-info">
+            <h3>Add Admin</h3>
+            <p>Create a new standard administrator account.</p>
+          </div>
+        </a>
+        <a href="./add-superadmin.html" class="rf-admin-card rf-super-card">
+          <div class="rf-admin-icon"><i class="fas fa-user-shield"></i></div>
+          <div class="rf-admin-info">
+            <h3>Superadmin</h3>
+            <p>Create high-level system accounts.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="rf-admin-section">
+      <h2 class="rf-section-title">Customer Support</h2>
+      <div class="rf-admin-grid">
+        <a href="./update-contact.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-headset"></i></div>
+          <div class="rf-admin-info">
+            <h3>Hostel Agents</h3>
+            <p>Update contact info for university hostel support.</p>
+          </div>
+        </a>
+        <a href="./update-general-contact.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-user-tie"></i></div>
+          <div class="rf-admin-info">
+            <h3>General Agents</h3>
+            <p>Update support contacts for general houses.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Utilities Section -->
+    <section class="rf-admin-section">
+      <h2 class="rf-section-title">Utilities & External</h2>
+      <div class="rf-admin-grid">
+        <a href="../user/upload-nav.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-plus"></i></div>
+          <div class="rf-admin-info">
+            <h3>Quick Upload</h3>
+            <p>Access the listing upload portal directly.</p>
+          </div>
+        </a>
+        <a href="./payments.html" class="rf-admin-card">
+          <div class="rf-admin-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="rf-admin-info">
+            <h3>Payments</h3>
+            <p>View platform revenue (Coming Soon).</p>
+          </div>
+        </a>
+      </div>
+    </section>
   </div>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <span>&copy; 2025 Oto-Nest-House Admin Panel</span>
-      <span class="separator">|</span>
-      <span>Nolstan Logic</span>
+  <footer class="rf-uni-footer">
+    <div class="rf-footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../user/front-page.html">User Portal</a>
+      <a href="mailto:support@fadahouse.com">System Log</a>
+    </div>
+    <div class="rf-footer-copy">
+      © 2025 FadaHouse Admin Dashboard | Powered by Nolstan Logic
     </div>
   </footer>
 
@@ -195,18 +266,21 @@
       const role = localStorage.getItem('role');
       const username = localStorage.getItem('username');
 
-      // Security check: only admins and superadmins can access this page
+      // Security check
       if (!token || (role !== 'admin' && role !== 'superadmin')) {
-        alert('Access Denied. Please log in as an administrator.');
-        window.location.href = '../../index.html';
+        window.location.href = '../login.html';
         return;
       }
 
-      // Update the welcome message dynamically
-      const usernameSpan = document.getElementById('adminUsername');
-      if (username && usernameSpan) {
-        usernameSpan.textContent = username;
-      }
+      // Update UI
+      document.getElementById('adminUsername').textContent = username || 'Administrator';
+
+      // Logout
+      document.getElementById('logoutBtn').onclick = (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = '../login.html';
+      };
     });
   </script>
 </body>
