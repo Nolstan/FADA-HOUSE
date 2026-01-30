@@ -30,6 +30,9 @@
             <a href="#" class="rf-nav-link">Rent</a>
             <a href="login.html" class="rf-nav-link rf-btn-signin">Join / Sign in</a>
         </div>
+        <button class="rf-hamburger" id="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
 
     <!-- Photo Mosaic Hero -->
@@ -220,6 +223,10 @@
                     document.querySelector('.search-btn').click();
                 }
             });
+        });
+
+        document.getElementById('hamburger-menu').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
         });
 
         // Add animations
