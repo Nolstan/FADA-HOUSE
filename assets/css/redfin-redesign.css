@@ -319,20 +319,29 @@ body.redfin-theme {
 }
 
 @media (max-width: 768px) {
-    .rf-nav {
+    .redfin-nav {
         flex-wrap: wrap;
         justify-content: space-between;
+        height: auto;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+
+    .rf-logo {
+        flex-grow: 1;
+        font-size: 1.3rem;
     }
 
     .rf-search-bar {
         order: 3;
         width: 100%;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         max-width: none;
     }
 
     .rf-hamburger {
         display: block;
+        order: 2;
     }
 
     .rf-nav-actions {
@@ -341,10 +350,12 @@ body.redfin-theme {
         width: 100%;
         background: #fff;
         position: absolute;
-        top: 64px;
+        top: 100%;
+        /* Instead of fixed 64px, use 100% of parent height */
         left: 0;
         border-top: 1px solid var(--redfin-border);
         padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .rf-nav-actions.active {
@@ -367,12 +378,6 @@ body.redfin-theme {
 
     .rf-main-layout {
         grid-template-columns: 1fr;
-    }
-
-    .rf-nav {
-        flex-direction: column;
-        height: auto;
-        padding: 1rem;
     }
 }
 
